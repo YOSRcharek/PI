@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block title %}TuniCollab{% endblock %}</title>
+
+    {% block stylesheets %}
+    <link href="{{ asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/front/css/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/front/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
+    {% endblock %}
+
+    {% block javascripts %}
+    <script src="{{ asset('assets/front/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery.sticky.js') }}"></script>
+    <script src="{{ asset('assets/front/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/front/js/counter.js') }}"></script>
+    <script src="{{ asset('assets/front/js/click-scroll.js') }}"></script>
+    {% endblock %}
+</head>
+<body>
+    {{ include('header.html.twig') }}
+    {% block body %}
+    {{ include('index.html.twig') }}
+    {% endblock %}
+
+    {{ include('footer.html.twig') }}
+</body>
+</html>

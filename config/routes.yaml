@@ -1,0 +1,15 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+news_listing:
+    path: /news
+    controller: App\Controller\HomeController::news
+
+news_Detail:
+    path: /newsDetail
+    controller: App\Controller\HomeController::newsDetail
+
+donate:
+    path: /donate
+    controller: App\Controller\HomeController::donate
+
