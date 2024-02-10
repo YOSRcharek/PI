@@ -8,6 +8,7 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+<<<<<<< HEAD
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
@@ -15,3 +16,5 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+=======
+>>>>>>> d860af511bcfbc6789a840331b4aa628c72bb63b

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
@@ -13,3 +14,12 @@ donate:
     path: /donate
     controller: App\Controller\HomeController::donate
 
+=======
+controllers:
+    resource: ../src/Controller/
+    type: annotation
+
+kernel:
+    resource: ../src/Kernel.php
+    type: annotation
+>>>>>>> d860af511bcfbc6789a840331b4aa628c72bb63b
