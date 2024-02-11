@@ -35,9 +35,13 @@ class AdminController extends AbstractController
     {
         return $this->render('/admin/modals.html.twig');
     }
-    public function tables(): Response
+    public function associations(): Response
     {
-        return $this->render('/admin/tables.html.twig');
+        return $this->render('/admin/associations.html.twig');
+    }
+    public function demandes(): Response
+    {
+        return $this->render('/admin/demandes.html.twig');
     }
     public function erreur(): Response
     {

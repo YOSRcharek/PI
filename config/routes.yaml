@@ -29,9 +29,14 @@ forms:
     path: /forms
     controller: App\Controller\AdminController::forms
 
-tables:
-    path: /tables
-    controller: App\Controller\AdminController::tables
+associations:
+    path: /associations
+    controller: App\Controller\AdminController::associations
+
+demandes:
+    path: /demandes
+    controller: App\Controller\AdminController::demandes
+
 
 modals:
     path: /modals
