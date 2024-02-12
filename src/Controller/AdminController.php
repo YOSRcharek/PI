@@ -53,7 +53,7 @@ class AdminController extends AbstractController
     }
     public function createAcc(): Response
     {
-        return $this->render('/admin/pages/create-account.html.twig');
+        return $this->render('/home/create-account.html.twig');
     }
     public function forgetPass(): Response
     {
