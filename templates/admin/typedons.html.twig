@@ -1,0 +1,39 @@
+
+
+
+
+{% block title %}Liste des types de dons{% endblock %}
+
+{% block body %}
+    <h1>Liste des types de dons</h1>
+{{ dump(app.request.attributes) }}
+    <table class="table">
+        <thead>
+            <tr>
+            
+                <th scope="col">#</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for type_don in type_dons %}
+                <tr>
+                    <th scope="row">{{ type_don.id }}</th>
+                    <td>{{ type_don.nom }}</td>
+                    <td>
+                        <a href="{{ path('type_dons_show', {'id': type_don.id}) }}" class="btn btn-primary">Voir</a>
+                        <a href="{{ path('type_dons_edit', {'id': type_don.id}) }}" class="btn btn-warning">Modifier</a>
+                        <form action="{{ path('type_dons_delete', {'id': type_don.id}) }}" method="post" style="display: inline-block;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type_don.id) }}">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('type_dons_new') }}" class="btn btn-success">Ajouter un type de don</a>
+{% endblock %}

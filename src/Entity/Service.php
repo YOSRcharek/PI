@@ -25,10 +25,10 @@ class Service
     private ?bool $disponibilite = null;
 
     #[ORM\ManyToOne(inversedBy: 'services')]
-    private ?categorie $categorie = null;
+    private ?Categorie $Categorie = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?commentaire $commentaire = null;
+    private ?Commentaire $Commentaire = null;
 
     #[ORM\ManyToOne(inversedBy: 'services')]
     private ?association $association = null;
@@ -82,26 +82,26 @@ class Service
         return $this;
     }
 
-    public function getCategorie(): ?categorie
+    public function getCategorie(): ?Categorie
     {
-        return $this->categorie;
+        return $this->Categorie;
     }
 
-    public function setCategorie(?categorie $categorie): static
+    public function setCategorie(?Categorie $Categorie): static
     {
-        $this->categorie = $categorie;
+        $this->Categorie = $Categorie;
 
         return $this;
     }
 
-    public function getCommentaire(): ?commentaire
+    public function getCommentaire(): ?Commentaire
     {
-        return $this->commentaire;
+        return $this->Commentaire;
     }
 
-    public function setCommentaire(?commentaire $commentaire): static
+    public function setCommentaire(?Commentaire $Commentaire): static
     {
-        $this->commentaire = $commentaire;
+        $this->Commentaire = $Commentaire;
 
         return $this;
     }

@@ -23,7 +23,7 @@ class Dons
     private ?\DateTimeInterface $dateMisDon = null;
 
     #[ORM\ManyToOne(inversedBy: 'dons')]
-    private ?typeDons $type = null;
+    private ?TypeDons $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'dons')]
     private ?association $association = null;
@@ -65,12 +65,12 @@ class Dons
         return $this;
     }
 
-    public function getType(): ?typeDons
+    public function getType(): ?TypeDons
     {
         return $this->type;
     }
 
-    public function setType(?typeDons $type): static
+    public function setType(?TypeDons $type): static
     {
         $this->type = $type;
 

@@ -38,7 +38,7 @@ class Event
     private ?int $capaciteActuelle = null;
 
     #[ORM\ManyToOne(inversedBy: 'events')]
-    private ?typeEvent $type = null;
+    private ?TypeEvent $type = null;
 
     #[ORM\ManyToMany(targetEntity: Volontaire::class, mappedBy: 'event')]
     private Collection $volontaires;
@@ -140,12 +140,12 @@ class Event
         return $this;
     }
 
-    public function getType(): ?typeEvent
+    public function getType(): ?TypeEvent
     {
         return $this->type;
     }
 
-    public function setType(?typeEvent $type): static
+    public function setType(?TypeEvent $type): static
     {
         $this->type = $type;
 

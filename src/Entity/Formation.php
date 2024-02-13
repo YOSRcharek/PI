@@ -30,7 +30,7 @@ class Formation
     private ?association $association = null;
 
     #[ORM\ManyToOne(inversedBy: 'formations')]
-    private ?typeFormation $type = null;
+    private ?TypeFormation $type = null;
 
     public function getId(): ?int
     {
@@ -98,12 +98,12 @@ class Formation
         return $this;
     }
 
-    public function getType(): ?typeFormation
+    public function getType(): ?TypeFormation
     {
         return $this->type;
     }
 
-    public function setType(?typeFormation $type): static
+    public function setType(?TypeFormation $type): static
     {
         $this->type = $type;
 
