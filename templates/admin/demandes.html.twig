@@ -33,7 +33,7 @@
                   <tbody
                     class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                   >
-                {% for demande in demandes %}
+                {% for item in demandes %}
                   
                     <tr class="text-gray-700 dark:text-gray-400">
                       <td class="px-4 py-3">
@@ -57,55 +57,47 @@
                         </div>
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        {{ demande.nom }}
+                        {{ item.demande.nom }}
                       </td>
                       <td class="px-4 py-3 text-xs">
                         <span
                           class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700"
                         >
-                        {{ demande.domaineActivite }}
+                        {{ item.demande.domaineActivite }}
                         </span>
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        {{ demande.email }}
+                        {{ item.demande.email }}
                       </td>
                       <td class="px-4 py-3 text-sm">
-                        {{ demande.adresse }}
+                        {{ item.demande.adresse }}
                       </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
-                          <a href="{{ path('app_details', {'id': demande.id}) }}" >
-                          <button
-                          class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                          aria-label="Edit">
-                        <svg
-                        class="w-5 h-5"
-                        aria-hidden="true"
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        >
-                        <path
-                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                        ></path>
-                        </button>
-                      </a>
-                      <button class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"data-bs-toggle="modal" data-bs-target="#approveModal{{ demande.id }}">
+                          {% if item.documentContent %}
+                          <button type="button" class="btn btn-primary btn-sm" onclick="togglePDF('{{ item.documentContent|base64_encode }}')">
+                              Aperçu
+                          </button>
+                          <!-- Embed PDF (initially hidden) -->
+                          <embed id="pdfEmbed" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background-color: white;" src="data:application/pdf;base64,{{ item.documentContent|base64_encode }}" type="application/pdf">
+                              {% else %}
+                          <span class="text-muted">Aucun document disponible</span>
+                      {% endif %}
+
+
+                      <button class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"data-bs-toggle="modal" data-bs-target="#approveModal{{ item.demande.id }}">
                         Approuver
                       </button>
-                      <button class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-bs-toggle="modal" data-bs-target="#disapproveModal{{ demande.id }}">
+                      <button class="px-3 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" data-bs-toggle="modal" data-bs-target="#disapproveModal{{ item.demande.id }}">
                        Desapprouver
                      </button>
                      
                    <!-- Modal d'approvation -->
-                   <div class="modal fade" id="approveModal{{ demande.id }}" tabindex="-1" aria-labelledby="approveModal{{ demande.id }}Label" aria-hidden="true">
+                   <div class="modal fade" id="approveModal{{ item.demande.id }}" tabindex="-1" aria-labelledby="approveModal{{ item.demande.id }}Label" aria-hidden="true">
                        <div class="modal-dialog">
                            <div class="modal-content">
                                <div class="modal-header">
-                                   <h5 class="modal-title" id="approveModal{{ demande.id }}Label">Confirmation d'approbation</h5>
+                                   <h5 class="modal-title" id="approveModal{{ item.demande.id }}Label">Confirmation d'approbation</h5>
                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                </div>
                                <div class="modal-body">
@@ -113,7 +105,7 @@
                                </div>
                                <div class="modal-footer">
                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                   <a href="#" class="btn btn-success">Approuver</a>
+                                   <a href={{path('app_approuver',{'id':item.demande.id})}} class="btn btn-success">Approuver</a>
                                </div>
                            </div>
                        </div>
@@ -121,11 +113,11 @@
                
                
                    <!-- Modal de désapprobation -->
-                   <div class="modal fade" id="disapproveModal{{ demande.id }}" tabindex="-1" aria-labelledby="disapproveModal{{ demande.id }}Label" aria-hidden="true">
+                   <div class="modal fade" id="disapproveModal{{ item.demande.id }}" tabindex="-1" aria-labelledby="disapproveModal{{ item.demande.id }}Label" aria-hidden="true">
                        <div class="modal-dialog">
                            <div class="modal-content">
                                <div class="modal-header">
-                                   <h5 class="modal-title" id="disapproveModal{{ demande.id }}Label">Confirmation de désapprobation</h5>
+                                   <h5 class="modal-title" id="disapproveModal{{ item.demande.id }}Label">Confirmation de désapprobation</h5>
                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                </div>
                                <div class="modal-body">
@@ -133,7 +125,7 @@
                                </div>
                                <div class="modal-footer">
                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                   <a href="#" class="btn btn-danger">Désapprouver</a>
+                                   <a href="{{path('app_desapp',{'id':item.demande.id})}}" class="btn btn-danger">Désapprouver</a>
                                </div>
                            </div>
                        </div>
@@ -250,5 +242,21 @@
               </div>
             </div>
           </div>
+          <script>
+            function togglePDF(base64Data) {
+                var embed = document.getElementById("pdfEmbed");
+                if (embed.style.display === "none") {
+                    // Afficher le PDF en plein écran
+                    embed.src = "data:application/pdf;base64," + base64Data;
+                    embed.style.display = "block";
+                    window.open(embed.src, '_blank')
+                } else {
+                    // Cacher le PDF
+                    embed.style.display = "none";
+                }
+            }
+          
+          
+        </script>
         </main>
         {% endblock %}
