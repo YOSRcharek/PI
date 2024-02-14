@@ -61,3 +61,17 @@ forgetPass:
 login:
     path: /login
     controller: App\Controller\AdminController::login
+
+app_create_event:
+    path: /event/create
+    controller: App\Controller\EventController::createEvent
+    
+app_delete_event:
+    path: /event/delete/{id}
+    controller: App\Controller\EventController::deleteEvent
+app_edit_event:
+    path: /event/edit/{id}
+    controller: App\Controller\EventController::edit    
+app_event_details:
+    path: '/event/{id}'
+    controller: App\Controller\EventController::showDetails    

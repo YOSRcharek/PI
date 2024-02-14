@@ -31,7 +31,7 @@ class Service
     private ?Commentaire $Commentaire = null;
 
     #[ORM\ManyToOne(inversedBy: 'services')]
-    private ?association $association = null;
+    private ?Association $association = null;
 
     #[ORM\ManyToMany(targetEntity: Volontaire::class, mappedBy: 'condidature')]
     private Collection $volontaires;
@@ -106,12 +106,12 @@ class Service
         return $this;
     }
 
-    public function getAssociation(): ?association
+    public function getAssociation(): ?Association
     {
         return $this->association;
     }
 
-    public function setAssociation(?association $association): static
+    public function setAssociation(?Association $association): static
     {
         $this->association = $association;
 

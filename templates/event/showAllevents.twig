@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Événements{% endblock %}
+
+{% block body %}
+    <h1>Liste des Événements</h1>
+
+    {% if event is not empty %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        
+                        <th scope="col">Nom</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Date de début</th>
+                        <th scope="col">Date de fin</th>
+                        <th scope="col">Localisation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in event %}
+                        <tr>
+                            
+                            <td>{{ event.nomEvent }}</td>
+                            <td>{{ event.description }}</td>
+                            <td>{{ event.dateDebut ? event.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ event.dateFin ? event.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ event.localisation }}</td>
+                            <td>
+                           
+                            <form method="post" action="{{ path('app_delete_event', {'id': event.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
+                            <td>
+                                <a href="{{ path('app_edit_event', {'id': event.id}) }}" class="btn btn-primary">Modifier</a>
+
+                            </td> 
+                            <td>
+                      
+
+                                   <a href="{{ path('app_event_details', {'id': event.id}) }}">Voir les détails</a>
+
+                    </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Aucun événement trouvé.</p>
+    {% endif %}
+{% endblock %}

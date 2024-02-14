@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
@@ -17,24 +18,38 @@ class Event
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nomEvent = null;
+    #[Assert\NotBlank(message: "Le nom de l'événement ne doit pas être vide.")]
+    #[Assert\Length(min:5,minMessage:"le Nom d'evenement doit faire au moins{{ limit }} caractéres")]
+    private ?string $nomEvent = null;   
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+   
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: "La date de début ne doit pas être vide.")]
     private ?\DateTimeInterface $dateDebut = null;
 
+
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: "La date de fin ne doit pas être vide.")]
+    #[Assert\GreaterThan(propertyPath: "dateDebut", message: "La date de fin doit être postérieure à la date de début.")]
     private ?\DateTimeInterface $dateFin = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La localisation ne doit pas être vide.")]
     private ?string $localisation = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::INTEGER)]
+    #[Assert\NotBlank(message: "La capacité maximale ne doit pas être vide.")]
+    #[Assert\GreaterThanOrEqual(propertyPath: "capaciteActuelle", message: "La capacité maximale doit être supérieure ou égale à la capacité actuelle.")]
+    #[Assert\NegativeOrZero(message:"la capacité ne doit pas etre negatif")]
     private ?int $capaciteMax = null;
 
-    #[ORM\Column]
+   
+    #[ORM\Column(type: Types::INTEGER)]
+    #[Assert\NotBlank(message: "La capacité actuelle ne doit pas être vide.")]
+    #[Assert\LessThanOrEqual(value: 0, message: "La capacité actuelle ne doit pas être négative.")]
     private ?int $capaciteActuelle = null;
 
     #[ORM\ManyToOne(inversedBy: 'events')]
@@ -44,7 +59,7 @@ class Event
     private Collection $volontaires;
 
     #[ORM\ManyToOne(inversedBy: 'events')]
-    private ?association $association = null;
+    private ?Association $association = null;
 
     public function __construct()
     {
@@ -179,12 +194,12 @@ class Event
         return $this;
     }
 
-    public function getAssociation(): ?association
+    public function getAssociation(): ?Association
     {
         return $this->association;
     }
 
-    public function setAssociation(?association $association): static
+    public function setAssociation(?Association $association): static
     {
         $this->association = $association;
 

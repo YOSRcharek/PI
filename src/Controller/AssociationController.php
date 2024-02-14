@@ -12,6 +12,12 @@ use App\Repository\AssociationRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 
+
+
+
+
+
+
 class AssociationController extends AbstractController
 {
     #[Route('/association', name: 'app_show')]
@@ -22,7 +28,7 @@ class AssociationController extends AbstractController
             'controller_name' => 'AssociationController',
         ]);
     }
-    #[Route('/associations', name: 'app_show')]
+    #[Route('/associations', name: 'app_show_association')]
     public function show(AssociationRepository $associationRepo): Response
     {
         $associations = $associationRepo->findByStatus(1);
@@ -103,13 +109,10 @@ public function edit(Request $request, EntityManagerInterface $entityManager, As
         );
     }
 
-public function findByStatus($status): array
+    public function findByStatus($status): array
 {
-    return $this->createQueryBuilder('a')
-        ->andWhere('a.status = :status')
-        ->setParameter('status', $status)
-        ->getQuery()
-        ->getResult();
+    return $this->getDoctrine()->getRepository(Association::class)->findBy(['status' => $status]);
 }
+
 
 }

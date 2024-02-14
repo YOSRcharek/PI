@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Créer un nouvel événement</h1>
+
+        <form method="post" action="{{ path('app_create_event') }}" class="needs-validation" novalidate>
+            {{ form_start(form, {'attr': {'class': 'form'}}) }}
+
+            <div class="mb-3">
+            {{ form_label(form.nomEvent, 'Nom de l\'événement', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nomEvent, {'attr': {'class': 'form-control ' ~ (form_errors(form.nomEvent)|length ? 'is-invalid' : '')}}) }}
+          {% if form_errors(form.nomEvent) %}
+           <div class="invalid-feedback">
+            {{ form_errors(form.nomEvent) }}
+        </div>
+    {% endif %}
+       </div>
+
+            <div class="mb-3">
+                {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            <div class="mb-3">
+             {{ form_label(form.dateDebut, 'Date de début', {'label_attr': {'class': 'form-label'}}) }}
+               {{ form_widget(form.dateDebut, {'attr': {'class': 'form-control datepicker'}}) }}
+           {% if form_errors(form.dateDebut) %}
+            <div class="alert alert-danger">
+            {% for error in form_errors(form.dateDebut) %}
+                {{ error.message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+
+<div class="mb-3">
+    {{ form_label(form.dateFin, 'Date de fin', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.dateFin, {'attr': {'class': 'form-control'}}) }}
+    {% if form_errors(form.dateFin) %}
+        <div class="alert alert-danger">
+            {% for error in form_errors(form.dateFin) %}
+                {{ error.message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+
+<div class="mb-3">
+             {{ form_label(form.localisation, 'Localisation', {'label_attr': {'class': 'form-label'}}) }}
+              {{ form_widget(form.localisation, {'attr': {'class': 'form-control'}}) }}
+             {% if form_errors(form.localisation) %}
+        <div class="alert alert-danger">
+            {% for error in form_errors(form.localisation) %}
+                {{ error.message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+<div class="mb-3">
+         {{ form_label(form.capaciteMax, 'Capacité maximale', {'label_attr': {'class': 'form-label'}}) }}
+         {{ form_widget(form.capaciteMax, {'attr': {'class': 'form-control'}}) }}
+          {% if form_errors(form.capaciteMax) %}
+           <div class="alert alert-danger">
+            {% for error in form_errors(form.capaciteMax) %}
+                {{ error.message }}
+            {% endfor %}
+          </div>
+    {% endif %}
+</div>
+
+ <div class="mb-3">
+           {{ form_label(form.capaciteActuelle, 'Capacité Actuelle', {'label_attr': {'class': 'form-label'}}) }}
+         {{ form_widget(form.capaciteActuelle, {'attr': {'class': 'form-control'}}) }}
+        {% if form_errors(form.capaciteActuelle) %}
+        <div class="alert alert-danger">
+            {% for error in form_errors(form.capaciteActuelle) %}
+                {{ error.message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+
+
+            <button type="submit" class="btn btn-primary">Créer l'événement</button>
+            {{ form_end(form) }}
+        </form>
+    </div>
+{% endblock %}
