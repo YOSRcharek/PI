@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Membre;
+use App\Entity\Association;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class MembreType extends AbstractType
@@ -63,8 +65,11 @@ class MembreType extends AbstractType
                 ],
             ])
             ->add('fonction')
-            ->add('association')
-        ;
+            ->add('association', EntityType::class, [
+                            'class' => Association::class,
+                            'choice_label' => 'id', // Remplacez 'id' par la propriété que vous souhaitez afficher
+                            // Autres options de formulaire
+                        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

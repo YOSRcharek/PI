@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Projet;
+use App\Entity\Association;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ProjetType extends AbstractType
 {
@@ -17,7 +19,12 @@ class ProjetType extends AbstractType
             ->add('dateDebut')
             ->add('dateFin')
             ->add('description')
-            ->add('association')
+            ->add('association', EntityType::class, [
+                            'class' => Association::class,
+                            'choice_label' => 'id', // Remplacez 'id' par la propriété que vous souhaitez afficher
+                            // Autres options de formulaire
+]);
+
         ;
     }
 

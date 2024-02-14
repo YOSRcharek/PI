@@ -31,6 +31,7 @@ class Membre
     #[ORM\ManyToOne(inversedBy: 'membres')]
     private ?association $association = null;
 
+
     public function getId(): ?int
     {
         return $this->id;

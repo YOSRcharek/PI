@@ -3,12 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Association;  // Ajout de l'import pour la classe Association
+use App\Entity\Projet;  // Ajout de l'import pour la classe Association
+use App\Entity\Membre;  // Ajout de l'import pour la classe Association
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\AssociationType;
+use App\Form\ProjetType;
+use App\Form\MembreType;
 use App\Repository\AssociationRepository;
+use App\Repository\ProjetRepository;
+use App\Repository\MembreRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\Base64EncodeService;
@@ -194,6 +200,35 @@ public function approuver($id, ManagerRegistry $managerRegistry, Request $reques
         return $this->redirectToRoute('app_show'); // Redirigez où vous le souhaitez après la mise à jour
     
 }
+
+#[Route('/profil/{id}', name: 'app_profil')]
+public function profil(Request $request, AssociationRepository $associationRepo, EntityManagerInterface $entityManager, ProjetRepository $projetRepo, MembreRepository $membreRepo, $id): Response
+{    
+    $association = $associationRepo->find($id);
+
+    $projets = $projetRepo->findByAssociation($id);
+    $membres = $membreRepo->findByAssociation($id);
+
+    $membre = new membre();
+    $form = $this->createForm(MembreType::class, $membre);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $entityManager->persist($membre);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_profil', ['id' => $id]);
+    }
+
+    return $this->render('association/profile.html.twig', [
+        'association' => $association,
+        'projets' => $projets,
+        'membres'=> $membres,
+        'form' => $form->createView()
+    ]);
+}
+
+
 private function getDocumentContent($document)
 {
     return $document ? $this->base64EncodeExtensionService->readfile($document) : null;
@@ -210,5 +245,15 @@ public function findByStatus($status): array
         ->getQuery()
         ->getResult();
 }
+public function findByAssociation($associationId): array
+{
+    $qb = $this->createQueryBuilder('p');
+    $qb->join('p.association', 'a')
+       ->andWhere('a.id = :associationId')
+       ->setParameter('associationId', $associationId);
+    $projects = $qb->getQuery()->getResult();
+    return $projects;
+}
+
 
 }
