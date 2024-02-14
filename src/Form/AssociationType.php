@@ -92,8 +92,11 @@ class AssociationType extends AbstractType
                 'label' => 'Document'
             ])
             ->add('password', PasswordType::class, [
-                    'label' => 'Mot de passe:',
-                    new Assert\NotBlank(),
+                'label' => 'Mot de passe:',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Le mot de passe ne peut pas être vide.',
+                    ]),
                     new Assert\Length([
                         'min' => 8,
                         'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
@@ -101,8 +104,10 @@ class AssociationType extends AbstractType
                     new Assert\Regex([
                         'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])/',
                         'message' => 'Le mot de passe doit contenir au moins une lettre majuscule et une lettre minuscule.',
-                    ]), 
-                ])
+                    ]),
+                ],
+            ])
+
             ->add('image', FileType::class, [
                 'label' => 'Image',
                 'required' => false, 

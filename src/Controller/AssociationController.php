@@ -156,14 +156,21 @@ public function __construct(Base64EncodeExtensionService $base64EncodeExtensionS
 
 
     #[Route('/dessapprouver/{id}', name: 'app_desapp')]
-    public function desapp(Request $request, $id, ManagerRegistry $manager,DemandeRepository $demandeRepo): Response
+    public function desapprouver(Request $request, $id, ManagerRegistry $managerRegistry): Response
     {
-        // Action pour supprimer une demande
-        $em = $manager->getManager();
-        $demande = $demandeRepo->find($id);
-        $em->remove($demande);
-        $em->flush();
-        return $this->redirectToRoute('app_showDemande');  // Modifié pour utiliser le nom de la route correct
+        $entityManager = $this->getDoctrine()->getManager();
+        $association = $entityManager->getRepository(Association::class)->find($id);
+
+        // Vérifier si l'entité est trouvée
+        if ($association) {
+            $entityManager->remove($association);
+            $entityManager->flush();
+        } else {
+            // Gérer le cas où l'entité n'est pas trouvée
+            throw $this->createNotFoundException('L\'association avec l\'identifiant ' . $id . ' n\'a pas été trouvée.');
+        }
+
+        return $this->redirectToRoute('app_demandes'); // Modifié pour utiliser le nom de la route correct
     }
 
     #[Route('/approuver/{id}', name: 'app_approuver')]
