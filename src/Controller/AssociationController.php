@@ -200,33 +200,57 @@ public function approuver($id, ManagerRegistry $managerRegistry, Request $reques
         return $this->redirectToRoute('app_show'); // Redirigez où vous le souhaitez après la mise à jour
     
 }
-
 #[Route('/profil/{id}', name: 'app_profil')]
 public function profil(Request $request, AssociationRepository $associationRepo, EntityManagerInterface $entityManager, ProjetRepository $projetRepo, MembreRepository $membreRepo, $id): Response
 {    
-    $association = $associationRepo->find($id);
+    $entityManager = $this->getDoctrine()->getManager();
+    $association = $entityManager->getRepository(Association::class)->find($id);
+
+    if (!$association) {
+        throw $this->createNotFoundException('Association non trouvée avec l\'identifiant ' . $id);
+    }
 
     $projets = $projetRepo->findByAssociation($id);
     $membres = $membreRepo->findByAssociation($id);
-
-    $membre = new membre();
+    $membre = new Membre();
+    $projet = new Projet();
     $form = $this->createForm(MembreType::class, $membre);
-    $form->handleRequest($request);
+    $form2 = $this->createForm(ProjetType::class, $projet);
 
+    $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
+        $membre->setAssociation($association);
         $entityManager->persist($membre);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_profil', ['id' => $id]);
     }
 
+    // Utilisation de $form2->handleRequest($request); pour le formulaire de projet
+    $form2->handleRequest($request);
+    if ($form2->isSubmitted() && $form2->isValid()) {
+        try{
+        $projet->setAssociation($association);
+        $entityManager->persist($projet);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_profil', ['id' => $id]);
+           }catch (\Exception $e) {
+            foreach ($form->getErrors(true, false) as $error) {
+                $this->addFlash('error', $error->getMessage());
+            }   }
+    }
     return $this->render('association/profile.html.twig', [
         'association' => $association,
         'projets' => $projets,
         'membres'=> $membres,
-        'form' => $form->createView()
+        'form' => $form->createView(),
+        'form2' => $form2->createView()
     ]);
 }
+
+
+
 
 
 private function getDocumentContent($document)

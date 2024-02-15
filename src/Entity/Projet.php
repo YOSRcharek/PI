@@ -30,7 +30,7 @@ class Projet
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'projets')]
-    private ?Association $association = null;
+    private Association $association ;
 
     public function getId(): ?int
     {
@@ -102,7 +102,7 @@ class Projet
         return $this->association;
     }
 
-    public function setAssociation(?association $association): static
+    public function setAssociation(Association $association): static
     {
         $this->association = $association;
 

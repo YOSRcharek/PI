@@ -2,9 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Projet;
+use App\Form\ProjetType;
+use App\Repository\ProjetRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 class ProjetController extends AbstractController
 {
