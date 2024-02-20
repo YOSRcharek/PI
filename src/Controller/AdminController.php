@@ -15,6 +15,7 @@ class AdminController extends AbstractController
         return $this->render('baseAdmin.html.twig');
     }
     
+    
     public function buttons(): Response
     {
         return $this->render('/admin/buttons.html.twig');

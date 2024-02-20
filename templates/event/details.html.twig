@@ -14,6 +14,7 @@
                 <p class="card-text"><strong>Localisation:</strong> {{ event.localisation }}</p>
                 <p class="card-text"><strong>Capacité maximale:</strong> {{ event.capaciteMax }}</p>
                 <p class="card-text"><strong>Capacité actuelle:</strong> {{ event.capaciteActuelle }}</p>
+                <a href="{{ path('app_participer_event', {'id': event.id}) }}" class="btn btn-primary">Participer à l'événement</a>
                 <!-- Ajoutez d'autres détails de l'événement selon vos besoins -->
             </div>
         </div>

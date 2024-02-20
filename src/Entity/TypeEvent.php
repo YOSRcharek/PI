@@ -18,7 +18,7 @@ class TypeEvent
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Event::class)]
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Event::class, cascade: ['remove'])]
     private Collection $events;
 
     public function __construct()

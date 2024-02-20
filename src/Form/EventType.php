@@ -3,43 +3,71 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Repository\TypeEventRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Expression;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
+
+
+use App\Entity\TypeEvent;
 
 
 
 
 class EventType extends AbstractType
+
 {
+    private $typeEventRepository;
+
+public function __construct(TypeEventRepository $typeEventRepository)
+{
+    $this->typeEventRepository = $typeEventRepository;
+}
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        
         $builder
             ->add('nomEvent')
             ->add('description')
             ->add('dateDebut')
             ->add('dateFin')
             ->add('localisation')
-            ->add('capaciteMax', null, [
-                'constraints' => [
-                    new Assert\NotBlank(['message' => "La capacité maximale ne doit pas être vide."]),
-                    
+            ->add('capaciteMax')
+                
+           // ->add('capaciteActuelle')
+            ->add('type', EntityType::class, [
+                'class' => TypeEvent::class,
+                'choice_label' => 'nom', // ou le champ que vous souhaitez afficher dans le dropdown
+                'label' => 'Type d\'événement',
+                'attr' => [
+                    'class' => 'form-control',
                 ],
-            ])
-            ->add('capaciteActuelle', null, [
                 'constraints' => [
-                    new Assert\NotBlank(['message' => 'La capacité actuelle ne doit pas être vide.']),
-                    
+                    new Assert\NotBlank(['message' => 'Veuillez sélectionner un type d\'événement.']),
                 ],
             ]);
-            //->add('type')
-            //->add('volontaires')
-            //->add('Association')
-        ;
-    }
 
+        //->add('volontaires')
+        //->add('Association')
+    }
+    public function getTypes(): array
+    {
+        
+        $types = $this->typeEventRepository->findAll(); // Assurez-vous que votre repository renvoie les types d'événements
+
+        $choices = [];
+        foreach ($types as $type) {
+            // Vous pouvez ajuster la clé et la valeur en fonction de vos besoins
+            $choices[$type->getNom()] = $type->getId();
+        }
+
+        return $choices;
+    }
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -50,5 +78,6 @@ class EventType extends AbstractType
             
         ]);
     }
+    
     
 }

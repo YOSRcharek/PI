@@ -6,47 +6,37 @@
     <h1>Liste des Événements</h1>
 
     {% if event is not empty %}
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
-                    <tr>
-                        
-                        <th scope="col">Nom</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Date de début</th>
-                        <th scope="col">Date de fin</th>
-                        <th scope="col">Localisation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for event in event %}
-                        <tr>
-                            
-                            <td>{{ event.nomEvent }}</td>
-                            <td>{{ event.description }}</td>
-                            <td>{{ event.dateDebut ? event.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>{{ event.dateFin ? event.dateFin|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>{{ event.localisation }}</td>
-                            <td>
+        <div class="container">
+            <div class="row">
+                {% for event in event %}
+                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+                        <div class="card">
+                            <img src="assets/front/images/causes/group-african-kids-paying-attention-class.jpg" class="card-img-top" alt="Event Image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.nomEvent }}</h5>
+                                <p class="card-text">{{ event.description }}</p>
+                                <p class="card-text"><strong>Date de début:</strong> {{ event.dateDebut ? event.dateDebut|date('Y-m-d H:i:s') : '' }}</p>
+                                <p class="card-text"><strong>Date de fin:</strong> {{ event.dateFin ? event.dateFin|date('Y-m-d H:i:s') : '' }}</p>
+                                <p class="card-text"><strong>Localisation:</strong> {{ event.localisation }}</p>
+                                <p class="card-text"><strong>Capacité maximale:</strong> {{ event.capaciteMax }}</p>
+                                <p class="card-text"><strong>Capacité actuelle:</strong> {{ event.capaciteActuelle }}</p>
+                                <p class="card-text"><strong>Type d'événement:</strong> {{ event.type.getNom() }}</p>
+
                            
-                            <form method="post" action="{{ path('app_delete_event', {'id': event.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="btn btn-danger">Supprimer</button>
-                            </form>
-                            <td>
-                                <a href="{{ path('app_edit_event', {'id': event.id}) }}" class="btn btn-primary">Modifier</a>
 
-                            </td> 
-                            <td>
-                      
-
-                                   <a href="{{ path('app_event_details', {'id': event.id}) }}">Voir les détails</a>
-
-                    </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                                <div class="btn-group">
+                                    <form method="post" action="{{ path('app_delete_event', {'id': event.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                                    </form>
+                                    <a href="{{ path('app_edit_event', {'id': event.id}) }}" class="btn btn-primary">Modifier</a>
+                                    <a href="{{ path('app_event_details', {'id': event.id}) }}" class="btn btn-secondary">Voir les détails</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     {% else %}
         <p>Aucun événement trouvé.</p>

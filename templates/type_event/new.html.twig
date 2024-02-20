@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ajouter Type event{% endblock %}
+
+{% block body %}
+    <h1>Create new TypeEvent</h1>
+
+    {{ include('type_event/_form.html.twig') }}
+
+    <a href="{{ path('app_type_event_index') }}">back to list</a>
+     <a href="{{ path('app_create_event') }}">retour au formulaire</a>
+{% endblock %}

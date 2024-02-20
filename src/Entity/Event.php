@@ -32,7 +32,7 @@ class Event
 
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Assert\NotBlank(message: "La date de fin ne doit pas être vide.")]
+        #[Assert\NotBlank(message: "La date de fin ne doit pas être vide.")]
     #[Assert\GreaterThan(propertyPath: "dateDebut", message: "La date de fin doit être postérieure à la date de début.")]
     private ?\DateTimeInterface $dateFin = null;
 
@@ -42,17 +42,16 @@ class Event
 
     #[ORM\Column(type: Types::INTEGER)]
     #[Assert\NotBlank(message: "La capacité maximale ne doit pas être vide.")]
-    #[Assert\GreaterThanOrEqual(propertyPath: "capaciteActuelle", message: "La capacité maximale doit être supérieure ou égale à la capacité actuelle.")]
-    #[Assert\NegativeOrZero(message:"la capacité ne doit pas etre negatif")]
-    private ?int $capaciteMax = null;
+   #[Assert\GreaterThanOrEqual(propertyPath: "capaciteActuelle", message: "La capacité maximale doit être supérieure ou égale à la capacité actuelle.")]
+   #[Assert\GreaterThanOrEqual(value: 0, message: "La capacité maximale ne doit pas être négative.")]
+   private ?int $capaciteMax = null;
 
-   
-    #[ORM\Column(type: Types::INTEGER)]
-    #[Assert\NotBlank(message: "La capacité actuelle ne doit pas être vide.")]
-    #[Assert\LessThanOrEqual(value: 0, message: "La capacité actuelle ne doit pas être négative.")]
-    private ?int $capaciteActuelle = null;
+   #[ORM\Column(type: Types::INTEGER)]
+   #[Assert\NotBlank(message: "La capacité actuelle ne doit pas être vide.")]
+   #[Assert\GreaterThanOrEqual(value: 0, message: "La capacité actuelle ne doit pas être négative.")]
+   private ?int $capaciteActuelle = 0;
 
-    #[ORM\ManyToOne(inversedBy: 'events')]
+    #[ORM\ManyToOne(inversedBy: 'events', cascade: ['remove'])]
     private ?TypeEvent $type = null;
 
     #[ORM\ManyToMany(targetEntity: Volontaire::class, mappedBy: 'event')]
@@ -183,6 +182,10 @@ class Event
         }
 
         return $this;
+    }
+    public function participer(): void
+    {
+        $this->capaciteActuelle += 1;
     }
 
     public function removeVolontaire(Volontaire $volontaire): static

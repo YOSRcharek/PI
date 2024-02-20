@@ -31,13 +31,19 @@ class EventController extends AbstractController
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($event);
-            $entityManager->flush();
+        try {
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->persist($event);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_show_events');
+                
+                $this->addFlash('success', 'L\'événement a été créé avec succès!');
+                return $this->redirectToRoute('app_show_events');
+            }
+        } catch (\Exception $e) {
+            
+            $this->addFlash('error', 'Une erreur s\'est produite lors de la création de l\'événement.');
         }
-
         return $this->render('event/create.html.twig', ['form' => $form->createView()]);
     }
    
@@ -95,5 +101,21 @@ public function deleteEvent(Request $request, $id, ManagerRegistry $manager, Eve
         ]);
        
     }
+    #[Route('/event/participer/{id}', name: 'app_participer_event')]
+    public function participer(Event $event, EntityManagerInterface $entityManager): Response
+    {
+        // Appeler la méthode participer de l'événement
+        $event->participer();
+
+        // Enregistrer les modifications dans la base de données
+        $entityManager->flush();
+
+        // Ajouter un message flash pour informer l'utilisateur
+        $this->addFlash('success', 'Vous avez participé à l\'événement avec succès.');
+
+        // Rediriger vers la page des détails de l'événement
+        return $this->redirectToRoute('app_event_details', ['id' => $event->getId()]);
+    }
+   
 
 }

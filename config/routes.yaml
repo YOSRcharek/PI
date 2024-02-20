@@ -74,4 +74,50 @@ app_edit_event:
     controller: App\Controller\EventController::edit    
 app_event_details:
     path: '/event/{id}'
-    controller: App\Controller\EventController::showDetails    
+    controller: App\Controller\EventController::showDetails   
+app_type_event_index:
+    path: /types
+    controller: App\Controller\TypeEventController::showall
+
+
+app_type_event_new:
+    path: /type_event/new
+    controller: App\Controller\TypeEventController::new
+app_type_event_show:
+    path: /type_event/{id}
+    controller: App\Controller\TypeEventController::show
+app_type_event_edit:
+    path: /type_event/edit/{id}
+    controller: App\Controller\TypeEventController::edit  
+app_type_event_delete:
+    path: /type_event/delete/{id}
+    controller: App\Controller\TypeEventController::delete  
+
+app_participer_event:
+    path: '/event/participer/{id}'
+    controller: 'App\Controller\EventController::participer'  
+app_show_eventsadmin:
+    path: /admin/events
+    controller: App\Controller\AdminEventController::showEventsadmin          
+app_create_eventadmin:
+    path: /admin/event/create
+    controller: 'App\Controller\AdminEventController::createEvent'
+app_event_detailsadmin:
+    path: '/admin/event/details/{id}'
+    controller: 'App\Controller\AdminEventController::showDetailsadmin' 
+app_participer_eventadmin:
+    path: '/admin/event/participer/{id}'
+    controller: 'App\Controller\AdminEventController::participer'  
+app_delete_eventadmin:
+    path: '/admin/event/delete/{id}'
+    controller: 'App\Controller\AdminEventController::deleteEventadmin'         
+
+app_type_event_newadmin:
+    path: /admin/type_event/new
+    controller: App\Controller\AdminEventController::newtypeadmin   
+app_type_event_indexadmin:
+    path: /admin/types
+    controller: App\Controller\AdminEventController::showall   
+app_edit_eventadmin:
+    path: /admin/event/edit/{id}
+    controller: App\Controller\AdminEventController::editadmin          

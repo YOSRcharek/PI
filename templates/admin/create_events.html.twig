@@ -1,15 +1,14 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Créer un nouvel événement{% endblock %}
+{% extends 'baseAdmin.html.twig' %}
 
 {% block body %}
-    <div class="container mt-5">
-        <div class="card">
-            <div class="card-header">
-                <h1 class="mb-0">Créer un nouvel événement</h1>
-            </div>
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="mb-0">Créer un nouvel événement</h1>
+      </div>
             <div class="card-body">
-                <form method="post" action="{{ path('app_create_event') }}" class="needs-validation" novalidate>
+                <form method="post" action="{{ path('app_create_eventadmin') }}" class="needs-validation" novalidate>
                     {{ form_start(form, {'attr': {'class': 'form'}}) }}
 
                     <div class="mb-3">
@@ -40,11 +39,10 @@
                         {{ form_row(form.capaciteActuelle, {'label': 'Capacité Actuelle', 'attr': {'class': 'form-control'}}) }}
                     </div>#}
 
-                    
-           <div class="mb-3 d-flex align-items-center">
-    {{ form_row(form.type, {'label': 'Type d\'événement', 'attr': {'class': 'form-control'}}) }}
-    <a href="{{ path('app_type_event_new') }}" class="btn btn-secondary ms-2">+</a>
-</div>
+                <div class="mb-3 d-flex align-items-center">
+                     {{ form_row(form.type, {'label': 'Type d\'événement', 'attr': {'class': 'form-control'}}) }}
+                 <a href="{{ path('app_type_event_newadmin') }}" class="btn btn-secondary ms-2">+</a>
+              </div>
 
                     <button type="submit" class="btn btn-primary">Créer l'événement</button>
                     {{ form_end(form) }}
@@ -53,3 +51,6 @@
         </div>
     </div>
 {% endblock %}
+
+
+  
