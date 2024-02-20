@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une Association{% endblock %}
+
+{% block body %}
+    <div class="container p-5 my-5 border">
+        <h1>Créer une Association</h1>
+        
+        {% if app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ app.flashes('success')[0] }}
+            </div>
+        {% endif %}
+
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+
+     
+        <div class="row mb-3">
+          
+            <div class="col-md-6">
+                {{ form_row(form.nom, {'label': 'Nom:', 'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.nom) %}
+                    <div class="text-danger">
+                        {{ form_errors(form.nom) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form_row(form.adresse, {'label': 'Adresse:', 'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.adresse) %}
+                    <div class="text-danger">
+                        {{ form_errors(form.adresse) }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.description, {'label': 'Description:', 'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.description) %}
+                    <div class="text-danger">
+                        {{ form_errors(form.description) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form_row(form.email, {'label': 'Email:', 'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.email) %}
+                    <div class="text-danger">
+                        {{ form_errors(form.email) }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.telephone, {'label': 'Telephone:', 'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.telephone) %}
+                    <div class="text-danger">
+                        {{ form_errors(form.telephone) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form_row(form.domaineActivite, {'label': 'Domaine:', 'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.domaineActivite) %}
+                    <div class="text-danger">
+                        {{ form_errors(form.domaineActivite) }}
+                    </div>
+                {% endif %}
+            </div>
+           
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary">Créer une association</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <a href="{{ path('app_show') }}">Retour à la liste des associations</a>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

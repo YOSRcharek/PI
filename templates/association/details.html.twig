@@ -1,0 +1,45 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Détails de l'Association{% endblock %}
+
+{% block body %}
+    <div class="container p-5 my-5 border">
+        <h1 class="text-center">Détails de l'Association</h1>
+
+        <table class="table table-bordered table-striped mx-auto mt-4" style="width: 80%;">
+            <tbody>
+                <tr>
+                    <th scope="row" class="text-end">Nom:</th>
+                    <td>{{ association.nom }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-end">Adresse:</th>
+                    <td>{{ association.adresse }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-end">Description:</th>
+                    <td>{{ association.description }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-end">Email:</th>
+                    <td>{{ association.email }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-end">Telephone:</th>
+                    <td>{{ association.telephone }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-end">Domaine:</th>
+                    <td>{{ association.domaineActivite }}</td>
+                </tr>
+              
+                {# Add other attributes as needed #}
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center mt-4">
+            <a href="{{ path('app_show') }}" class="btn btn-secondary mx-2">Retour à la liste</a>
+            <a href="{{ path('app_edit', {'id': association.id}) }}" class="btn btn-primary mx-2">Modifier</a>
+        </div>
+    </div>
+{% endblock %}
