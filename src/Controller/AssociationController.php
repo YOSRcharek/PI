@@ -226,19 +226,15 @@ public function profil(Request $request, AssociationRepository $associationRepo,
         return $this->redirectToRoute('app_profil', ['id' => $id]);
     }
 
-    // Utilisation de $form2->handleRequest($request); pour le formulaire de projet
-    $form2->handleRequest($request);
+     $form2->handleRequest($request);
     if ($form2->isSubmitted() && $form2->isValid()) {
-        try{
+
         $projet->setAssociation($association);
         $entityManager->persist($projet);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_profil', ['id' => $id]);
-           }catch (\Exception $e) {
-            foreach ($form->getErrors(true, false) as $error) {
-                $this->addFlash('error', $error->getMessage());
-            }   }
+         
     }
     return $this->render('association/profile.html.twig', [
         'association' => $association,

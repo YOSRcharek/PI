@@ -74,7 +74,7 @@ public function edit(Request $request, EntityManagerInterface $entityManager, pr
 
         $em->remove($projet);
         $em->flush();
-        return $this->redirectToRoute('app_projet');  // Modifié pour utiliser le nom de la route correct
+        return $this->redirectToRoute('app_home');  // Modifié pour utiliser le nom de la route correct
     }
 }
 

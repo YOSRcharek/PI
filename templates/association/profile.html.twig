@@ -73,6 +73,7 @@
  <div class="container">
     <div class="row">
         <div class="col-md-8 mt-4">
+
             <div class="card">
                 <div class="card-body pb-0">
                     <div class="row align-items-center">
@@ -123,246 +124,13 @@
             </div>
             <div class="card" id="team-card">
                 <div class="tab-content p-4"> 
-                    <div class="tab-pane active show" id="tasks-tab" role="tabpanel">
-                        <div class="row mb-3">
-                            <div class="col">
-                             
-                                <h5 class="mb-0">Team</h5>
-                            </div>
-                            <div class="col text-end">
-                              <button class="custom-btn" data-bs-toggle="modal" data-bs-target="#newModal">+ New member </button>
-                              <div class="modal fade" id="newModal" tabindex="-1" aria-labelledby="newModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="newModalLabel">New member</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
-                                                <div class="w-full">
-                                                   
-                                                    {{ form_start(form, {'attr': {'class': 'form'}}) }}
-                              
-                                                    {{ form_row(form.emailMembre, {'label': 'Email:', 'attr': {'class': 'form-control'}}) }}
-                                                    {% if form_errors(form.emailMembre) %}
-                                                        <div class="text-danger">
-                                                            {{ form_errors(form.emailMembre) }}
-                                                        </div>
-                                                    {% endif %}
-                                                   
-                                                    {{ form_row(form.nomMembre, {'label': 'Nom:', 'attr': {'class': 'form-control'}}) }}
-                                                    {% if form_errors(form.nomMembre) %}
-                                                        <div class="text-danger">
-                                                            {{ form_errors(form.nomMembre) }}
-                                                        </div>
-                                                    {% endif %}
-                                                    {{ form_row(form.prenomMembre, {'label': 'PrenomMembre:', 'attr': {'class': 'form-control'}}) }}
-                                                    {% if form_errors(form.prenomMembre) %}
-                                                        <div class="text-danger">
-                                                            {{ form_errors(form.prenomMembre) }}
-                                                        </div>
-                                                    {% endif %}
-                                                   
-                                               
-                                                    {{ form_row(form.telephone, {'label': 'Telephone:', 'attr': {'class': 'form-control'}}) }}
-                                                    {% if form_errors(form.telephone) %}
-                                                        <div class="text-danger">
-                                                            {{ form_errors(form.telephone) }}
-                                                        </div>
-                                                    {% endif %}
-                                                    {{ form_row(form.fonction, {'label': 'Fonction:', 'attr': {'class': 'form-control'}}) }}
-                                                    {% if form_errors(form.fonction) %}
-                                                        <div class="text-danger">
-                                                            {{ form_errors(form.fonction) }}
-                                                        </div>
-                                                    {% endif %}
-                                              
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Add</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xl-12">  
-                                {% for team in membres %}
-                                <div class="task-list-box" id="design-task">
-                                    <div id="task-item-2"> 
-                                        <div class="card task-box rounded-3">
-                                            <div class="card-body">
-                                                <div class="row align-items-center">
-                                                    <div class="col-xl-6 col-sm-5">
-                                                        <div class="checklist form-check font-size-15">
-                                                            <label class="form-check-label ms-1 task-title" for="customCheck2">{{ team.nomMembre }} {{ team.prenomMembre }}</label>
-                                                        </div>
-                                                        
-                                                    </div><!-- end col -->
-                                                    <div class="col-xl-6 col-sm-6">
-                                                        <div class="row align-items-center">
-                                                            <div class="col-xl-5 col-md-6 col-sm-5">
-                                                                
-                                                                {{team.fonction}}
-                                                                    
-                                                            </div><!-- end col -->
-                                                            <div class="col-xl-7 col-md-6 col-sm-7">
-                                                                <div class="d-flex flex-wrap gap-3 mt-3 mt-xl-0 justify-content-md-end">
-                                                                    <div>
-                                                                        <a href="{{ path('app_details_membre', {'id': team.id}) }}" class="badge rounded-pill badge-soft-warning font-size-11 task-status">Detail</a>
-                                                                    </div>
-                                                                    <div>
-                                                                        <a href="{{ path('app_edit_membre', {'id': team.id}) }}" class="badge rounded-pill badge-soft-warning font-size-11 task-status">Edit</a>
-                                                                    </div>
-                                                                    <div>
-                                                                        <a href="{{ path('app_delete_membre', {'id': team.id}) }}" class="badge rounded-pill badge-soft-warning font-size-11 task-status">Delete</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end col -->
-                                                        </div><!-- end row -->
-                                                    </div><!-- end col -->
-                                                </div><!-- end row -->
-                                            </div><!-- end cardbody -->
-                                        </div><!-- end card -->
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div><!-- end col -->
-                        </div><!-- end row -->
-                    </div><!-- end tab pane -->
+                    {{ include('membre/index.html.twig', {'membres': membres, 'form': form,'ID':association.id}) }}     
                 </div>
             </div>
             
             <div class="card project" id="projects-card">
                 <div class="tab-content p-4">
-                    <div class="tab-pane active show" id="projects-tab" role="tabpanel">
-                        <div class="">
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <h5 class="mb-3">Projects</h5>
-                                </div>
-                                <div class="col text-end">
-                                    <button class="custom-btn" data-bs-toggle="modal" data-bs-target="#newModal2">+ New Project </button>
-                                    <div class="modal fade" id="newModal2" tabindex="-1" aria-labelledby="newModalLabel2" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="newModalLabel2">New Project</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal2" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
-                                                        <div class="w-full">
-                                                           
-                                                            {{ form_start(form2, {'attr': {'class': 'form'}}) }}
-                                                           
-                                                            {{ form_row(form2.nomProjet, {'label': 'Nom:', 'attr': {'class': 'form-control'}}) }}
-                                                            {% if form_errors(form2.nomProjet) %}
-                                                                <div class="text-danger">
-                                                                    {{ form_errors(form2.nomProjet) }}
-                                                                </div>
-                                                            {% endif %}
-                                                            {{ form_row(form2.status, {'label': 'Status:', 'attr': {'class': 'form-control'}}) }}
-                                                            {% if form_errors(form2.status) %}
-                                                                <div class="text-danger">
-                                                                    {{ form_errors(form2.status) }}
-                                                                </div>
-                                                            {% endif %}
-                                                           
-                                                       
-                                                            {{ form_row(form2.dateDebut, {'label': 'Date  de Debut:', 'attr': {'class': 'form-control'}}) }}
-                                                            {% if form_errors(form2.dateDebut) %}
-                                                                <div class="text-danger">
-                                                                    {{ form_errors(form2.dateDebut) }}
-                                                                </div>
-                                                            {% endif %}
-                                                            {{ form_row(form2.dateFin, {'label': 'Date de Fin:', 'attr': {'class': 'form-control'}}) }}
-                                                            {% if form_errors(form2.dateFin) %}
-                                                                <div class="text-danger">
-                                                                    {{ form_errors(form2.dateFin) }}
-                                                                </div>
-                                                            {% endif %}
-                                                            {{ form_row(form2.description, {'label': 'Description:', 'attr': {'class': 'form-control'}}) }}
-                                                            {% if form_errors(form2.description) %}
-                                                                <div class="text-danger">
-                                                                    {{ form_errors(form2.description) }}
-                                                                </div>
-                                                            {% endif %}
-                                                       
-                                                            
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                 
-
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal2">Annuler</button>
-                                                    <button type="submit" class="btn btn-success" data-bs-dismiss="modal2">Add</button>
-                                                </div>
-                                                {% for flash_message in app.flashes('error') %}
-                                                <div class="alert alert-danger">{{ flash_message }}</div>
-                                            {% endfor %}
-                                            </div>
-                                        </div>
-                                    
-                                </div>
-            
-                            </div>
-                        </div>
-            
-                        <div class="row" id="all-projects">
-                            {% for projet in projets %}
-                            <div class="col-md-6" id="project-items-2">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex mb-3">
-                                            <div class="flex-grow-1 align-items-start">
-                                                <div>
-                                                    <h6 class="mb-0 text-muted">
-                                                        <i class="mdi mdi-circle-medium text-success fs-3 align-middle"></i>
-                                                        <span class="team-date">{{ projet.dateDebut|date('Y-m-d') }}</span>
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                            <div class="dropdown ms-2">
-                                                <a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="mdi mdi-dots-horizontal"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end"> 
-                                                    <a class="dropdown-item" href="{{ path('app_details_projet', {'id': projet.id}) }}">Detail</a>
-                                                    <a class="dropdown-item" href="{{ path('app_delete_projet', {'id': projet.id}) }}"" data-bs-toggle="modal" data-bs-target=".bs-example-new-project" >Edit</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item delete-item" href="{{ path('app_delete_projet', {'id': projet.id}) }}" data-id="{{ projet.id }}">Delete</a>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-            
-                                        <div class="mb-4">
-                                            <h5 class="mb-1 font-size-17 team-title">{{projet.nomProjet}}</h5>
-                                            <p class="text-muted mb-0 team-description">{{projet.description}}</p>
-                                        </div>
-                                        <div class="d-flex">
-                                            <div class="avatar-group float-start flex-grow-1 task-assigne">
-                                              
-                                            </div><!-- end avatar group -->
-                                            <div class="align-self-end">
-                                                <span class="badge badge-soft-success p-2 team-status">{{projet.status}}</span>
-                                            </div>
-                                        </div>
-                                    </div><!-- end cad-body -->
-                                </div><!-- end card -->
-                            </div><!-- end col -->
-                            {% endfor %}
-                        </div><!-- end row -->
-                    </div><!-- end tab pane -->     
+                    {{ include('projet/index.html.twig', {'projets': projets, 'form': form2 ,'ID':association.id}) }}     
                 </div>
             </div>
         </div>
@@ -478,16 +246,6 @@
     </div>
  </div>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     {% endblock %}
 
     {{ include('home/footer.html.twig') }}

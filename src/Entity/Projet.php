@@ -32,6 +32,8 @@ class Projet
     #[ORM\ManyToOne(inversedBy: 'projets')]
     private Association $association ;
 
+    
+   
     public function getId(): ?int
     {
         return $this->id;
