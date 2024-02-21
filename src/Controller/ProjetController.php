@@ -80,5 +80,12 @@ public function edit(Request $request, EntityManagerInterface $entityManager, Pr
         $em->flush();
         return $this->redirectToRoute('app_home');  // Modifié pour utiliser le nom de la route correct
     }
+
+    #[Route('/projets', name: 'app_show_projet')]
+    public function show(projetRepository $projetRepo): Response
+    {
+        $projets = $projetRepo->findAll();
+        return $this->render('admin/projets.html.twig', ['projets' => $projets]);
+    }
 }
 

@@ -32,93 +32,100 @@
     {% endblock %}
   </head>
   <body>
-    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
-      <div class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
-          <div class="flex flex-col overflow-y-auto md:flex-row">
-              <div class="h-32 md:h-auto md:w-1/2">
-                  <img aria-hidden="true" class="object-cover w-full h-full dark:hidden"
-                      src="{{ asset('assets/front/images/volontInscrir.png') }}" alt="Logo" />
-              </div>
-              <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
-                  <div class="w-full">
-                      {% if app.flashes('success') %}
-                          <div class="alert alert-success">
-                              {{ app.flashes('success')[0] }}
-                          </div>
-                      {% endif %}
-                      <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Create account</h1>
-                      {{ form_start(form, {'attr': {'class': 'form'}}) }}
+    <section class="volunteer-section ">
+        <div class="container">
+            <div class="row justify-content-center"> <!-- Ajout de la classe justify-content-center pour centrer le contenu horizontalement -->
+                <div class="col-lg-6">
+                    <form class="custom-form volunteer-form "  >
+                        <h2 class="text-center mb-4">Create account</h2>
+                        <div class="row">
+                            {% if app.flashes('success') %}
+                            <div class="alert alert-success">
+                                {{ app.flashes('success')[0] }}
+                            </div>
+                           {% endif %}
+                            {{ form_start(form, {'attr': {'class': 'custom-form volunteer-form ', 'novalidate': 'novalidate'}}) }}
+                            <div class="col-lg-6 col-12">
+                            {{ form_row(form.email, {'label': 'Email:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.email) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.email) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">
 
-                      {{ form_row(form.email, {'label': 'email:', 'attr': {'class': 'form-control'}}) }}
-                      {% if form_errors(form.email) %}
-                          <div class="text-danger">
-                              {{ form_errors(form.email) }}
-                          </div>
-                      {% endif %}
-                      {{ form_row(form.password, {'label': 'password:', 'attr': {'class': 'form-control'}}) }}
-                      {% if form_errors(form.password) %}
-                          <div class="text-danger">
-                              {{ form_errors(form.password) }}
-                          </div>
-                      {% endif %}
-                      {{ form_row(form.document, {'label': 'document:', 'attr': {'class': 'form-control'}}) }}
-                      {% if form_errors(form.document) %}
-                          <div class="text-danger">
-                              {{ form_errors(form.document) }}
-                          </div>
-                      {% endif %}
-                     
-                      {{ form_row(form.nom, {'label': 'Nom:', 'attr': {'class': 'form-control'}}) }}
-                      {% if form_errors(form.nom) %}
-                          <div class="text-danger">
-                              {{ form_errors(form.nom) }}
-                          </div>
-                      {% endif %}
-                      {{ form_row(form.adresse, {'label': 'Adresse:', 'attr': {'class': 'form-control'}}) }}
-                      {% if form_errors(form.adresse) %}
-                          <div class="text-danger">
-                              {{ form_errors(form.adresse) }}
-                          </div>
-                      {% endif %}
-                      {{ form_row(form.description, {'label': 'Description:', 'attr': {'class': 'form-control'}}) }}
-                      {% if form_errors(form.description) %}
-                          <div class="text-danger">
-                              {{ form_errors(form.description) }}
-                          </div>
-                      {% endif %}
-                      {{ form_row(form.telephone, {'label': 'Telephone:', 'attr': {'class': 'form-control'}}) }}
-                      {% if form_errors(form.telephone) %}
-                          <div class="text-danger">
-                              {{ form_errors(form.telephone) }}
-                          </div>
-                      {% endif %}
-                      {{ form_row(form.domaineActivite, {'label': 'Domaine:', 'attr': {'class': 'form-control'}}) }}
-                      {% if form_errors(form.domaineActivite) %}
-                          <div class="text-danger">
-                              {{ form_errors(form.domaineActivite) }}
-                          </div>
-                      {% endif %}
-                     
-                      <div class="row mb-3">
-                        <div class="col-md-6">
-                            
-                              <a class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
-                      href="#"><button type="submit" >
-                        Create Account</button>
-                    </a>
-                        </div>
+                            {{ form_row(form.password, {'label': 'Password:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.password) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.password) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">
+                            {{ form_row(form.document, {'label': 'Document:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.document) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.document) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                           <div class="col-lg-6 col-12">
+                            {{ form_row(form.nom, {'label': 'Name:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.nom) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.nom) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">
+                            {{ form_row(form.adresse, {'label': 'Adress:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.adresse) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.adresse) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">        
+                            {{ form_row(form.telephone, {'label': 'Phone:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.telephone) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.telephone) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                           <div class="col-lg-6 col-12">
+                            {{ form_row(form.domaineActivite, {'label': 'Domaine:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.domaineActivite) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.domaineActivite) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                {{ form_row(form.description, {'label': 'Description:', 'attr': {'class': 'form-control'}}) }}
+                                {% if form_errors(form.description) %}
+                                    <div class="text-danger">
+                                        {{ form_errors(form.description) }}
+                                    </div>
+                                {% endif %}
+                                </div>
+                            <div class="col-lg-6 col-12">
+                            {{ form_row(form.image, {'label': 'Picture:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.image) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.image) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <button type="submit" class="form-control">Submit</button>
+                        </form>
                     </div>
-              
-                      <hr class="my-8" />
-                      <p class="mt-4">
-                          <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                              href="./login.html">Already have an account? Login</a>
-                      </p>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
   
   </body>
 </html>

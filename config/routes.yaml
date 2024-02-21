@@ -33,6 +33,14 @@ associations:
     path: /associations
     controller: App\Controller\AdminController::associations
 
+projets:
+    path: /projets
+    controller: App\Controller\AdminController::projets
+
+membres:
+    path: /membres
+    controller: App\Controller\AdminController::membres
+
 demandes:
     path: /demandes
     controller: App\Controller\AdminController::demandes

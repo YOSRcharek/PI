@@ -79,4 +79,10 @@ public function edit(Request $request, EntityManagerInterface $entityManager, Me
         $em->flush();
         return $this->redirectToRoute('app_home');  // Modifié pour utiliser le nom de la route correct
     }
+    #[Route('/membres', name: 'app_show_membre')]
+    public function show(membreRepository $membreRepo): Response
+    {
+        $membres = $membreRepo->findAll();
+        return $this->render('admin/membres.html.twig', ['membres' => $membres]);
+    }
 }

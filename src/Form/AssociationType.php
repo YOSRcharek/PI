@@ -89,8 +89,16 @@ class AssociationType extends AbstractType
                 'mapped' => false,
             ])
             ->add('document', FileType::class, [
-                'label' => 'Document'
-            ])
+                    'label' => 'Document:',
+                    'required' => true,
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                    ],
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                ])
+
             ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe:',
                 'constraints' => [
@@ -110,7 +118,13 @@ class AssociationType extends AbstractType
 
             ->add('image', FileType::class, [
                 'label' => 'Image',
-                
+                'required' => true,
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                    ],
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
             ]);
         ;
     }

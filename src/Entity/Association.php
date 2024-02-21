@@ -38,7 +38,7 @@ class Association
     private ?bool $status = null;
 
     #[ORM\Column(type: Types::BLOB)]
-    private $document ;
+    private $document;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateDemande = null;
