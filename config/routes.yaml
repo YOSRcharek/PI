@@ -61,3 +61,7 @@ forgetPass:
 login:
     path: /login
     controller: App\Controller\AdminController::login
+
+users:
+    path: /users
+    controller: App\Controller\UserController::userList
