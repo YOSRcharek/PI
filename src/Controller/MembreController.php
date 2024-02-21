@@ -39,24 +39,27 @@ public function create(EntityManagerInterface $entityManager, Request $request):
 }
 
 #[Route('/editMembre/{id}', name: 'app_edit_membre')]
-public function edit(Request $request, EntityManagerInterface $entityManager, MembreRepository $membreRepo, int $id): Response
+public function edit(Request $request, EntityManagerInterface $entityManager, MembreRepository $MembreRepo, int $id): Response
 {
-    $membre = $membreRepo->find($id);
+    $Membre = $MembreRepo->find($id);
 
-    if (!$membre) {
-        throw $this->createNotFoundException('membre not found');
+    if (!$Membre) {
+        throw $this->createNotFoundException('Membre not found');
     }
 
-    $form = $this->createForm(membreType::class, $membre);
+    $form = $this->createForm(MembreType::class, $Membre);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_membre');
+        return $this->redirectToRoute('app_home');
     }
 
-    return $this->render('membre/edit.html.twig', ['form' => $form->createView()]);
+    return $this->render('Membre/edit.html.twig', [
+        'form' => $form->createView(),
+        'membre' => $Membre
+    ]);
 }
     #[Route('detailMembre/{id}', name: 'app_details_membre')]
     public function showDetails(MembreRepository $membreRepo, $id): Response

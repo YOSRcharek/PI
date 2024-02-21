@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="editMemberPopUP">
+    <div class="editPopupMember" id="popupEditMember">
+        <div class="col-lg-6 col-12">
+            <form class="custom-form volunteer-form mb-5 mb-lg-0" action="{{ path('app_edit_membre', {'id': membre.id}) }}" method="post" role="form">
+                <h2 class="mb-4">Edit Member</h2>
+                <div class="row">
+                    {{ form_start(form, {'attr': {'class': 'custom-form volunteer-form mb-5 mb-lg-0'}}) }}
+    
+                                    <div class="col-lg-6 col-12">
+                                        {{ form_row(form.nomMembre, {'label': 'First Name:', 'attr': {'class': 'form-control', 'placeholder': 'First Name', 'required': 'required'}}) }}
+                                        {% if form_errors(form.nomMembre) %}
+                                            <div class="text-danger">
+                                                {{ form_errors(form.nomMembre) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        {{ form_row(form.prenomMembre, {'label': 'Last Name:', 'attr': {'class': 'form-control', 'placeholder': 'Last Name', 'required': 'required'}}) }}
+                                        {% if form_errors(form.prenomMembre) %}
+                                            <div class="text-danger">
+                                                {{ form_errors(form.prenomMembre) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                        {{ form_row(form.emailMembre, {'label': 'Email:', 'attr': {'class': 'form-control', 'placeholder': 'Nom@gmail.com', 'required': 'required', 'pattern': '[^ @]*@[^ @]*'}}) }}
+                                        {% if form_errors(form.emailMembre) %}
+                                            <div class="text-danger">
+                                                {{ form_errors(form.emailMembre) }}
+                                            </div>
+                                        {% endif %}
+                                   
+                                    <div class="col-lg-6 col-12">
+                                        {{ form_row(form.telephone, {'label': 'Telephone:', 'attr': {'class': 'form-control', 'placeholder': '+216', 'required': 'required'}}) }}
+                                        {% if form_errors(form.telephone) %}
+                                            <div class="text-danger">
+                                                {{ form_errors(form.telephone) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                    
+                                        {{ form_row(form.fonction, {'label': 'Function:', 'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                                        {% if form_errors(form.fonction) %}
+                                            <div class="text-danger">
+                                                {{ form_errors(form.fonction) }}
+                                            </div>
+                                        {% endif %}
+                                    
+
+                </div>
+                <button type="submit" class="form-control">Edit Member</button>
+                {{ form_end(form) }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

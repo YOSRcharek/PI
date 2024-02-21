@@ -110,8 +110,6 @@ class AssociationType extends AbstractType
 
             ->add('image', FileType::class, [
                 'label' => 'Image',
-                'required' => false, 
-                 'mapped' => false,
                 
             ]);
         ;

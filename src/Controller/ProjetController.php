@@ -25,7 +25,7 @@ class ProjetController extends AbstractController
 public function create(EntityManagerInterface $entityManager, Request $request): Response
 {
     $projet = new projet();
-    $form = $this->createForm(projetType::class, $projet);
+    $form = $this->createForm(ProjetType::class, $projet);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
@@ -37,31 +37,35 @@ public function create(EntityManagerInterface $entityManager, Request $request):
 
     return $this->render('projet/create.html.twig', ['form' => $form->createView()]);
 }
-
 #[Route('/editProjet/{id}', name: 'app_edit_projet')]
-public function edit(Request $request, EntityManagerInterface $entityManager, projetRepository $projetRepo, int $id): Response
+public function edit(Request $request, EntityManagerInterface $entityManager, ProjetRepository $projetRepo, int $id): Response
 {
     $projet = $projetRepo->find($id);
 
     if (!$projet) {
-        throw $this->createNotFoundException('projet not found');
+        throw $this->createNotFoundException('Projet not found');
     }
 
-    $form = $this->createForm(projetType::class, $projet);
+    $form = $this->createForm(ProjetType::class, $projet);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_projet');
+        return $this->redirectToRoute('app_home');
     }
 
-    return $this->render('projet/edit.html.twig', ['form' => $form->createView()]);
+    return $this->render('projet/edit.html.twig', [
+        'form' => $form->createView(),
+        'projet' => $projet
+    ]);
 }
+
+
     #[Route('detailProjet/{id}', name: 'app_details_projet')]
     public function showDetails(projetRepository $projetRepo, $id): Response
     {
-        return $this->render('projet/details.html.twig', [
+        return $this->render('projet/index.html.twig', [
             'projet' => $projetRepo->find($id),
         ]);
     }

@@ -65,11 +65,7 @@ class MembreType extends AbstractType
                 ],
             ])
             ->add('fonction')
-            ->add('association', EntityType::class, [
-                            'class' => Association::class,
-                            'choice_label' => 'id', // Remplacez 'id' par la propriété que vous souhaitez afficher
-                            // Autres options de formulaire
-                        ]);
+           ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

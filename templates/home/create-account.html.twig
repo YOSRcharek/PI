@@ -98,7 +98,12 @@
                               {{ form_errors(form.domaineActivite) }}
                           </div>
                       {% endif %}
-                     
+                      {{ form_row(form.image, {'label': 'Image:', 'attr': {'class': 'form-control'}}) }}
+                      {% if form_errors(form.image) %}
+                          <div class="text-danger">
+                              {{ form_errors(form.image) }}
+                          </div>
+                      {% endif %}
                       <div class="row mb-3">
                         <div class="col-md-6">
                             

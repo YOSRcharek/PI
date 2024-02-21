@@ -1,6 +1,10 @@
 
     <style>
-     
+        #teamFullName h5 {
+            display: inline;
+            margin-right: 7px; 
+        }
+        
       .openBtn {
         display: flex;
         justify-content: left;
@@ -73,7 +77,14 @@
       .formContainer .cancel {
         background-color: #cc0000;
       }
-   
+      .DetailPopupMembre {
+        display: none;
+        position: fixed;
+        left: 50%; /* Position horizontale au centre */
+        top: 50%; /* Position verticale au centre */
+         z-index: 9;
+         transform: translate(-40%, -30%); 
+      }
     </style>
   <body>
     <div class="overlay" id="overlay"></div>
@@ -88,7 +99,22 @@
             document.getElementById("popupForm").style.display = "none";
             document.getElementById("overlay").style.display = "none"; // Masquer l'overlay
           }
-    
+          function openDetailMembre(nomMember, prenomMember,fonction) {
+            // Mettre à jour le contenu de la popup avec les détails du projet
+            document.getElementById("teamFirstName").innerText = nomMember;
+            document.getElementById("teamLastName").innerText = prenomMember;
+            document.getElementById("function").innerText = fonction;
+            // Afficher la popup
+            document.getElementById("popupDetailMembre").style.display = "block";
+            document.getElementById("overlay").style.display = "block"; // Afficher l'overlayMember
+        
+        }
+        
+        function closeDetailMembre() {
+            // Cacher la popup
+            document.getElementById("popupDetailMembre").style.display = "none";
+            document.getElementById("overlay").style.display = "none"; // Masquer l'overlayMember   
+        }
     </script>
   
     <div class="tab-pane active show" id="tasks-tab" role="tabpanel">
@@ -108,51 +134,50 @@
 
                                 <h2 class="mb-4">New member</h2>
                                 <div class="row">
-                                  {{ form_start(form, {'attr': {'class': 'custom-form volunteer-form mb-5 mb-lg-0'}}) }}
+                                  {# Afficher les erreurs globales du formulaire #}
+{{ form_errors(form) }}
+
+<div class="row">
+   {{ form_start(form, {'attr': {'class': 'custom-form volunteer-form mb-5 mb-lg-0', 'novalidate': 'novalidate'}}) }}
+
+    <div class="col-lg-6 col-12">
+        {{ form_row(form.nomMembre, {'label': 'Nom:', 'attr': {'class': 'form-control', 'placeholder': 'Nom', 'required': 'required'}}) }}
+        {# Afficher les erreurs spécifiques au champ nomMembre #}
+        {{ form_errors(form.nomMembre) }}
+    </div>
     
-                                    <div class="col-lg-6 col-12">
-                                        {{ form_row(form.nomMembre, {'label': 'First Name:', 'attr': {'class': 'form-control', 'placeholder': 'First Name', 'required': 'required'}}) }}
-                                        {% if form_errors(form.nomMembre) %}
-                                            <div class="text-danger">
-                                                {{ form_errors(form.nomMembre) }}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        {{ form_row(form.prenomMembre, {'label': 'Last Name:', 'attr': {'class': 'form-control', 'placeholder': 'Last Name', 'required': 'required'}}) }}
-                                        {% if form_errors(form.prenomMembre) %}
-                                            <div class="text-danger">
-                                                {{ form_errors(form.prenomMembre) }}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                        {{ form_row(form.emailMembre, {'label': 'Email:', 'attr': {'class': 'form-control', 'placeholder': 'Nom@gmail.com', 'required': 'required', 'pattern': '[^ @]*@[^ @]*'}}) }}
-                                        {% if form_errors(form.emailMembre) %}
-                                            <div class="text-danger">
-                                                {{ form_errors(form.emailMembre) }}
-                                            </div>
-                                        {% endif %}
-                                   
-                                    <div class="col-lg-6 col-12">
-                                        {{ form_row(form.telephone, {'label': 'Telephone:', 'attr': {'class': 'form-control', 'placeholder': '+216', 'required': 'required'}}) }}
-                                        {% if form_errors(form.telephone) %}
-                                            <div class="text-danger">
-                                                {{ form_errors(form.telephone) }}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                    
-                                        {{ form_row(form.fonction, {'label': 'Function:', 'attr': {'class': 'form-control', 'required': 'required'}}) }}
-                                        {% if form_errors(form.fonction) %}
-                                            <div class="text-danger">
-                                                {{ form_errors(form.fonction) }}
-                                            </div>
-                                        {% endif %}
-                                    
-                                        </div>
+    <div class="col-lg-6 col-12">
+        {{ form_row(form.prenomMembre, {'label': 'Prénom:', 'attr': {'class': 'form-control', 'placeholder': 'Prénom', 'required': 'required'}}) }}
+        {# Afficher les erreurs spécifiques au champ prenomMembre #}
+        {{ form_errors(form.prenomMembre) }}
+    </div>
+    
+    <div class="col-lg-6 col-12">
+        {{ form_row(form.telephone, {'label': 'Téléphone:', 'attr': {'class': 'form-control', 'placeholder': 'Téléphone', 'required': 'required'}}) }}
+        {# Afficher les erreurs spécifiques au champ telephone #}
+        {{ form_errors(form.telephone) }}
+    </div>
+    
+    <div class="col-lg-6 col-12">
+        {{ form_row(form.emailMembre, {'label': 'Email:', 'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'required'}}) }}
+        {# Afficher les erreurs spécifiques au champ emailMembre #}
+        {{ form_errors(form.emailMembre) }}
+    </div>
+    
+    <div class="col-lg-6 col-12">
+        {{ form_row(form.fonction, {'label': 'Fonction:', 'attr': {'class': 'form-control', 'required': 'required'}}) }}
+        {# Afficher les erreurs spécifiques au champ fonction #}
+        {{ form_errors(form.fonction) }}
+    </div>
+    
+</div>
+
+<button type="submit" class="form-control">Add member</button>
+
+{# Fin du formulaire #}
+{{ form_end(form) }}
+
                                 </div>
-                                <button type="submit" class="form-control">Add member</button>
                             </form>
                         </div>
                     </div>
@@ -183,10 +208,10 @@
                                             <div class="col-xl-7 col-md-6 col-sm-7">
                                                 <div class="d-flex flex-wrap gap-3 mt-3 mt-xl-0 justify-content-md-end">
                                                     <div>
-                                                        <a href="{{ path('app_details_membre', {'id': team.id}) }}" class="badge rounded-pill badge-soft-warning font-size-11 task-status">Detail</a>
+                                                        <a class="badge rounded-pill badge-soft-warning font-size-11 task-status"onclick="openDetailMembre('{{ team.nomMembre }}', '{{ team.prenomMembre }}', '{{ team.fonction }}')" type="button">Detail</a>
                                                     </div>
                                                     <div>
-                                                        <a href="{{ path('app_edit_membre', {'id': team.id}) }}" class="badge rounded-pill badge-soft-warning font-size-11 task-status">Edit</a>
+                                                        <a href="{{ path('app_edit_membre', {'id': team.id}) }}" class="badge rounded-pill badge-soft-warning font-size-11 task-status">Edit</a>                     
                                                     </div>
                                                     <div>
                                                         <a data-bs-toggle="modal" type='button' data-bs-target="#deleteMembreModel{{ team.id }}" aria-label="Delete" class="badge rounded-pill badge-soft-warning font-size-11 task-status">Delete</a>
@@ -210,6 +235,23 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
+                                            <div class="DetailMemberPopUP">
+                                                <div class="DetailPopupMembre" id="popupDetailMembre">
+                                                    <div>
+                                                        <div class="custom-text-box">
+                                                            <button type="button" class="btn-close" onclick="closeDetailMembre()"></button>
+                                                            <h2 class="mb-2">Detail Member</h2>
+                                                            <div class="mb-3" id="teamFullName">
+                                                                <h5  id="teamFirstName"></h5>
+                                                                 <h5 id="teamLastName"></h5>
+                                                            </div>
+                                                            
+                                                            <p class="mb-0" id="function"></p>
+                                                        </div>
+                                                    </div>   
+                                                </div>
+                                            </div>
                                             </div>
                                             <!-- end col -->
                                         </div><!-- end row -->

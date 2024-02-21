@@ -14,18 +14,33 @@ class Membre
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom du membre ne doit pas être vide.")]
+    #[Assert\Length(min:5, minMessage:"le Nom du membre doit faire au moins{{ limit }} caractéres")]
     private ?string $nomMembre = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le prenom du membre ne doit pas être vide.")]
+    #[Assert\Length(min:5, minMessage:"le prenom du membre doit faire au moins{{ limit }} caractéres")]
     private ?string $prenomMembre = null;
 
-    #[ORM\Column]
-    private ?int $telephone = null;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le numéro de téléphone du membre ne doit pas être vide.")]
+    #[Assert\Regex(pattern: '/^\d+$/', message: "Le numéro de téléphone du membre doit contenir uniquement des chiffres.")]
+    #[Assert\Length(
+        min: 8,
+        max: 8,
+        exactMessage: "Le numéro de téléphone du membre doit avoir une longueur de 8 chiffres."
+    )]
+    private ?string $telephone = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "L'email du membre ne doit pas être vide.")]
+    #[Assert\Email(message: "L'email '{{ value }}' n'est pas une adresse email valide.")]
     private ?string $emailMembre = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La fonction du membre ne doit pas être vide.")]
+    #[Assert\Length(min:5, minMessage:"la fonction du membre doit faire au moins{{ limit }} caractéres")]
     private ?string $fonction = null;
 
     #[ORM\ManyToOne(inversedBy: 'membres')]

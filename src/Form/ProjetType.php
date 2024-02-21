@@ -36,11 +36,7 @@ class ProjetType extends AbstractType
 
             ])
             ->add('description')
-            ->add('association', EntityType::class, [
-                            'class' => Association::class,
-                            'choice_label' => 'id', // Remplacez 'id' par la propriété que vous souhaitez afficher
-                            // Autres options de formulaire
-]);
+            ;
 
         ;
     }
