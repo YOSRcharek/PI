@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Service;
+use App\Entity\Categorie;
 use App\Form\ServiceType;
 use App\Repository\ServiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,25 +13,32 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-#[Route('/')]
+#[Route('/Service')]
 class ServiceController extends AbstractController
 {
-    #[Route('/Services', name: 'app_Service_index', methods: ['GET'])]
+    #[Route('front/Services', name: 'app_Service_index', methods: ['GET'])]
     
-    public function index(ServiceRepository $ServiceRepository): Response
+    public function service(ServiceRepository $ServiceRepository): Response
     {
-        return $this->render('Service/index.html.twig', [
+        return $this->render('front/Service/index.html.twig', [
             'Services' => $ServiceRepository->findAll(),
         ]);
     }
 
 
-
+    #[Route('back/Services', name: 'app_Service_back_index', methods: ['GET'])]
+    
+    public function serviceback(ServiceRepository $ServiceRepository): Response
+    {
+        return $this->render('back/Service/index.html.twig', [
+            'Services' => $ServiceRepository->findAll(),
+        ]);
+    }
 
     #[Route('/newService', name: 'app_Service_new', methods: ['GET', 'POST'])]
-    #[ParamConverter("service", class:"App\Entity\Service")]
- public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        
         $Service = new Service();
         $form = $this->createForm(ServiceType::class, $Service);
         $form->handleRequest($request);
@@ -42,17 +50,16 @@ class ServiceController extends AbstractController
             return $this->redirectToRoute('app_Service_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('Service/new.html.twig', [
+        return $this->renderForm('front/Service/new.html.twig', [
             'Service' => $Service,
             'form' => $form,
         ]);
     }
 
     #[Route('/Service/{id}', name: 'app_Service_show', methods: ['GET'])]
-    #[ParamConverter("Service", class:"App\Entity\Service")]
     public function show(Service $Service): Response
     {
-        return $this->render('Service/show.html.twig', [
+        return $this->render('front/Service/show.html.twig', [
             'Service' => $Service,
         ]);
     }
@@ -69,7 +76,7 @@ class ServiceController extends AbstractController
             return $this->redirectToRoute('app_Service_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('Service/edit.html.twig', [
+        return $this->renderForm('/back/Service/edit.html.twig', [
             'Service' => $Service,
             'form' => $form,
         ]);

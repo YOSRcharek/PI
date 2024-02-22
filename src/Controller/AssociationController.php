@@ -18,7 +18,7 @@ class AssociationController extends AbstractController
     
     public function index(): Response
     {
-        return $this->render('association/index.html.twig', [
+        return $this->render('/association/index.html.twig', [
             'controller_name' => 'AssociationController',
         ]);
     }
@@ -80,7 +80,7 @@ public function edit(Request $request, EntityManagerInterface $entityManager, As
     #[Route('detail/{id}', name: 'app_details')]
     public function showDetails(AssociationRepository $AssociationRepo, $id): Response
     {
-        return $this->render('association/details.html.twig', [
+        return $this->render('associociation/details.html.twig', [
             'association' => $AssociationRepo->find($id),
         ]);
     }

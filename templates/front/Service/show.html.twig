@@ -9,26 +9,26 @@
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ service.id }}</td>
+                <td>{{ Service.id }}</td>
             </tr>
             <tr>
                 <th>NomService</th>
-                <td>{{ service.nomService }}</td>
+                <td>{{ Service.nomService }}</td>
             </tr>
             <tr>
                 <th>Description</th>
-                <td>{{ service.description }}</td>
+                <td>{{ Service.description }}</td>
             </tr>
             <tr>
                 <th>Disponibilite</th>
-                <td>{{ service.disponibilite ? 'Yes' : 'No' }}</td>
+                <td>{{ Service.disponibilite ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_service_index') }}">back to list</a>
+    <a href="{{ path('app_Service_index') }}">back to list</a>
 
-    <a href="{{ path('app_service_edit', {'id': service.id}) }}">edit</a>
+    <a href="{{ path('app_Service_edit', {'id': Service.id}) }}">edit</a>
 
-    {{ include('service/_delete_form.html.twig') }}
+    {{ include('front/Service/_delete_form.html.twig') }}
 {% endblock %}

@@ -12,7 +12,7 @@ class AdminController extends AbstractController
     public function index(): Response
     {
    
-        return $this->render('baseAdmin.html.twig');
+        return $this->render('base.back.html.twig');
     }
     
     public function buttons(): Response
@@ -41,7 +41,7 @@ class AdminController extends AbstractController
     }
     public function demandes(): Response
     {
-        return $this->render('/admin/demandes.html.twig');
+        return $this->render('/demandes.html.twig');
     }
     public function erreur(): Response
     {

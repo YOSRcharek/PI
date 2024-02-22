@@ -15,13 +15,23 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 #[Route('/')]
 class CategorieController extends AbstractController
 {
-    #[Route('/', name: 'app_categorie_index', methods: ['GET'])]
-    public function index(CategorieRepository $categorieRepository): Response
+    #[Route('front/cat', name: 'app_categorie_index', methods: ['GET'])]
+    public function categoriefront(CategorieRepository $categorieRepository): Response
     {
-        return $this->render('categorie/index.html.twig', [
+        return $this->render('front/categorie/index.html.twig', [
             'categories' => $categorieRepository->findAll(),
         ]);
     }
+    
+    
+    #[Route('back/cat', name: 'app_categorie_back_index', methods: ['GET'])]
+    public function categorieback(CategorieRepository $categorieRepository): Response
+    {
+        return $this->render('back/categorie/index.html.twig', [
+            'categories' => $categorieRepository->findAll(),
+        ]);
+    }
+
 
     #[Route('/new', name: 'app_categorie_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -37,7 +47,7 @@ class CategorieController extends AbstractController
             return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('categorie/new.html.twig', [
+        return $this->renderForm('front/categorie/new.html.twig', [
             'categorie' => $categorie,
             'form' => $form,
         ]);
@@ -46,7 +56,7 @@ class CategorieController extends AbstractController
     #[Route('/{id}', name: 'app_categorie_show', methods: ['GET'])]
     public function show(Categorie $categorie): Response
     {
-        return $this->render('categorie/show.html.twig', [
+        return $this->render('/front/categorie/show.html.twig', [
             'categorie' => $categorie,
         ]);
     }
@@ -63,7 +73,7 @@ class CategorieController extends AbstractController
             return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('categorie/edit.html.twig', [
+        return $this->renderForm('front/categorie/edit.html.twig', [
             'categorie' => $categorie,
             'form' => $form,
         ]);

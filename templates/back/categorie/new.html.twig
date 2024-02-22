@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.back.html.twig' %}
 
 {% block title %}New Categorie{% endblock %}
 
@@ -7,5 +7,5 @@
 
     {{ include('categorie/_form.html.twig') }}
 
-    <a href="{{ path('app_categorie_index') }}">back to list</a>
+    <a href="{{ path('app_categorie_back_index') }}">back to list</a>
 {% endblock %}

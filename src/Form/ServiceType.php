@@ -3,9 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Service;
+use App\Entity\Categorie;
+use App\Entity\Commentaire;
+use App\Entity\Association;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ServiceType extends AbstractType
 {
@@ -15,10 +19,22 @@ class ServiceType extends AbstractType
             ->add('nomService')
             ->add('description')
             ->add('disponibilite')
-            //->add('Categorie')
-            ->add('Commentaire')
-           // ->add('association')
-            //->add('volontaires')
+           
+            ->add('Categorie',EntityType::class , [
+                'class' => 'App\Entity\Categorie',
+                'choice_label' => 'nomCategorie'
+            
+            ])
+            ->add('Commentaire',EntityType::class , [
+                'class' => 'App\Entity\Commentaire',
+                'choice_label' => 'message'
+             
+            ])
+            ->add('association',EntityType::class , [
+                'class' => 'App\Entity\Association',
+                'choice_label' => 'nom'
+                
+            ])
         ;
     }
 

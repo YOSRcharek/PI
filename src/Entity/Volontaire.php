@@ -34,10 +34,10 @@ class Volontaire extends User
     #[ORM\Column(length: 255)]
     private ?string $fonction = null;
 
-    #[ORM\ManyToMany(targetEntity: event::class, inversedBy: 'volontaires')]
+    #[ORM\ManyToMany(targetEntity: Event::class, inversedBy: 'volontaires')]
     private Collection $event;
 
-    #[ORM\ManyToMany(targetEntity: service::class, inversedBy: 'volontaires')]
+    #[ORM\ManyToMany(targetEntity: Service::class, inversedBy: 'volontaires')]
     private Collection $condidature;
 
     #[ORM\ManyToMany(targetEntity: Dons::class, mappedBy: 'volontaire')]
