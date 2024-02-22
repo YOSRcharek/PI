@@ -31,7 +31,7 @@ class Service
     private ?Commentaire $Commentaire = null;
 
     #[ORM\ManyToOne(inversedBy: 'services')]
-    private ?association $association = null;
+    private ?Association $association = null;
 
     #[ORM\ManyToMany(targetEntity: Volontaire::class, mappedBy: 'condidature')]
     private Collection $volontaires;

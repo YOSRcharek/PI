@@ -1,0 +1,49 @@
+{% extends 'baseAdmin.html.twig' %}
+
+
+
+
+{% block title %}Liste des Dons{% endblock %}
+
+{% block body %}
+<div class="text-center">
+    
+     <h2
+              class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+            >
+              Liste des dons
+            </h2>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Montant</th>
+                <th scope="col">Date de mise</th>
+                <th scope="col">Type</th>
+                <th scope="col">Association</th>
+                <th scope="col">Actions</th> {# Ajout de la colonne pour les actions #}
+            </tr>
+        </thead>
+        <tbody>
+            {% for don in Dons %}
+                <tr>
+                    <th scope="row">{{ don.id }}</th>
+                    <td>{{ don.montant }}</td>
+                    <td>{{ don.dateMisDon|date('d-m-Y') }}</td>
+                    <td>{{ don.type is not null ? don.type.nom : '' }}</td>
+                    <td>{{ don.association is not null ? don.association.nom : '' }}</td> 
+                    <td>
+                        <a href="{{ path('dons_modifier_admin', {'id': don.id}) }}" class="btn btn-secondary">Modifier</a>
+                        <a href="{{ path('dons_delete_admin', {'id': don.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce don ?')">Supprimer</a>
+                    </td> {# Ajout du bouton Modifier avec le lien vers la page de modification #}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <a href="{{ path('dons_add_admin') }}" class="btn btn-primary">Ajouter un don</a>
+    <br>
+    <br>
+</div>
+{% endblock %}

@@ -44,7 +44,7 @@ class Event
     private Collection $volontaires;
 
     #[ORM\ManyToOne(inversedBy: 'events')]
-    private ?association $association = null;
+    private ?Association $association = null;
 
     public function __construct()
     {

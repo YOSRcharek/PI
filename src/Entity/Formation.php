@@ -27,7 +27,7 @@ class Formation
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\ManyToOne(inversedBy: 'formations')]
-    private ?association $association = null;
+    private ?Association $association = null;
 
     #[ORM\ManyToOne(inversedBy: 'formations')]
     private ?TypeFormation $type = null;

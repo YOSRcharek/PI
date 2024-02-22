@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un don{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="mt-4 mb-4 text-center">Ajouter un don</h1>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }} 
+                    <div class="form-group row mb-4">
+                        <label for="montant" class="col-md-4 col-form-label text-md-right">Montant du don:</label>
+                        <div class="col-md-6">
+                            {{ form_row(form.montant, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                        <label for="dateMisDon" class="col-md-4 col-form-label text-md-right">Date du don:</label>
+                        <div class="col-md-6">
+                            {{ form_row(form.dateMisDon, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                        <label for="type" class="col-md-4 col-form-label text-md-right">Type de don:</label>
+                        <div class="col-md-6">
+                            {{ form_row(form.type, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                        <label for="association" class="col-md-4 col-form-label text-md-right">Association:</label>
+                        <div class="col-md-6">
+                            {{ form_row(form.association, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6 offset-md-4">
+                            <button type="submit" class="btn btn-primary">Ajouter</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

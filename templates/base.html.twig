@@ -11,6 +11,7 @@
     <link href="{{ asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/front/css/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/front/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
+    
     {% endblock %}
 
     {% block javascripts %}
@@ -20,10 +21,39 @@
     <script src="{{ asset('assets/front/js/custom.js') }}"></script>
     <script src="{{ asset('assets/front/js/counter.js') }}"></script>
     <script src="{{ asset('assets/front/js/click-scroll.js') }}"></script>
+    <script>
+        
+        function hideFlashMessages() {
+            const flashMessages = document.querySelectorAll('.alert');
+            flashMessages.forEach(message => {
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 5000); 
+            });
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            hideFlashMessages();
+        });
+    </script>
     {% endblock %}
 </head>
 <body>
     {{ include('home/header.html.twig') }}
+     {# Afficher les messages flash de succès #}
+        {% for flash_message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+
+        {# Afficher les messages flash d'erreur #}
+        {% for flash_message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
     {% block body %}
     {{ include('home/index.html.twig') }}
     {% endblock %}

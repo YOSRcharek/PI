@@ -14,6 +14,43 @@ class AdminController extends AbstractController
    
         return $this->render('baseAdmin.html.twig');
     }
+    #[Route('/typedonsadmin', name: 'typedons')]
+    public function typedons(): Response
+    {
+   
+        return $this->render('/admin/typedons.html.twig');
+    }
+    #[Route('/addadmin', name: 'type_dons_add_admin')]
+    public function typedonsadd(): Response
+    {
+   
+        return $this->render('/admin/addadmin.html.twig');
+    }
+    #[Route('/modifieradmin/{id}', name: 'type_dons_modifier_admin')]
+    public function typedonsmodifier(): Response
+    {
+   
+        return $this->render('/admin/modifieadmin.html.twig');
+    }
+    #[Route('/donsadmin', name: 'app_dons_admin')]
+    public function dons(): Response
+    {
+   
+        return $this->render('/admin/dons.html.twig');
+    }
+    #[Route('/donateadmin', name: 'dons_add_admin')]
+    public function donsadd(): Response
+    {
+   
+        return $this->render('/admin/adddonsadmin.html.twig');
+    }
+    #[Route('/modifierDonsAdmin/{id}', name: 'dons_modifier_admin')]
+    public function modifierdonsadmin(): Response
+    {
+   
+        return $this->render('/admin/modifierdonsadmin.html.twig');
+    }
+   
     #[Route('/buttons', name: 'buttons')]
     public function buttons(): Response
     {
@@ -44,11 +81,7 @@ class AdminController extends AbstractController
     {
         return $this->render('/admin/associations.html.twig');
     }
-    #[Route('/typedons', name: 'typedons')]
-    public function typedons(): Response
-    {
-        return $this->render('/admin/typedons.html.twig');
-    }
+   
     #[Route('/demandes', name: 'demandes')]
     public function demandes(): Response
     {

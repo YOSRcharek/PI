@@ -1,0 +1,78 @@
+{% extends 'baseAdmin.html.twig' %}
+{% block body %}
+<br> 
+<section class="donate-section">
+    <div class="section-overlay"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10"> <!-- Increased the column width -->
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">Faire un don</h3>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form, {'attr': {'class': 'custom-form donate-form', 'novalidate': 'novalidate'}}) }}
+
+                        {% if form_errors(form) %}
+                        <div >
+                            <ul>
+                                {% for error in form_errors(form) %}
+                                <li>{{ error.message }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="montant" class="form-label">Montant</label>
+                            <div class="input-group">
+                                {{ form_widget(form.montant, {'attr': {'class': 'form-control', 'placeholder': 'Choisir un montant'}}) }}
+                            </div>
+                            {{ form_errors(form.montant) }}
+                        </div>
+
+                        
+
+                        <div class="mb-3">
+                            <label class="form-label d-block">Payment</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault9">
+                                <label class="form-check-label" for="flexRadioDefault9">
+                                    <i class="bi-credit-card custom-icon ms-1"></i>
+                                    Debit or Credit card
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault10">
+                                <label class="form-check-label" for="flexRadioDefault10">
+                                    <i class="bi-paypal custom-icon ms-1"></i>
+                                    Paypal
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Type</label>
+                            <div class="input-group">
+                                {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}
+                                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('type_dons_add_admin') }}'">Ajouter un type</button>
+                            </div>
+                            {{ form_errors(form.type) }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="association" class="form-label">Association</label>
+                            {{ form_widget(form.association, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.association) }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Confirmer le don</button>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
