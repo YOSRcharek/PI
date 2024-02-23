@@ -11,10 +11,14 @@
             </h2>
             <!-- With actions -->
             <h4
-              class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
-            >
-            Les membres
-            </h4>
+            class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
+          >
+          Les membres
+          </h4>
+        </div>
+        <div class="col text-end">
+        <a href={{path('app_create_membre')}}>  <button class="btn btn-primary" >Add membre</button>   </a>
+        </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
               <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">
@@ -24,8 +28,9 @@
                     >
                     <th class="px-4 py-3">Nom</th>
                     <th class="px-4 py-3">Prenom</th>
-                      <th class="px-4 py-3">Status</th>
-                      <th class="px-4 py-3">Email</th>
+                   
+                    <th class="px-4 py-3">Association</th>
+                    <th class="px-4 py-3">Email</th>
                       <th class="px-4 py-3">Telephone</th>
                       <th class="px-4 py-3">Actions</th>
                     </tr>
@@ -43,13 +48,8 @@
                       <td class="px-4 py-3 text-sm">
                         {{ membre.prenomMembre }}
                       </td>
-                      <td class="px-4 py-3 text-xs">
-                        <span
-                          class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700"
-                        >
-
-
-                        </span>
+                      <td class="px-4 py-3 text-sm">
+                        {{ membre.association.nom}}
                       </td>
                       <td class="px-4 py-3 text-sm">
                         {{ membre.emailMembre}}
@@ -79,7 +79,7 @@
                         ></path>
                         </button>
                       </a>
-                      <a href="{{ path('app_edit_membre', {'id': membre.id}) }}" >
+                      <a href="{{ path('app_edit_membreAdmin', {'id': membre.id}) }}" >
                           
                           <button
                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"

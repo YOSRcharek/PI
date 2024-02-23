@@ -82,7 +82,7 @@ class Association
         $this->dons = new ArrayCollection();
         $this->events = new ArrayCollection();
     }
-
+   
     public function getId(): ?int
     {
         return $this->id;

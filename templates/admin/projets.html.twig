@@ -10,11 +10,20 @@
              
             </h2>
             <!-- With actions -->
-            <h4
+           
+
+            <div class="col">
+              <h4
               class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
             Les projets
             </h4>
+          </div>
+          <div class="col text-end">
+          <a href={{path('app_create_projet')}}>  <button class="btn btn-primary" >Add Projet</button>   </a>
+          </div>
+
+
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
               <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">
@@ -23,7 +32,8 @@
                       class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                     >
                     <th class="px-4 py-3">Nom</th>
-                      <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3">Status</th>
+                 
                       <th class="px-4 py-3">Date debut</th>
                       <th class="px-4 py-3">Date Fin</th>
                       <th class="px-4 py-3">Actions</th>
@@ -46,6 +56,7 @@
                         {{ projet.status }}
                         </span>
                       </td>
+                    
                       <td class="px-4 py-3 text-sm">
                         {{ projet.dateDebut|date('Y-m-d') }}
                       </td>
@@ -76,7 +87,7 @@
                         ></path>
                         </button>
                       </a>
-                      <a href="{{ path('app_edit_projet', {'id': projet.id}) }}" >
+                      <a href="{{ path('app_edit_projetAdmin', {'id': projet.id}) }}" >
                           
                           <button
                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"

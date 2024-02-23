@@ -48,7 +48,7 @@
                                                 {{ form_errors(form.fonction) }}
                                             </div>
                                         {% endif %}
-                                    
+                                        {{ form_widget(form.association, {'attr': {'style': 'display: none;'}}) }}
 
                 </div>
                 <button type="submit" class="form-control">Edit Member</button>
