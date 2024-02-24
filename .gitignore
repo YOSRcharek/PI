@@ -7,9 +7,6 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-<<<<<<< HEAD
-=======
->>>>>>> d860af511bcfbc6789a840331b4aa628c72bb63b
 
 ###> phpunit/phpunit ###
 /phpunit.xml
