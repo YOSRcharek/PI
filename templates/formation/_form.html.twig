@@ -1,0 +1,22 @@
+<div class="container text-center mt-8">
+  <div class="row">
+    <div class="d-flex flex-column">
+
+
+
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}}) }} 
+
+
+
+
+    {{ form_widget(form) }}
+
+
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+
+
+
+
+    
+{{ form_end(form) }}

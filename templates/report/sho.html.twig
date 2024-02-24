@@ -1,0 +1,77 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% set base_path = app.request.basepath ~ '/backend/' %}
+
+      {% block body %}
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"></h2>
+            <!-- With actions -->
+            <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300" >
+
+ 
+
+    <section class="section">
+      <div class="container-fluid pt-4 px-4">
+        <div class="bg-light text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Reports</h6>
+                <form class="search-container">
+                    <input class="form-control border-0" type="search" placeholder="Search" id="myInput" >
+                </form>
+            </div>
+
+            <div class="table-responsive">
+            
+                        <table class="table text-start align-middle table-striped table-bordered table-hover mb-0">
+                            <tr>
+                <th>Id</th>
+                <td>{{ report.id }}</td>
+            </tr>
+            <tr>
+                <th>Reporter</th>
+                <td>{{ report.username.getUsername() }}</td>
+            </tr>
+            <tr>
+                <th>Post Title</th>
+                <td>{{ report.reportedPost.getTitle() }}</td>
+            </tr>
+            <tr>
+                <th>Post Content</th>
+                <td>{{ report.reportedPost.getContent() }}</td>
+            </tr>
+            <tr>
+                <th>Reason</th>
+                <td>{{ report.reason }}</td>
+            </tr>
+            <tr>
+                <th>Details</th>
+                <td>{{ report.details }}</td>
+
+            </tr>
+            <tr>
+                <th>Visibility</th>
+                <td><form action="{{ path('app_toggle_visibility', {'id': report.reportedPost.id,'back':'app_dashboard_report'}) }}" method="post">
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <button type="submit" class="btn btn-primary">
+                                        {% if report.reportedPost.visible %}
+                                            <i class="bi bi-eye-fill"></i>
+                                    {% else %}
+                                            <i class="bi bi-eye-slash-fill"></i>         
+                                    {% endif %}</button>
+                                    </form></td>
+            </tr>
+                            </tbody>
+                        </table>
+                
+            </div>
+        </div>
+    </div>
+   
+         
+    </section>
+</body>
+</html>
+  {% endblock %}
+
+ 

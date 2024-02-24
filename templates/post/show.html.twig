@@ -1,0 +1,396 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Post
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="test ">
+		<a href="{{ path('app_post_index') }}" class="btn btn-primary mt-3"></i>
+		Back to list</a>
+</div>
+
+
+<section id="blog" class="blog">
+
+	<div class="container" data-aos="fade-up">
+		<div class="row">
+			<div class="col-lg-12 entries">
+				<article class="entry entry-single">
+					<div class="entry-img">
+						<img src="{{ vich_uploader_asset(post, 'imageFile') }}" alt="Post Image" class="mx-auto">
+					</div>
+
+					<h2 class="entry-title">
+						<a href="">{{post.title}}</a>
+						<style></style>
+						{% for i in 1..post.rating %}
+							<i class="bi bi-star-fill" style="color: #ffe234;"></i>
+						{% endfor %}
+						{% for i in 1..(5-post.rating) %}
+							<i class="bi bi-star"></i>
+						{% endfor %}
+
+						<script>
+							const stars = document.querySelectorAll('.bi-star-fill, .bi-star');
+let rating = 0;
+
+stars.forEach((star, index) => {
+star.addEventListener('click', () => {
+rating = index + 1;
+setRating(rating);
+});
+});
+
+function setRating(rating) {
+stars.forEach((star, index) => {
+if (index < rating) {
+star.classList.remove('bi-star');
+star.classList.add('bi-star-fill');
+star.style.color = '#ffe234';
+} else {
+star.classList.remove('bi-star-fill');
+star.classList.add('bi-star');
+star.style.color = '';
+}
+});
+}
+
+
+function saveRating(rating) {
+const xhr = new XMLHttpRequest();
+const url = 'http://127.0.0.1:8000/post/22'; // replace with your server-side script URL
+const params = 'rating=' + rating;
+
+xhr.open('POST', url, true);
+xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+xhr.onreadystatechange = function () {
+if (xhr.readyState === 4 && xhr.status === 200) {
+console.log(xhr.responseText); // response from the server-side script
+}
+};
+
+xhr.send(params);
+}
+						</script>
+					</h2>
+
+					<div class="entry-meta">
+						<ul>
+							<li class="d-flex align-items-center">
+								<i class="bi bi-person"></i>
+								<a href="blog-single.html">{{post.username}}</a>
+							</li>
+							<li class="d-flex align-items-center">
+								<i class="bi bi-clock"></i>
+								<a href="blog-single.html">
+									<time datetime="2020-01-01">{{ post.createdat ? post.createdat|date('Y-m-d') : '' }}</time>
+								</a>
+							</li>
+							<li class="d-flex align-items-center">
+								<i class="bi bi-chat-dots"></i>
+								<a href="blog-single.html">{{comments|length}}
+									Comments</a>
+							</li>
+							<li class="d-flex align-items-center">
+								<a href="https://www.facebook.com/sharer/sharer.php?u={{ app.request.uri }}&amp;quote=Check+out+this+awesome+post" target="_blank">
+									<i class="bi bi-facebook"></i>
+								</a>
+							</li>
+
+
+							<li class="d-flex align-items-center">
+								<a href="https://www.reddit.com/submit?url={{ app.request.uri }}&title=Check out this awesome Post on www.rentrewards.com" target="_blank">
+									<i class="bi bi-reddit"></i>
+								</a>
+
+							</li>
+							<li class="d-flex align-items-center">
+								<a href="{{ path('app_report_new', {'id': post.id}) }}">
+									<i class="bi bi-flag-fill"></i>
+								</a>report</li>
+
+
+							{% if user %}
+								{% if post.username == user.username %}
+									<li class="d-flex align-items-center">
+										<i class="bi bi-pencil-fill"></i>
+										<a href="{{ path('app_post_edit', {'id': post.id}) }}">edit</a>
+									</li>
+
+									<li class="d-flex align-items-center">
+										<i class="bi bi-trash3-fill"></i>
+										<form method="post" action="{{ path('app_post_delete', {'id': post.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+											<button class="btn">
+												<u>Delete</u>
+											</button>
+
+										</form>
+									</li>
+									<!-- ________________________________________________________________________________________________________________________ -->
+
+
+									<!-- ________________________________________________________________________________________________________________________ -->
+
+								{% endif %}
+							{% endif %}
+						</ul>
+					</div>
+
+
+					<div class="entry-content">
+						<h4>
+							Your quote :
+						</h4>
+						<p>
+							{{post.quote}}
+						</p>
+
+						{% if post.quote is defined %}
+							<blockquote>
+								<p>{{ post.content }}</p>
+							</blockquote>
+						{% endif %}
+						{############################################################################}
+
+						<div class="entry-img mt-4" style="text-align: center;">
+							{% if post.video %}
+
+								<video controls>
+									<source src="{{ vich_uploader_asset(post, 'videoFile') }}" type="video/mp4">
+									Your browser does not support the video tag.
+								</video>
+							{% endif %}
+						</div>
+						{############################################################################}
+
+						<div class="entry-footer">
+							<i class="bi bi-folder"></i>
+							<ul class="cats">
+								<li>
+									<a href="#">Business</a>
+								</li>
+							</ul>
+							<i class="bi bi-tags"></i>
+							<ul class="tags">
+								<li>
+									<a href="#">Creative</a>
+								</li>
+								<li>
+									<a href="#">Tips</a>
+								</li>
+								<li>
+									<a href="#">Marketing</a>
+								</li>
+							</ul>
+						</div>
+					</article>
+					{############################################################################}
+					<!-- End blog entry -->
+					<div
+						class="blog-author d-flex align-items-center">
+						<!--	<img src="{{ asset('assets/img/blog/blog-author.jpg') }}" class="rounded-circle float-left" alt=""> -->
+						<div class="blog-comments">
+							<h4 class="comments-count">{{comments|length}}
+								Comments</h4>
+							{% for comment in comments %}
+								<div id="comment-{{ comment.id }}" class="comment">
+									<div class="d-flex align-items-start">
+										<div class="comment-img "><img src="{{ asset('assets/img/blog/comments-1.webp') }}" alt=""></div>
+										<div class="col">
+											<div class="row g-0 align-items-center">
+												<div class="col">
+													<h5>
+														<a href="">{{comment.username.getUsername()}}</a>
+													</h5>
+												</div>
+
+												<div class="col-auto">
+													{% if user %}
+														{% if user.username == comment.username.getUsername() %}
+															<form method="POST" action="{{ path('app_comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+																<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+																<button class="btn btn-danger">
+																	<i class="bi bi-trash3-fill"></i>
+																</button>
+															</form>
+														{% else %}
+															<a href="#" class="reply">
+																<i class="bi bi-reply-fill"></i>
+																reply</a>
+														{% endif %}
+													{% endif %}
+												</div>
+
+												<div class="col-auto">
+													{% if user %}
+														{% if user.username == comment.username.getUsername() %}
+															<form method="POST" action="{{ path('app_comment_edit', {'id': comment.id}) }}">
+																<input type="hidden" name="_token" value="{{ csrf_token('edit' ~ comment.id) }}">
+																<button class="btn btn-primary btn-sm">
+																	<i class="bi bi-pen" style="font-size: 19px;"></i>
+																</button>
+															</form>
+														{% else %}
+															<a href="#" class="reply">
+																<i class="bi bi-reply-fill"></i>
+																reply</a>
+														{% endif %}
+													{% endif %}
+												</div>
+
+
+											</div>
+											<time datetime="{{ comment.createdatcomment|date('Y-m-d') }}">
+												{{ comment.getElapsedTime()}}
+												{{ comment.createdatcomment ? comment.createdatcomment|date('Y-m-d') : '' }}
+											</time>
+											<p>{{comment.contentcomment}}</p>
+											<div class="row g-0">
+												<div class="col-1">
+													<p class="mt-2 likes-count">{{comment.commentLikes|length }}
+														Likes</p>
+												</div>
+												<div class="col-auto">
+													<a href="{{ path('comment_like', {'id':comment.id}) }}" class="btn btn-link js-like">
+														<i class="bi-hand-thumbs-up"></i>
+														Like</a>
+												</div>
+												<div class="col-auto">
+													<a href="#" class="btn btn-link">
+														<i class="bi-hand-thumbs-down"></i>
+														Dislike</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+							<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+							<script>
+								function onClickBtnLike(event) {
+event.preventDefault();
+const commentId = this.dataset.commentId; // Get the comment ID from the dataset
+const likesCount = document.querySelector (`#comment-${commentId} p.likes-count`); // Use the unique ID to get the likes count element
+let icon = this.querySelector('i.bi-hand-thumbs-up'); // Get the thumb icon element
+(icon == null) ? icon = this.querySelector('i.bi-hand-thumbs-up-fill') : icon; // Get the thumb icon element
+axios.get(this.href).then(function (response) {
+const likes = response.data.likes;
+likesCount.textContent = `${likes} Likes`; // Update the likes count text
+console.log(icon)
+if (response.data.message == 'like added') {
+icon.classList.replace('bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill'); // Replace the thumb icon
+} else {
+icon.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up'); // Replace the thumb icon
+}
+console.log(response.data);
+}).catch(function (error) {
+console.log(error);
+});
+}
+
+document.querySelectorAll('a.js-like').forEach(function (link) {
+link.addEventListener('click', onClickBtnLike);
+link.dataset.commentId = link.closest('.comment').id.split('-')[1]; // Set the comment ID in the dataset
+});
+							</script>
+
+
+							{################################################################################################################################################################}
+
+							<div class="reply-form">
+
+								<h4>Leave a Comment</h4>
+								{{ form_start(comment_form,{'attr':{'novalidate':'novalidate'}}) }}
+								<div class="row">
+									{{form_label(comment_form.contentcomment,'Give feedback on the post and remember to be polite')}}
+								</div>
+								<div class="row">
+									{% for label, messages in app.flashes %}
+										{% for message in messages %}
+											<div class="alert alert-{{ label }}">
+												{{ message }}
+											</div>
+										{% endfor %}
+									{% endfor %}
+								</div>
+								<div class="row">
+									<div class="col form-group">
+										{{form_widget(comment_form.contentcomment)}}
+									</div>
+									{{form_errors(comment_form.contentcomment)}}
+								</div>
+								<button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+								{{ form_end(comment_form) }}
+							</div>
+						</div>
+						<!-- End blog comments -->
+					</div>
+					<!-- End blog entries list -->
+
+					<!-- End sidebar search formn-->
+					<!-- End sidebar search formn-->
+					{#             search scripts #}<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"> </script>
+					<script type="text/javascript">
+						jQuery(document).ready(function () {
+var searchRequest = null;
+$("#search").keyup(function () {
+var minlength = 2;
+var that = this;
+var value = $(this).val();
+var entitySelector = $("#entitiesNav").html('');
+var postContainer = $('#recent-posts').html('');
+var searchTitle = $('#search-title').html('Search results for: ' + value);
+if (value.length >= minlength) {
+if (searchRequest != null) 
+searchRequest.abort();
+
+
+
+searchRequest = $.ajax({
+type: "GET",
+url: "{{ path('ajax_search_post') }}",
+data: {
+'q': value
+},
+dataType: "text",
+success: function (msg) { // we need to check if the value is the same
+if (value == $(that).val()) {
+var result = JSON.parse(msg);
+$.each(result, function (key, arr) {
+$.each(arr, function (id, value) {
+if (key == 'posts') { // assuming the posts are in a property called 'posts'
+if (id != 'error') { // create the post item and append it to the container
+console.log(value);
+var postItem = $('<div class="post-item clearfix">').appendTo(postContainer);
+$('<img>').attr('src', '/images/post/' + value.image).appendTo(postItem);
+$('<h4>').html('<a href="/daten/' + id + '">' + value.title + '</a>').appendTo(postItem);
+$('<time>').attr('datetime', value.createdat).text(value.createdat).appendTo(postItem);
+} else {
+postContainer.append('<li class="errorLi">' + value + '</li>');
+}
+}
+});
+});
+}
+}
+});
+}
+});
+});
+					</script>
+
+
+				</div>
+				<!-- End blog sidebar -->
+			</div>
+		</div>
+
+
+		{############################################################################}
+
+	</div>
+</div></section>{% endblock %}

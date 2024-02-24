@@ -1,0 +1,83 @@
+
+{% extends 'baseAdmin.html.twig' %}
+{% set base_path = app.request.basepath ~ '/backend/' %}
+
+      {% block body %}
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"></h2>
+            <!-- With actions -->
+            <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300" >
+           
+
+	<section class="section">
+
+			<div class="container-fluid pt-4 px-4">
+				<div class="bg-light text-center rounded p-4">
+					<div class="d-flex align-items-center justify-content-between mb-4">
+						<h6 class="mb-0">Posts</h6>
+						<form class="search-container">
+							<input class="form-control border-0" type="search" placeholder="Search" id="myInput">
+						</form>
+					</div>
+
+					<div class="table-responsive">
+						<table id="mytable" class="table text-start align-middle table-striped table-bordered table-hover mb-0">
+							<thead>
+								<tr class="text-dark">
+									<th scope="col">#ID</th>
+									<th scope="col">Date</th>
+									<th scope="col">Title</th>
+									<th scope="col" class="col-2">Content</th>
+									<th scope="col">Rating</th>
+									<th scope="col">Status</th>
+									<th scope="col">Action</th>
+									<th scop="col">Comments
+									</th>
+								</tr>
+							</thead>
+
+							<tbody id="myTable">
+								{% for post in posts %}
+									<tr>
+										<td>{{post.id}}</td>
+										<td>{{ post.createdat ? post.createdat|date('Y-m-d') : '' }}</td>
+										<td>{{post.title}}</td>
+										<td class="col-2">{{post.content}}</td>
+										<td>{{post.rating}}</td>
+										<td>
+
+											<form action="{{ path('app_toggle_visibility', {'id': post.id}) }}" method="post">
+												<input type="hidden" name="_method" value="PUT">
+
+												<button type="submit" class="btn btn-primary">
+													{% if post.visible %}
+														<i class="bi bi-eye-fill"></i>
+													{% else %}
+														<i class="bi bi-eye-slash-fill"></i>
+													{% endif %}
+												</button>
+											</form>
+										</td>
+										<td>
+											<a btn btn-sm btn-primary href="{{ path('app_post_show',{'id': post.id}) }}">show</a>
+										</td>
+
+
+										<td>
+											<a btn btn-sm btn-primary href="{{ path('post_comments', {'id': post.id}) }}">show</a>
+										</td>
+
+
+									</tr>
+								{% endfor %}
+							</tbody>
+						</td>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+        </main>
+        {% endblock %}

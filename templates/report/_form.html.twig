@@ -1,0 +1,13 @@
+{% if form is defined %}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-dark">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    {% if app.flashes('success') %}
+        <div class="alert alert-success mt-3" role="alert">
+            {{ app.flashes('success')[0] }}
+        </div>
+    {% endif %}
+{% endif %}

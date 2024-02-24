@@ -1,0 +1,12 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    
+    globals:
+        assets: 'public/assets'
+        front: 'public/assets/front'
+        css: 'public/assets/front/css'
+        back: 'public/assets/back'
+        
+when@test:
+    twig:
+        strict_variables: true
