@@ -10,17 +10,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
+
 
 class UserController extends AbstractController
 {
     #[Route('/users', name: 'user_list')]
-    public function userList(): Response
+    public function userList(UserRepository $userRepository): Response
     {
-        $userRepository = $this->getDoctrine()->getRepository(User::class);
         $users = $userRepository->findAll();
-
+    
         return $this->render('admin/list_users.html.twig', [
             'users' => $users,
+        ]);
+    }
+
+
+
+
+    #[Route('/confirmaccount', name: 'confirm_account')]
+
+    public function confirmAccount(): Response
+    {
+        // Render the template and pass any necessary variables
+        return $this->render('registration/confirmaccount.html.twig', [
+            // You can pass any variables needed by the template here
         ]);
     }
 
@@ -58,5 +72,33 @@ public function deleteBook(Request $request, $id, ManagerRegistry $manager, User
             'form' => $form,
         ]);
     }
+    #[Route('/profileuser', name: 'user_profile')]
+    public function index(Security $security): Response
+    {
+        // Get the logged-in user
+        $user = $security->getUser();
+
+        // Check if a user is logged in
+        if (!$user) {
+            throw $this->createAccessDeniedException('You must be logged in to access this page.');
+        }
+
+        // Get the user's email and roles
+        $email = $user->getEmail();
+        $roles = $user->getRoles();
+        $bio = $user->getBio();
+
+
+        return $this->render('user/profile.html.twig', [
+            'email' => $email,
+            'roles' => $roles,
+            'bio'=>$bio,
+
+        ]);
+    }
+
+
+
+
 
 }

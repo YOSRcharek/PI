@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,14 +32,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\Length(min: 8)]
-    #[Assert\NotBlank(message:"ce champ est obligatoire")]
-    // #[Assert\Length(min:10,message:"Votre mot de passe ne contient pas {{ limit }} caractères."))]
+    #[Assert\Length(
+        min: 8,  
+        minMessage: 'Your password must be at least {{ limit }} characters long',
+    )]
 
     private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Bio = null;
+
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
+    private $image = null;
 
     public function getId(): ?int
     {
@@ -137,6 +145,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->Bio;
+    }
+
+    public function setBio(?string $Bio): static
+    {
+        $this->Bio = $Bio;
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

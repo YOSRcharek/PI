@@ -19,10 +19,9 @@ class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): RedirectResponse
     {
-        $user = $token->getUser(); // Get the user from the token
+        $user = $token->getUser(); // user from token 
 
-        if ($user instanceof User && $user->isVerified()) { // Check if the user is an instance of User and is verified
-            // If user is verified, handle the redirection logic based on roles
+        if ($user instanceof User && $user->isVerified()) { 
             $roles = $token->getRoleNames();
             if (in_array('ROLE_ADMIN', $roles, true)) {
                 return new RedirectResponse($this->urlGenerator->generate('app_admin'));
@@ -32,6 +31,6 @@ class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler
         }
 
         // If user is not verified or doesn't have appropriate roles, redirect to confirmaccount.html.twig
-        return new RedirectResponse($this->urlGenerator->generate('app_admin'));
+        return new RedirectResponse($this->urlGenerator->generate('confirm_account'));
     }
 }
