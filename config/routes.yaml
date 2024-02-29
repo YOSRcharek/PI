@@ -65,3 +65,6 @@ login:
 users:
     path: /users
     controller: App\Controller\UserController::userList
+
+google_login:
+    path: /connect/google

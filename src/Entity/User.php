@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,22 +30,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
-    #[Assert\Length(
-        min: 8,  
-        minMessage: 'Your password must be at least {{ limit }} characters long',
-    )]
+    #[ORM\Column(nullable: true)]
+    // #[Assert\Length(min: 8)]
+    // #[Assert\NotBlank(message:"ce champ est obligatoire")]
+    // #[Assert\Length(min:10,message:"Votre mot de passe ne contient pas {{ limit }} caractères."))]
 
     private ?string $password = null;
+
+    #[ORM\Column(nullable: true)]
+private ?string $googleId = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Bio = null;
-
-    #[ORM\Column(type: Types::BLOB, nullable: true)]
-    private $image = null;
+    #[ORM\Column(length: 255,nullable: true)]
+    private ?string $bio = null;
 
     public function getId(): ?int
     {
@@ -107,7 +105,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
     {
-        return $this->password;
+        return $this->password ?? ''; //retourner chaine vide si password n'existe pas
     }
 
     public function setPassword(string $password): static
@@ -148,27 +146,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    public function getBio(): ?string
+    public function getGoogleId(): ?string
     {
-        return $this->Bio;
+        return $this->googleId;
     }
 
-    public function setBio(?string $Bio): static
+    public function setGoogleId(?string $googleId): self
     {
-        $this->Bio = $Bio;
+        $this->googleId = $googleId;
 
         return $this;
     }
 
-    public function getImage()
+    public function getBio(): ?string
     {
-        return $this->image;
+        return $this->bio;
     }
 
-    public function setImage($image): static
+    public function setBio(string $bio): static
     {
-        $this->image = $image;
+        $this->bio = $bio;
 
         return $this;
     }

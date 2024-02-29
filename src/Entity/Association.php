@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AssociationRepository::class)]
-class Association
+class Association 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

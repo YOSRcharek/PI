@@ -15,16 +15,24 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            guard:
+               authenticators:
+                    - App\Security\GoogleAuthenticator
+                    
             lazy: true
             provider: app_user_provider
+            entry_point: security.authenticator.guard.main.0  # Specify the GoogleAuthenticator as the entry point
+
             form_login:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
                 success_handler: App\Security\CustomAuthenticationSuccessHandler
-
+           
             logout:
                 path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
                 # where to redirect after logout
                 # target: app_any_route
 
