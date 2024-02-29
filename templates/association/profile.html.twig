@@ -64,6 +64,55 @@
         });
     </script> 
     {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        /* CSS styling for map container */
+        #map { width: 100%; height: 400px; }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Accessing the variables rendered in Twig
+            const ongoingProjectsCount = {{ ongoingProjectsCount }};
+            const completedProjectsCount = {{ completedProjectsCount }};
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+
+            // Create a doughnut chart using the data
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        label: 'Project',
+                        data: [completedProjectsCount, ongoingProjectsCount],
+                        backgroundColor: ['#422006', '#854d0e'],
+                    }],
+                    labels: ['Terminé', 'En cours'],
+                },
+                options: {
+                    cutoutPercentage: 80,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        }
+                    },
+                    elements: {
+                        arc: {
+                            borderWidth: 0,
+                            borderColor: 'transparent',
+                        }
+                    },
+                }
+            });
+        });
+    </script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     
@@ -71,6 +120,13 @@
     {% block body %}
     
  <div class="container">
+    <form class="custom-form search-form" action="#" method="post" role="form">
+        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+
+        <button type="submit" class="form-control">
+            <i class="bi-search"></i>
+        </button>
+    </form>
     <div class="row">
         <div class="col-md-8 mt-4">
 
@@ -80,6 +136,9 @@
                         <div class="col-md-3">
                             <div class="text-center border-end">
                                 <img src="{{asset('assets/front/images/group-people-volunteering-foodbank-poor-people.jpg')}}" class="img-fluid avatar-xxl rounded-circle" />
+                                <img src="data:image/png;base64,{{ association.image }}" alt="Image">
+                                <img src="{{asset('uploads/' ~ association.image) }}" alt="Image" class="img-fluid avatar-xxl rounded-circle">
+                               
                                 <h5 class="mb-3">{{ association.nom }}</h5>
                             </div>
                         </div><!-- end col -->
@@ -193,28 +252,12 @@
         <div class="card">
             <div class="card-body">
                 <div>
-                    <h5 class="mb-3">Informations</h5>
+                    <h5 class="mb-3">Project static</h5>
                     <div class="table-responsive">
-                        <table class="table table-bordered mb-0">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Name</th>
-                                    <td >Jansh Wells</td>
-                                </tr><!-- end tr -->
-                                <tr>
-                                    <th scope="row">Location</th>
-                                    <td>California, United States</td>
-                                </tr><!-- end tr -->
-                                <tr>
-                                    <th scope="row">Language</th>
-                                    <td>English</td>
-                                </tr><!-- end tr -->
-                                <tr>
-                                    <th scope="row">Website</th>
-                                    <td>abc12@probic.com</td>
-                                </tr><!-- end tr -->
-                            </tbody><!-- end tbody -->
-                        </table><!-- end table -->
+                        <div class="container px-8 mx-auto grid">
+                              
+                            <canvas id="myChart"></canvas>      
+                          </div>
                     </div>
                 </div>
             </div><!-- end card body -->
@@ -223,22 +266,40 @@
         <div class="card">
             <div class="card-body">
                 <div>
-                    <h5 class="mb-3">Work Experince</h5>
+                    <h5 class="mb-3">Location</h5>
 
-                    <ul class="list-unstyled work-activity mb-0">
-                        <li class="work-item" data-date="2020-21">
-                            <h6 class="lh-base mb-0">ABCD Company</h6>
-                            <p class="font-size-13 mb-2">Web Designer</p>
-                            <p>To achieve this, it would be necessary to have uniform grammar, and more
-                                common words.</p>
-                        </li>
-                        <li class="work-item" data-date="2019-20">
-                            <h6 class="lh-base mb-0">XYZ Company</h6>
-                            <p class="font-size-13 mb-2">Graphic Designer</p>
-                            <p class="mb-0">It will be as simple as occidental in fact, it will be
-                                Occidental person, it will seem like simplified.</p>
-                        </li>
-                    </ul><!-- end ul -->
+                    <div id="map"></div>
+                    <script>
+                        // Initialize Mapbox map
+                        mapboxgl.accessToken = 'pk.eyJ1IjoieW9zcmNoYXJlazMxIiwiYSI6ImNsdDZkd2JzcTBjcHYybW12NzE4aGNseDYifQ.pv6x004655o_tl9uncoxag';
+                        var map = new mapboxgl.Map({
+                            container: 'map', // Container ID
+                            style: 'mapbox://styles/mapbox/streets-v11', // Map style to use
+                            zoom: 8 // Starting zoom level
+                        });
+                    
+                        // Get the address from PHP and convert it to coordinates
+                        var address = '{{ association.adresse }}';
+                    
+                        fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(address) + '.json?access_token=' + mapboxgl.accessToken)
+                            .then(response => response.json())
+                            .then(data => {
+                                // Extract the coordinates from the response
+                                var coordinates = data.features[0].geometry.coordinates;
+                    
+                                // Set the map center to the coordinates
+                                map.setCenter(coordinates);
+                    
+                                // Add a marker to the map
+                                new mapboxgl.Marker()
+                                    .setLngLat(coordinates) // Marker position [lng, lat]
+                                    .addTo(map);
+                            })
+                            .catch(error => {
+                                console.error('Error fetching coordinates:', error);
+                            });
+                    </script>
+                    
                 </div>
             </div><!-- end card-body -->
         </div>

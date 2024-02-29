@@ -26,6 +26,19 @@ class MailerTraitement
 
         $this->mailer->send($email);
     }
+    public function sendEmailContact(string $fromEmail, string $nom, string $prenom, string $msg): void
+{
+    $subject = $nom . ' ' . $prenom;
+    
+    $email = (new Email())
+        ->from($fromEmail)
+        ->to('classyy2023@gmail.com')
+        ->subject($subject)
+        ->text($msg); // Add a semicolon here
+
+    $this->mailer->send($email);
+}
+
     function sendActivationEmail(MailerInterface $mailer, string $email, string $token): void
     {
         $message = (new Email())

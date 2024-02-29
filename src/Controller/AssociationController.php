@@ -263,6 +263,9 @@ public function profil(Request $request, AssociationRepository $associationRepo,
     $form = $this->createForm(MembreType::class, $membre);
     $form2 = $this->createForm(ProjetType::class, $projet);
 
+    $ongoingProjectsCount = $projetRepo->countOngoingProjects($id);
+    $completedProjectsCount = $projetRepo->countCompletedProjects($id);
+
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
         $membre->setAssociation($association);
@@ -289,8 +292,12 @@ public function profil(Request $request, AssociationRepository $associationRepo,
         'projets' => $projets,
         'membres'=> $membres,
         'form' => $form->createView(),
-        'form2' => $form2->createView()
+        'form2' => $form2->createView(),
+        'ongoingProjectsCount' => $ongoingProjectsCount,
+        'completedProjectsCount' => $completedProjectsCount,
     ]);
+            
+     
 }
 
 

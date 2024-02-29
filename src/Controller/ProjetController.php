@@ -7,6 +7,7 @@ use App\Entity\Association;
 use App\Form\ProjetType;
 use App\Repository\ProjetRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -112,5 +113,19 @@ public function editAdmin(Request $request, EntityManagerInterface $entityManage
         'form' => $form->createView(),
     ]);
 }
+/**
+     * @Route("/project/stats", name="project_stats")
+     */
+    public function projectStats(ProjetRepository $projetRepository): JsonResponse
+    {
+        $ongoingProjectsCount = $projetRepository->countOngoingProjects();
+        $completedProjectsCount = $projetRepository->countCompletedProjects();
+
+        return $this->json([
+            'ongoingProjectsCount' => $ongoingProjectsCount,
+            'completedProjectsCount' => $completedProjectsCount,
+        ]);
+    }
+
 }
 

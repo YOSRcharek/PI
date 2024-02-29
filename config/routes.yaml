@@ -69,3 +69,14 @@ forgetPass:
 login:
     path: /login
     controller: App\Controller\AdminController::login
+
+handle_contact_form:
+    path: /handle-contact-form
+    controller: App\Controller\HomeController::handleContactForm
+    methods: ['POST']  
+    
+get_places:
+    path: /get-places
+    controller: App\Controller\MapboxController::getPlacesAction
+
+

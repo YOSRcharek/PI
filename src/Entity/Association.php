@@ -70,6 +70,7 @@ class Association
     #[ORM\Column]
     private ?bool $ActiveCompte = null;
 
+
     public function __construct()
     {
         $this->dateDemande = new \DateTime();
@@ -412,5 +413,7 @@ class Association
 
         return $this;
     }
+
+
     
 }
