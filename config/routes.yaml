@@ -8,6 +8,10 @@ news_listing:
 news_Detail:
     path: /newsDetail
     controller: App\Controller\HomeController::newsDetail
+    
+news_API:
+    path: /newsAPI
+    controller: App\Controller\HomeController::newsAPI
 
 donate:
     path: /donate

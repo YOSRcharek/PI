@@ -21,21 +21,23 @@ class HomeController extends AbstractController
 
     public function news(): Response
     {
-        $associationNews = $this->newsAPIService->getAssociationNews();
+       
 
-        return $this->render('/home/news.html.twig', [
-            'associationNews' => $associationNews,
-        ]);
+        return $this->render('/home/news.html.twig');
     }
 
     public function newsDetail(): Response
     {
+       
+        return $this->render('/home/news-detail.html.twig');
+    }
+    public function newsAPI(): Response
+    {
         $associationNews = $this->newsAPIService->getAssociationNews();
-        return $this->render('/home/news-detail.html.twig', [
+        return $this->render('/home/newsAPI.html.twig', [
             'associationNews' => $associationNews,
         ]);
     }
-
     public function donate(): Response
     {
         return $this->render('/home/donate.html.twig');
