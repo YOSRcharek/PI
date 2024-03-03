@@ -25,6 +25,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.11",
+        "@fullcalendar/daygrid": "^6.1.11",
         "alpinejs": "^3.13.5",
         "init": "^0.1.2"
     }

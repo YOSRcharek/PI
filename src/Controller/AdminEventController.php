@@ -62,13 +62,13 @@ class AdminEventController extends AbstractController
     #[Route('/admin/event/participer/{id}', name: 'app_participer_eventadmin')]
     public function participer(Event $event, EntityManagerInterface $entityManager): Response
     {
-        // Appeler la méthode participer de l'événement
+        
         $event->participer();
 
-        // Enregistrer les modifications dans la base de données
+      
         $entityManager->flush();
 
-        // Ajouter un message flash pour informer l'utilisateur
+       
         $this->addFlash('success', 'Vous avez participé à l\'événement avec succès.');
 
         // Rediriger vers la page des détails de l'événement
@@ -138,5 +138,39 @@ public function newtypeadmin(Request $request, EntityManagerInterface $entityMan
 
         return $this->render('admin\editadmin.html.twig', ['form' => $form->createView(),
         'event' => $event,]);
+    }
+    #[Route('admin/type_event/{id}', name: 'app_type_event_showadmin')]
+    public function showtype(TypeEvent $typeEvent): Response
+    {
+        return $this->render('admin\showtypedetails.html.twig', [
+            'type_event' => $typeEvent,
+        ]);
+    }
+    #[Route('admin/type_event/edit/{id}', name: 'app_type_event_editadmin')]
+    public function edittypeadmin(Request $request, TypeEvent $typeEvent, EntityManagerInterface $entityManager): Response
+    {
+         $form = $this->createForm(TypeEventType::class, $typeEvent);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_type_event_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('admin\edittypeadmin.html.twig', [
+            'type_event' => $typeEvent,
+            'form' => $form,
+        ]);
+    }
+    #[Route('admin/type_event/delete/{id}', name: 'app_type_event_deleteadmin')]
+    public function deleteadmin(Request $request, TypeEvent $typeEvent, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$typeEvent->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($typeEvent);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_type_event_indexadmin', [], Response::HTTP_SEE_OTHER);
     }
 }

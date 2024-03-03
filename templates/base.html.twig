@@ -6,11 +6,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>{% block title %}TuniCollab{% endblock %}</title>
+    
 
     {% block stylesheets %}
     <link href="{{ asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/front/css/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/front/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" integrity="computed-SHA-512-value" crossorigin=""/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css">
+
+
     {% endblock %}
 
     {% block javascripts %}
@@ -20,22 +28,13 @@
     <script src="{{ asset('assets/front/js/custom.js') }}"></script>
     <script src="{{ asset('assets/front/js/counter.js') }}"></script>
     <script src="{{ asset('assets/front/js/click-scroll.js') }}"></script>
-    <script>
-        
-        function hideFlashMessages() {
-            const flashMessages = document.querySelectorAll('.alert');
-            flashMessages.forEach(message => {
-                setTimeout(() => {
-                    message.style.display = 'none';
-                }, 5000); 
-            });
-        }
+<script src="https://unpkg.com/leaflet/dist/leaflet.js" integrity="computed-SHA-512-value" crossorigin=""></script>
+    
 
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            hideFlashMessages();
-        });
-    </script>
+    
+
+   
+    
     {% endblock %}
 </head>
 <body>

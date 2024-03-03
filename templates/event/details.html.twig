@@ -12,6 +12,25 @@
                 <p class="card-text"><strong>Date de début:</strong> {{ event.dateDebut|date('d/m/Y') }}</p>
                 <p class="card-text"><strong>Date de fin:</strong> {{ event.dateFin|date('d/m/Y') }}</p>
                 <p class="card-text"><strong>Localisation:</strong> {{ event.localisation }}</p>
+
+                {% if event.latitude is not null and event.longitude is not null %}
+                    <div id="map" style="height: 400px;"></div>
+
+                    <script>
+                        var map = L.map('map').setView([{{ event.latitude }}, {{ event.longitude }}], 13);
+
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '© OpenStreetMap contributors'
+                        }).addTo(map);
+
+                        L.marker([{{ event.latitude }}, {{ event.longitude }}]).addTo(map)
+                            .bindPopup('{{ event.nomEvent }}')
+                            .openPopup();
+                    </script>
+                {% else %}
+                    <p class="card-text"><strong>Coordonnées de localisation non disponibles.</strong></p>
+                {% endif %}
+
                 <p class="card-text"><strong>Capacité maximale:</strong> {{ event.capaciteMax }}</p>
                 <p class="card-text"><strong>Capacité actuelle:</strong> {{ event.capaciteActuelle }}</p>
                 <a href="{{ path('app_participer_event', {'id': event.id}) }}" class="btn btn-primary">Participer à l'événement</a>

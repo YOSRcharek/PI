@@ -73,7 +73,7 @@ app_edit_event:
     path: /event/edit/{id}
     controller: App\Controller\EventController::edit    
 app_event_details:
-    path: '/event/{id}'
+    path: '/event/details/{id}'
     controller: App\Controller\EventController::showDetails   
 app_type_event_index:
     path: /types
@@ -120,4 +120,23 @@ app_type_event_indexadmin:
     controller: App\Controller\AdminEventController::showall   
 app_edit_eventadmin:
     path: /admin/event/edit/{id}
-    controller: App\Controller\AdminEventController::editadmin          
+    controller: App\Controller\AdminEventController::editadmin   
+app_type_event_showadmin:
+    path: '/admin/type_event/{id}'
+    controller: 'App\Controller\AdminEventController::showtype' 
+app_type_event_editadmin:
+    path: '/admin/type_event/edit/{id}'
+    controller: 'App\Controller\AdminEventController::edittypeadmin'  
+app_type_event_deleteadmin:
+    path: /admin/type_event/delete/{id}
+    controller: App\Controller\AdminEventController::deleteadmin  
+app_search_event:
+    path: '/event/search'
+    controller: 'App\Controller\EventController::searchEvent'                  
+app_calendrier:
+    path: '/calendrier'
+    controller: 'App\Controller\CalendrierController::afficher' 
+search_eventajax:
+    path: /search_eventajax
+    controller: App\Controller\EventController::searchEventajax       
+   

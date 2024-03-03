@@ -3,12 +3,130 @@
 {% block title %}Liste des Événements{% endblock %}
 
 {% block body %}
-    <h1>Liste des Événements</h1>
+    <div class="d-flex justify-content-center align-items-center">
+        <h1>Liste des Événements</h1>
+    </div>
+    {# Formulaire de recherche #}
+    <div class="d-flex justify-content-center align-items-center">
+        <form method="get" action="{{ path('app_search_event') }}" class="col-md-6">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Rechercher un événement" name="search" id="searchInput">
+                <!-- Ajouter le champ de sélection pour le type de recherche -->
+                <select class="form-control" name="searchType">
+                    <option value="name">Par nom</option>
+                    <option value="location">Par lieu</option>
+                    <option value="eventType">Par type d'événement</option>
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
+                </div>
+            </div>
+        </form>
+    </div>
+ 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+<script>
 
-    {% if event is not empty %}
+
+    $(document).ready(function () {
+        $("#searchInput").on("keyup", function () {
+            var query = $(this).val();
+            if (query.length === 0) {
+                
+               $.ajax({
+                    url: "{{ path('search_eventajax') }}",
+                    type: "GET",
+                    
+                    success: function (response) {
+                        var results = response.results;
+                        var message = response.message;
+
+                        if (results.length > 0) {
+                            $('#prev').hide();
+                            $('#new').empty();
+                            $('#new').show();
+                            $.each(results, function (i, event) {
+                                var card = '<div class="col-md-6">' +
+        '<div class="card">' +
+        '<img src="assets/front/images/causes/group-african-kids-paying-attention-class.jpg" class="card-img-top" alt="Event Image">' +
+        '<div class="card-body">' +
+        '<h5 class="card-title">' + event.nomEvent + '</h5>' +
+        '<p class="card-text">' + event.description + '</p>' +
+        '<p class="card-text"><strong>Date:</strong> ' + event.date + ' - ' + event.dateFin + '</p>' +
+        '<p class="card-text"><strong>Type:</strong> ' + event.type + '</p>' +
+        '<p class="card-text"><strong>Location:</strong> ' + event.localisation + '</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+                                $('#new').append(card);
+                            });
+                        } else {
+                            
+                            $('#prev').show();
+                            $('#new').hide();
+                            
+                        }
+
+                        console.log(message); // Afficher le message dans la console pour le débogage
+                    },
+                    error: function () {
+                        console.error("Une erreur s'est produite lors du traitement de la requête AJAX.");
+                    }
+                });
+                
+            } else {
+                $.ajax({
+                    url: "{{ path('search_eventajax') }}",
+                    type: "GET",
+                    data: { query: query },
+                    success: function (response) {
+                        var results = response.results;
+                        var message = response.message;
+
+                        if (results.length > 0) {
+                            $('#prev').hide();
+                            $('#new').empty();
+                            $('#new').show();
+                            $.each(results, function (i, event) {
+                                var card = '<div class="col-md-6">' +
+        '<div class="card">' +
+        '<img src="assets/front/images/causes/group-african-kids-paying-attention-class.jpg" class="card-img-top" alt="Event Image">' +
+        '<div class="card-body">' +
+        '<h5 class="card-title">' + event.nomEvent + '</h5>' +
+        '<p class="card-text">' + event.description + '</p>' +
+        '<p class="card-text"><strong>Date:</strong> ' + event.date + ' - ' + event.dateFin + '</p>' +
+        '<p class="card-text"><strong>Type:</strong> ' + event.type + '</p>' +
+        '<p class="card-text"><strong>Location:</strong> ' + event.localisation + '</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+                                $('#new').append(card);
+                            });
+                        } else {
+                            
+                            $('#prev').show();
+                            $('#new').hide();
+                            
+                        }
+
+                        console.log(message); // Afficher le message dans la console pour le débogage
+                    },
+                    error: function () {
+                        console.error("Une erreur s'est produite lors du traitement de la requête AJAX.");
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+    
+     {% if pagination.getTotalItemCount() > 0 %}
         <div class="container">
-            <div class="row">
-                {% for event in event %}
+            <div id="new" class="row">
+                {% for event in pagination %}
                     <div class="col-lg-4 col-md-6 col-12 mb-4">
                         <div class="card">
                             <img src="assets/front/images/causes/group-african-kids-paying-attention-class.jpg" class="card-img-top" alt="Event Image">
@@ -21,8 +139,6 @@
                                 <p class="card-text"><strong>Capacité maximale:</strong> {{ event.capaciteMax }}</p>
                                 <p class="card-text"><strong>Capacité actuelle:</strong> {{ event.capaciteActuelle }}</p>
                                 <p class="card-text"><strong>Type d'événement:</strong> {{ event.type.getNom() }}</p>
-
-                           
 
                                 <div class="btn-group">
                                     <form method="post" action="{{ path('app_delete_event', {'id': event.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
@@ -37,6 +153,11 @@
                     </div>
                 {% endfor %}
             </div>
+        </div>
+
+        <!-- Display pagination controls -->
+        <div class="pagination">
+            {{ knp_pagination_render(pagination) }}
         </div>
     {% else %}
         <p>Aucun événement trouvé.</p>

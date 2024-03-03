@@ -952,6 +952,18 @@
   resolved "https://registry.npmjs.org/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
+"@fullcalendar/core@^6.1.11", "@fullcalendar/core@~6.1.11":
+  version "6.1.11"
+  resolved "https://registry.npmjs.org/@fullcalendar/core/-/core-6.1.11.tgz"
+  integrity sha512-TjG7c8sUz+Vkui2FyCNJ+xqyu0nq653Ibe99A66LoW95oBo6tVhhKIaG1Wh0GVKymYiqAQN/OEdYTuj4ay27kA==
+  dependencies:
+    preact "~10.12.1"
+
+"@fullcalendar/daygrid@^6.1.11":
+  version "6.1.11"
+  resolved "https://registry.npmjs.org/@fullcalendar/daygrid/-/daygrid-6.1.11.tgz"
+  integrity sha512-hF5jJB7cgUIxWD5MVjj8IU407HISyLu7BWXcEIuTytkfr8oolOXeCazqnnjmRbnFOncoJQVstTtq6SIhaT32Xg==
+
 "@hotwired/stimulus-webpack-helpers@^1.0.1":
   version "1.0.1"
   resolved "https://registry.npmjs.org/@hotwired/stimulus-webpack-helpers/-/stimulus-webpack-helpers-1.0.1.tgz"
@@ -3943,6 +3955,11 @@ postcss@^8.0.0, postcss@^8.0.9, postcss@^8.1.0, postcss@^8.2.14, postcss@^8.2.2,
     nanoid "^3.3.7"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+preact@~10.12.1:
+  version "10.12.1"
+  resolved "https://registry.npmjs.org/preact/-/preact-10.12.1.tgz"
+  integrity sha512-l8386ixSsBdbreOAkqtrwqHwdvR35ID8c3rKPa8lCWuO86dBi32QWHV4vfsZK1utLLFMvw+Z5Ad4XLkZzchscg==
 
 pretty-error@^4.0.0:
   version "4.0.0"

@@ -19,8 +19,9 @@
                 <td>{{ type_event.id }}</td>
                 <td>{{ type_event.nom }}</td>
                 <td>
-                    <a href="{{ path('app_type_event_show', {'id': type_event.id}) }}">show</a>
-                    <a href="{{ path('app_type_event_edit', {'id': type_event.id}) }}">edit</a>
+                    <a href="{{ path('app_type_event_showadmin', {'id': type_event.id}) }}">show</a>
+                    <a href="{{ path('app_type_event_editadmin', {'id': type_event.id}) }}">edit</a>
+                       
                 </td>
             </tr>
         {% else %}

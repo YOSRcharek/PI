@@ -20,6 +20,58 @@ class EventRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Event::class);
     }
+    public function findByNomEvent(string $searchTerm): array
+    {
+        try {
+            $query = $this->createQueryBuilder('e')
+                ->andWhere('e.nomEvent LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $searchTerm . '%')
+                ->getQuery();
+    
+            return $query->getResult();
+        } catch (\Exception $e) {
+            // Log l'erreur si nécessaire
+            $this->logger->error('Une erreur s\'est produite lors de la recherche d\'événements : ' . $e->getMessage());
+    
+            // Renvoyer une tableau vide en cas d'erreur
+            return [];
+        }
+    }
+    public function findEventsByLocation(string $location): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.localisation = :location')
+            ->setParameter('location', $location)
+            ->getQuery()
+            ->getResult();
+    }
+   
+    public function findTopEventsByCapacity(int $limit): array
+    {
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.capaciteMax', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findEventsByStartDate(\DateTimeInterface $startDate): array
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('DATE(e.dateDebut) = :startDate')  // Utiliser la fonction DATE pour comparer uniquement la date
+            ->setParameter('startDate', $startDate->format('Y-m-d'))
+            ->getQuery()
+            ->getResult();
+    }
+    
+    public function findEventsByEventType(string $typeEvent): array
+    {
+        return $this->createQueryBuilder('e')
+            ->join('e.type', 't')
+            ->andWhere('t.nom = :typeEvent')
+            ->setParameter('typeEvent', $typeEvent)
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Event[] Returns an array of Event objects

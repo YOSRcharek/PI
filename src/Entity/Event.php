@@ -24,6 +24,13 @@ class Event
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
+    
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Image(
+     mimeTypes: ["image/jpeg", "image/png"],
+        mimeTypesMessage: "Veuillez télécharger une image JPEG ou PNG valide."
+    )]
+    private ?string $image = null;
 
    
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -39,6 +46,11 @@ class Event
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "La localisation ne doit pas être vide.")]
     private ?string $localisation = null;
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $latitude = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $longitude = null;
 
     #[ORM\Column(type: Types::INTEGER)]
     #[Assert\NotBlank(message: "La capacité maximale ne doit pas être vide.")]
@@ -75,12 +87,24 @@ class Event
         return $this->nomEvent;
     }
 
+
     public function setNomEvent(string $nomEvent): static
     {
         $this->nomEvent = $nomEvent;
 
         return $this;
     }
+    public function getImage(): ?string
+{
+    return $this->image;
+}
+
+public function setImage(?string $image): self
+{
+    $this->image = $image;
+
+    return $this;
+}
 
     public function getDescription(): ?string
     {
@@ -126,6 +150,29 @@ class Event
     public function setLocalisation(string $localisation): static
     {
         $this->localisation = $localisation;
+
+        return $this;
+    }
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?string $latitude): static
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?string $longitude): static
+    {
+        $this->longitude = $longitude;
 
         return $this;
     }

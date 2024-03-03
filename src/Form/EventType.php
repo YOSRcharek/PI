@@ -11,6 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Expression;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 
 
@@ -23,10 +25,14 @@ class EventType extends AbstractType
 
 {
     private $typeEventRepository;
+ 
+    private $propertyMappingFactory;
+    private $storage;
 
 public function __construct(TypeEventRepository $typeEventRepository)
 {
     $this->typeEventRepository = $typeEventRepository;
+  
 }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -37,7 +43,23 @@ public function __construct(TypeEventRepository $typeEventRepository)
             ->add('dateDebut')
             ->add('dateFin')
             ->add('localisation')
+            ->add('latitude')
+             ->add('longitude')
             ->add('capaciteMax')
+            ->add('image', FileType::class, [
+                'label' => 'Image (JPEG/PNG file)',
+                'required' => false,
+                'constraints' => [
+                    new Assert\File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Ajouter une image JPG/PNG valide',
+                    ]),
+                ],
+            ])
                 
            // ->add('capaciteActuelle')
             ->add('type', EntityType::class, [
