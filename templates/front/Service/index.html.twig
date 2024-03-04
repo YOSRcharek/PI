@@ -25,6 +25,7 @@
                 <td>
                     <a href="{{ path('app_Service_show', {'id': Service.id}) }}">show</a>
                     <a href="{{ path('app_Service_edit', {'id': Service.id}) }}">edit</a>
+                    
                 </td>
             </tr>
         {% else %}
@@ -34,6 +35,10 @@
         {% endfor %}
         </tbody>
     </table>
+    {# -------------------------- Share ------------------------------------  #}
+         <div class="sharethis-inline-share-buttons"></div>
+         {# -------------------------- Share ------------------------------------  #}
+
 
     <a href="{{ path('app_Service_new') }}">Create new</a>
 {% endblock %}
