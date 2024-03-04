@@ -1,94 +1,131 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create account - TuniCollab</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/front/images/grandLogo.png') }}" />
 
-{% block title %}Créer une Association{% endblock %}
+    <link rel="stylesheet" href="assets/back/css/tailwind.output.css" />
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="assets/back/js/init-alpine.js"></script>
+    {% block stylesheets %}
+    <link href="{{ asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/front/css/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/front/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
+    {% endblock %}
 
-{% block body %}
-    <div class="container p-5 my-5 border">
-        <h1>Créer une Association</h1>
-        
-        {% if app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ app.flashes('success')[0] }}
-            </div>
-        {% endif %}
+    {% block javascripts %}
+    <script src="{{ asset('assets/front/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery.sticky.js') }}"></script>
+    <script src="{{ asset('assets/front/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/front/js/counter.js') }}"></script>
+    <script src="{{ asset('assets/front/js/click-scroll.js') }}"></script>
+    {% endblock %}
+  </head>
+  <body>
+    <section class="volunteer-section ">
+        <div class="container">
+            <div class="row justify-content-center"> <!-- Ajout de la classe justify-content-center pour centrer le contenu horizontalement -->
+                <div class="col-lg-6">
+                    <form class="custom-form volunteer-form "  >
+                        <h2 class="text-center mb-4">Create account</h2>
+                        <div class="row">
+                            {% if app.flashes('success') %}
+                            <div class="alert alert-success">
+                                {{ app.flashes('success')[0] }}
+                            </div>
+                           {% endif %}
+                            {{ form_start(form, {'attr': {'class': 'custom-form volunteer-form ', 'novalidate': 'novalidate'}}) }}
+                            <div class="col-lg-6 col-12">
+                            {{ form_row(form.email, {'label': 'Email:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.email) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.email) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">
 
-        {{ form_start(form, {'attr': {'class': 'form'}}) }}
-
-     
-        <div class="row mb-3">
-          
-            <div class="col-md-6">
-                {{ form_row(form.nom, {'label': 'Nom:', 'attr': {'class': 'form-control'}}) }}
-                {% if form_errors(form.nom) %}
-                    <div class="text-danger">
-                        {{ form_errors(form.nom) }}
+                            {{ form_row(form.password, {'label': 'Password:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.password) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.password) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">
+                            {{ form_row(form.document, {'label': 'Document:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.document) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.document) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                           <div class="col-lg-6 col-12">
+                            {{ form_row(form.nom, {'label': 'Name:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.nom) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.nom) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">
+                            {{ form_row(form.adresse, {'label': 'Adress:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.adresse) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.adresse) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">        
+                            {{ form_row(form.telephone, {'label': 'Phone:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.telephone) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.telephone) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                           <div class="col-lg-6 col-12">
+                            {{ form_row(form.domaineActivite, {'label': 'Domaine:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.domaineActivite) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.domaineActivite) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                {{ form_row(form.description, {'label': 'Description:', 'attr': {'class': 'form-control'}}) }}
+                                {% if form_errors(form.description) %}
+                                    <div class="text-danger">
+                                        {{ form_errors(form.description) }}
+                                    </div>
+                                {% endif %}
+                                </div>
+                            <div class="col-lg-6 col-12">
+                            {{ form_row(form.image, {'label': 'Picture:', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form.image) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form.image) }}
+                                </div>
+                            {% endif %}
+                            </div>
+                            <button type="submit" class="form-control">Submit</button>
+                        </form>
                     </div>
-                {% endif %}
+                </div>
             </div>
         </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                {{ form_row(form.adresse, {'label': 'Adresse:', 'attr': {'class': 'form-control'}}) }}
-                {% if form_errors(form.adresse) %}
-                    <div class="text-danger">
-                        {{ form_errors(form.adresse) }}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="col-md-6">
-                {{ form_row(form.description, {'label': 'Description:', 'attr': {'class': 'form-control'}}) }}
-                {% if form_errors(form.description) %}
-                    <div class="text-danger">
-                        {{ form_errors(form.description) }}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                {{ form_row(form.email, {'label': 'Email:', 'attr': {'class': 'form-control'}}) }}
-                {% if form_errors(form.email) %}
-                    <div class="text-danger">
-                        {{ form_errors(form.email) }}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="col-md-6">
-                {{ form_row(form.telephone, {'label': 'Telephone:', 'attr': {'class': 'form-control'}}) }}
-                {% if form_errors(form.telephone) %}
-                    <div class="text-danger">
-                        {{ form_errors(form.telephone) }}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                {{ form_row(form.domaineActivite, {'label': 'Domaine:', 'attr': {'class': 'form-control'}}) }}
-                {% if form_errors(form.domaineActivite) %}
-                    <div class="text-danger">
-                        {{ form_errors(form.domaineActivite) }}
-                    </div>
-                {% endif %}
-            </div>
-           
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-primary">Créer une association</button>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <a href="{{ path('app_show') }}">Retour à la liste des associations</a>
-            </div>
-        </div>
-
-        {{ form_end(form) }}
-    </div>
-{% endblock %}
+    </section>
+    
+  
+  </body>
+</html>

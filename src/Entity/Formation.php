@@ -86,12 +86,12 @@ class Formation
         return $this;
     }
 
-    public function getAssociation(): ?association
+    public function getAssociation(): ?Association
     {
         return $this->association;
     }
 
-    public function setAssociation(?association $association): static
+    public function setAssociation(?Association $association): static
     {
         $this->association = $association;
 

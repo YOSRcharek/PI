@@ -1,0 +1,41 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Détails de l'événement{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card" style="border-color: #7e3af2;">
+            <div class="card-header text-white" style="background-color: #7e3af2;">
+                <h1 class="text-center">Détails de l'événement</h1>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ event.nomEvent }}</h5>
+                <div class="mb-3">
+                    <strong>Description :</strong>
+                    {{ event.description }}
+                </div>
+                <div class="mb-3">
+                    <strong>Date de début :</strong>
+                    {{ event.dateDebut|date('d/m/Y') }}
+                </div>
+                <div class="mb-3">
+                    <strong>Date de fin :</strong>
+                    {{ event.dateFin|date('d/m/Y') }}
+                </div>
+                <div class="mb-3">
+                    <strong>Localisation :</strong>
+                    {{ event.localisation }}
+                </div>
+                <div class="mb-3">
+                    <strong>Capacité maximale :</strong>
+                    {{ event.capaciteMax }}
+                </div>
+                <div class="mb-3">
+                    <strong>Capacité actuelle :</strong>
+                    {{ event.capaciteActuelle }}
+                </div>
+                <a href="{{ path('app_participer_eventadmin', {'id': event.id}) }}" class="btn btn-primary" style="background-color: #7e3af2; border-color: #7e3af2;">Participer à l'événement</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -5,13 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/front/images/grandLogo.png') }}" />
+    
+
     <title>{% block title %}TuniCollab{% endblock %}</title>
+    
 
     {% block stylesheets %}
     <link href="{{ asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/front/css/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/front/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
+
+  
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" integrity="computed-SHA-512-value" crossorigin=""/>
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css">
+
+
     {% endblock %}
 
     {% block javascripts %}
@@ -21,6 +33,7 @@
     <script src="{{ asset('assets/front/js/custom.js') }}"></script>
     <script src="{{ asset('assets/front/js/counter.js') }}"></script>
     <script src="{{ asset('assets/front/js/click-scroll.js') }}"></script>
+
     <script>
         
         function hideFlashMessages() {
@@ -37,6 +50,15 @@
             hideFlashMessages();
         });
     </script>
+
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js" integrity="computed-SHA-512-value" crossorigin=""></script>
+    
+
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClAGkEOReRLQ-4e41vkorlpPRiG8rNn_4&libraries=places"></script>
+
+
     {% endblock %}
 </head>
 <body>
@@ -60,4 +82,20 @@
 
     {{ include('home/footer.html.twig') }}
 </body>
+
 </html>
+
+
+</html>
+<script type="text/javascript">
+    (function(d, m){
+        var kommunicateSettings = 
+            {"appId":"14e0722e79bd195d406e5a96089fcfa34","popupWidget":true,"automaticChatOpenOnNavigation":true};
+        var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+        s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+        var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+        window.kommunicate = m; m._globals = kommunicateSettings;
+    })(document, window.kommunicate || {});
+/* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
+</script>
+

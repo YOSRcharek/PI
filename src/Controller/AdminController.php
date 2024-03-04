@@ -52,6 +52,7 @@ class AdminController extends AbstractController
     }
    
     #[Route('/buttons', name: 'buttons')]
+
     public function buttons(): Response
     {
         return $this->render('/admin/buttons.html.twig');
@@ -81,8 +82,19 @@ class AdminController extends AbstractController
     {
         return $this->render('/admin/associations.html.twig');
     }
+
    
     #[Route('/demandes', name: 'demandes')]
+
+    public function projets(): Response
+    {
+        return $this->render('/admin/projets.html.twig');
+    }
+    public function membres(): Response
+    {
+        return $this->render('/admin/membres.html.twig');
+    }
+
     public function demandes(): Response
     {
         return $this->render('/admin/demandes.html.twig');
@@ -100,7 +112,7 @@ class AdminController extends AbstractController
     #[Route('/createAcc', name: 'createAcc')]
     public function createAcc(): Response
     {
-        return $this->render('/admin/pages/create-account.html.twig');
+        return $this->render('/home/create-account.html.twig');
     }
     #[Route('/forgetPass', name: 'forgetPass')]
     public function forgetPass(): Response
@@ -112,4 +124,5 @@ class AdminController extends AbstractController
     {
         return $this->render('/admin/pages/login.html.twig');
     }
+    
 }

@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AssociationRepository::class)]
-class Association
+class Association 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,16 +38,16 @@ class Association
     private ?bool $status = null;
 
     #[ORM\Column(type: Types::BLOB)]
-    private $document = null;
+    private $document;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateDemande = null;
-
+     
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
     #[ORM\Column(type: Types::BLOB)]
-    private $image = null;
+    private $image;
 
     #[ORM\OneToMany(mappedBy: 'association', targetEntity: Service::class)]
     private Collection $services;
@@ -67,8 +67,15 @@ class Association
     #[ORM\OneToMany(mappedBy: 'association', targetEntity: Event::class)]
     private Collection $events;
 
+    #[ORM\Column]
+    private ?bool $ActiveCompte = null;
+
+
     public function __construct()
     {
+        $this->dateDemande = new \DateTime();
+        $this->status = false;
+        $this->ActiveCompte = false;
         $this->services = new ArrayCollection();
         $this->formations = new ArrayCollection();
         $this->membres = new ArrayCollection();
@@ -76,7 +83,7 @@ class Association
         $this->dons = new ArrayCollection();
         $this->events = new ArrayCollection();
     }
-
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -159,7 +166,7 @@ class Association
         return $this->status;
     }
 
-    public function setStatus(bool $status): static
+    public function setStatus($status): static
     {
         $this->status = $status;
 
@@ -178,12 +185,13 @@ class Association
         return $this;
     }
 
+    
     public function getDateDemande(): ?\DateTimeInterface
     {
         return $this->dateDemande;
     }
 
-    public function setDateDemande(\DateTimeInterface $dateDemande): static
+    public function setDateDemande(?\DateTimeInterface $dateDemande): self
     {
         $this->dateDemande = $dateDemande;
 
@@ -222,11 +230,11 @@ class Association
         return $this->services;
     }
 
-    public function addService(Service $service): static
+    public function addService(Service $Service): static
     {
-        if (!$this->services->contains($service)) {
-            $this->services->add($service);
-            $service->setAssociation($this);
+        if (!$this->services->contains($Service)) {
+            $this->services->add($Service);
+            $Service->setAssociation($this);
         }
 
         return $this;
@@ -393,4 +401,19 @@ class Association
 
         return $this;
     }
+
+    public function isActiveCompte(): ?bool
+    {
+        return $this->ActiveCompte;
+    }
+
+    public function setActiveCompte($ActiveCompte): static
+    {
+        $this->ActiveCompte = $ActiveCompte;
+
+        return $this;
+    }
+
+
+    
 }

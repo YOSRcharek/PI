@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProjetRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert; 
 
 #[ORM\Entity(repositoryClass: ProjetRepository::class)]
 class Projet
@@ -15,22 +16,29 @@ class Projet
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom du projet ne doit pas être vide.")]
+    #[Assert\Length(min:5, minMessage:"le Nom du projet doit faire au moins{{ limit }} caractéres")]
     private ?string $nomProjet = null;
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: "La date de début ne doit pas être vide.")]
     private ?\DateTimeInterface $dateDebut = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: "La date de fin ne doit pas être vide.")]
+    #[Assert\GreaterThan(propertyPath: "dateDebut", message: "La date de fin doit être postérieure à la date de début.")]
     private ?\DateTimeInterface $dateFin = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La description du projet ne doit pas être vide.")]
+    #[Assert\Length(min:10, minMessage:"le description du projet doit faire au moins{{ limit }} caractéres")]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'projets')]
-    private ?Association $association = null;
+    private Association $association ;
 
     public function getId(): ?int
     {
@@ -97,12 +105,13 @@ class Projet
         return $this;
     }
 
-    public function getAssociation(): ?association
+    public function getAssociation(): ?Association
     {
         return $this->association;
     }
 
-    public function setAssociation(?association $association): static
+    public function setAssociation(Association $association): static
+
     {
         $this->association = $association;
 

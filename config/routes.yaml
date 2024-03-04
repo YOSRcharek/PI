@@ -8,8 +8,160 @@ news_listing:
 news_Detail:
     path: /newsDetail
     controller: App\Controller\HomeController::newsDetail
+    
+news_API:
+    path: /newsAPI
+    controller: App\Controller\HomeController::newsAPI
 
 donate:
     path: /donate
     controller: App\Controller\HomeController::donate
+
+
+buttons:
+    path: /buttons
+    controller: App\Controller\AdminController::buttons
+
+cards:
+    path: /cards
+    controller: App\Controller\AdminController::cards
+
+charts:
+    path: /charts
+    controller: App\Controller\AdminController::charts
+
+forms:
+    path: /forms
+    controller: App\Controller\AdminController::forms
+
+associations:
+    path: /associations
+    controller: App\Controller\AdminController::associations
+
+projets:
+    path: /projets
+    controller: App\Controller\AdminController::projets
+
+membres:
+    path: /membres
+    controller: App\Controller\AdminController::membres
+
+demandes:
+    path: /demandes
+    controller: App\Controller\AdminController::demandes
+
+
+modals:
+    path: /modals
+    controller: App\Controller\AdminController::modals
+
+erreur:
+    path: /erreur
+    controller: App\Controller\AdminController::erreur
+
+blank:
+    path: /blank
+    controller: App\Controller\AdminController::blank
+
+createAcc:
+    path: /createAcc
+    controller: App\Controller\AdminController::createAcc
+
+forgetPass:
+    path: /forgetPass
+    controller: App\Controller\AdminController::forgetPass
+
+login:
+    path: /login
+    controller: App\Controller\AdminController::login
+    
+app_create_event:
+    path: /event/create
+    controller: App\Controller\EventController::createEvent
+    
+app_delete_event:
+    path: /event/delete/{id}
+    controller: App\Controller\EventController::deleteEvent
+app_edit_event:
+    path: /event/edit/{id}
+    controller: App\Controller\EventController::edit    
+app_event_details:
+    path: '/event/details/{id}'
+    controller: App\Controller\EventController::showDetails   
+app_type_event_index:
+    path: /types
+    controller: App\Controller\TypeEventController::showall
+
+
+app_type_event_new:
+    path: /type_event/new
+    controller: App\Controller\TypeEventController::new
+app_type_event_show:
+    path: /type_event/{id}
+    controller: App\Controller\TypeEventController::show
+app_type_event_edit:
+    path: /type_event/edit/{id}
+    controller: App\Controller\TypeEventController::edit  
+app_type_event_delete:
+    path: /type_event/delete/{id}
+    controller: App\Controller\TypeEventController::delete  
+
+app_participer_event:
+    path: '/event/participer/{id}'
+    controller: 'App\Controller\EventController::participer'  
+app_show_eventsadmin:
+    path: /admin/events
+    controller: App\Controller\AdminEventController::showEventsadmin          
+app_create_eventadmin:
+    path: /admin/event/create
+    controller: 'App\Controller\AdminEventController::createEvent'
+app_event_detailsadmin:
+    path: '/admin/event/details/{id}'
+    controller: 'App\Controller\AdminEventController::showDetailsadmin' 
+app_participer_eventadmin:
+    path: '/admin/event/participer/{id}'
+    controller: 'App\Controller\AdminEventController::participer'  
+app_delete_eventadmin:
+    path: '/admin/event/delete/{id}'
+    controller: 'App\Controller\AdminEventController::deleteEventadmin'         
+
+app_type_event_newadmin:
+    path: /admin/type_event/new
+    controller: App\Controller\AdminEventController::newtypeadmin   
+app_type_event_indexadmin:
+    path: /admin/types
+    controller: App\Controller\AdminEventController::showall   
+app_edit_eventadmin:
+    path: /admin/event/edit/{id}
+    controller: App\Controller\AdminEventController::editadmin   
+app_type_event_showadmin:
+    path: '/admin/type_event/{id}'
+    controller: 'App\Controller\AdminEventController::showtype' 
+app_type_event_editadmin:
+    path: '/admin/type_event/edit/{id}'
+    controller: 'App\Controller\AdminEventController::edittypeadmin'  
+app_type_event_deleteadmin:
+    path: /admin/type_event/delete/{id}
+    controller: App\Controller\AdminEventController::deleteadmin  
+app_search_event:
+    path: '/event/search'
+    controller: 'App\Controller\EventController::searchEvent'                  
+app_calendrier:
+    path: '/calendrier'
+    controller: 'App\Controller\CalendrierController::afficher' 
+search_eventajax:
+    path: /search_eventajax
+    controller: App\Controller\EventController::searchEventajax       
+users:
+    path: /users
+    controller: App\Controller\UserController::userList
+google_login:
+    path: /connect/google
+handle_contact_form:
+    path: /handle-contact-form
+    controller: App\Controller\HomeController::handleContactForm
+    methods: ['POST']  
+get_places:
+    path: /get-places
+    controller: App\Controller\MapboxController::getPlacesAction
 

@@ -1,0 +1,37 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}TypeEvent index{% endblock %}
+
+{% block body %}
+    <h1>TypeEvent</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type_event in type_events %}
+            <tr>
+                <td>{{ type_event.id }}</td>
+                <td>{{ type_event.nom }}</td>
+                <td>
+                    <a href="{{ path('app_type_event_showadmin', {'id': type_event.id}) }}">show</a>
+                    <a href="{{ path('app_type_event_editadmin', {'id': type_event.id}) }}">edit</a>
+                       
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_type_event_new') }}">Create new</a>
+    <a href="{{ path('app_create_event') }}">retour au formulaire</a>
+{% endblock %}
