@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create account - TuniCollab</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/front/images/grandLogo.png') }}" />
+
+    <link rel="stylesheet" href="assets/back/css/tailwind.output.css" />
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="assets/back/js/init-alpine.js"></script>
+    {% block stylesheets %}
+    <link href="{{ asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/front/css/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/front/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
+    {% endblock %}
+
+    {% block javascripts %}
+    <script src="{{ asset('assets/front/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery.sticky.js') }}"></script>
+    <script src="{{ asset('assets/front/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/front/js/counter.js') }}"></script>
+    <script src="{{ asset('assets/front/js/click-scroll.js') }}"></script>
+    {% endblock %}
+  </head>
+  <body>
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+      <div class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
+          <div class="flex flex-col overflow-y-auto md:flex-row">
+              <div class="h-32 md:h-auto md:w-1/2">
+                  <img aria-hidden="true" class="object-cover w-full h-full dark:hidden"
+                      src="{{ asset('assets/front/images/volontInscrir.png') }}" alt="Logo" />
+              </div>
+              <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
+                  <div class="w-full">
+                      {% if app.flashes('success') %}
+                          <div class="alert alert-success">
+                              {{ app.flashes('success')[0] }}
+                          </div>
+                      {% endif %}
+                      <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Create account</h1>
+
+                        <form method="post">
+                            {{ form_start(registrationForm) }}
+                            <div class="mb-3">
+                                {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+                            </div>
+                            <div class="form-check mb-3">
+                                {{ form_row(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                                <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">I agree to the terms</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Register</button>
+                            {{ form_end(registrationForm) }}
+                        </form>
+                   
+              
+                      <hr class="my-8" />
+                      <p class="mt-4">
+                          <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+                              href="./login.html">Already have an account? Login</a>
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  </body>
+</html>
+{% endblock %}

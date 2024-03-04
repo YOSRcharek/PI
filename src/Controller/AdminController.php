@@ -40,6 +40,14 @@ class AdminController extends AbstractController
     {
         return $this->render('/admin/associations.html.twig');
     }
+    public function projets(): Response
+    {
+        return $this->render('/admin/projets.html.twig');
+    }
+    public function membres(): Response
+    {
+        return $this->render('/admin/membres.html.twig');
+    }
     public function demandes(): Response
     {
         return $this->render('/admin/demandes.html.twig');
@@ -54,7 +62,7 @@ class AdminController extends AbstractController
     }
     public function createAcc(): Response
     {
-        return $this->render('/admin/pages/create-account.html.twig');
+        return $this->render('/home/create-account.html.twig');
     }
     public function forgetPass(): Response
     {

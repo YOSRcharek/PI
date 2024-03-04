@@ -30,4 +30,49 @@
         "alpinejs": "^3.13.5",
         "init": "^0.1.2"
     }
+
+  "devDependencies": {
+    "@babel/core": "^7.17.0",
+    "@babel/preset-env": "^7.16.0",
+    "@hotwired/stimulus": "^3.0.0",
+    "@symfony/stimulus-bridge": "^3.2.0",
+    "@symfony/webpack-encore": "^4.0.0",
+    "autoprefixer": "^10.4.17",
+    "bootstrap": "^5.3.2",
+    "core-js": "^3.23.0",
+    "cssnano": "^6.0.3",
+    "postcss": "^8.4.35",
+    "regenerator-runtime": "^0.13.9",
+    "tailwindcss": "^3.4.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-notifier": "^1.15.0"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production --progress"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.1",
+    "init": "^0.1.2"
+  },
+  "name": "pi",
+  "version": "1.0.0",
+  "main": "postcss.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOSRcharek/PI.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/YOSRcharek/PI/issues"
+  },
+  "homepage": "https://github.com/YOSRcharek/PI#readme",
+  "keywords": [],
+  "description": ""
+
 }

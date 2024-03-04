@@ -8,6 +8,10 @@ news_listing:
 news_Detail:
     path: /newsDetail
     controller: App\Controller\HomeController::newsDetail
+    
+news_API:
+    path: /newsAPI
+    controller: App\Controller\HomeController::newsAPI
 
 donate:
     path: /donate
@@ -32,6 +36,14 @@ forms:
 associations:
     path: /associations
     controller: App\Controller\AdminController::associations
+
+projets:
+    path: /projets
+    controller: App\Controller\AdminController::projets
+
+membres:
+    path: /membres
+    controller: App\Controller\AdminController::membres
 
 demandes:
     path: /demandes
@@ -61,7 +73,7 @@ forgetPass:
 login:
     path: /login
     controller: App\Controller\AdminController::login
-
+    
 app_create_event:
     path: /event/create
     controller: App\Controller\EventController::createEvent
@@ -139,4 +151,15 @@ app_calendrier:
 search_eventajax:
     path: /search_eventajax
     controller: App\Controller\EventController::searchEventajax       
-   
+users:
+    path: /users
+    controller: App\Controller\UserController::userList
+google_login:
+    path: /connect/google
+handle_contact_form:
+    path: /handle-contact-form
+    controller: App\Controller\HomeController::handleContactForm
+    methods: ['POST']  
+get_places:
+    path: /get-places
+    controller: App\Controller\MapboxController::getPlacesAction

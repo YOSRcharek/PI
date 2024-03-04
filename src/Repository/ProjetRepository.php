@@ -20,6 +20,31 @@ class ProjetRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Projet::class);
     }
+// Dans ProjetRepository.php
+
+public function countOngoingProjects($associationId): int
+{
+    return $this->createQueryBuilder('p')
+        ->select('COUNT(p.id)')
+        ->where('p.status = :status')
+        ->andWhere('p.association = :associationId')
+        ->setParameter('status', 'en cours')
+        ->setParameter('associationId', $associationId)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
+
+public function countCompletedProjects($associationId): int
+{
+    return $this->createQueryBuilder('p')
+        ->select('COUNT(p.id)')
+        ->where('p.status = :status')
+        ->andWhere('p.association = :associationId')
+        ->setParameter('status', 'termine')
+        ->setParameter('associationId', $associationId)
+        ->getQuery()
+        ->getSingleScalarResult();
+}
 
 //    /**
 //     * @return Projet[] Returns an array of Projet objects

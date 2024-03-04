@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="editProjectPopUP">
+    <div class="editPopupProject" id="popupEditProject">
+        <div class="col-lg-6 col-12">
+            <form class="custom-form volunteer-form mb-5 mb-lg-0" action="{{ path('app_edit_projet', {'id': projet.id}) }}" method="post" role="form">
+                <h2 class="mb-4">Edit Project</h2>
+                <div class="row">
+                    {{ form_start(form, {'attr': {'class': 'custom-form volunteer-form mb-5 mb-lg-0'}}) }}
+
+                    <div class="col-lg-6 col-12">
+                        {{ form_row(form.nomProjet, {'label': 'Name:', 'placeholder': 'Name', 'attr': {'class': 'form-control '}}) }}
+                     
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        {{ form_row(form.status, {'label': 'Status:', 'attr': {'class': 'form-control'}}) }}
+                      
+
+                    </div>
+                    {{ form_row(form.description, {'label': 'Description:', 'placeholder': 'Description', 'attr': {'class': 'form-control'}}) }}
+                 
+
+                    <div class="col-lg-6 col-12">
+                        <label for="dateDebut">From:</label>
+                        {{ form_widget(form.dateDebut, {'id': 'dateDebut', 'placeholder': 'Start Date', 'attr': {'class': 'form-control'}}) }}
+                       
+                    </div>
+
+                    <div class="col-lg-6 col-12">
+                        <label for="dateDebut">To:</label>
+                        {{ form_widget(form.dateFin, {'id': 'dateFIN', 'placeholder': 'End Date', 'attr': {'class': 'form-control'}}) }}
+                     
+                    </div>
+                    {{ form_widget(form.association, {'attr': {'style': 'display: none;'}}) }}
+                       
+                </div>
+                <button type="submit" class="form-control">Edit Project</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
