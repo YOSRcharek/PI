@@ -15,6 +15,8 @@
     <link href="{{ asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/front/css/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/front/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
+
+  
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" integrity="computed-SHA-512-value" crossorigin=""/>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
@@ -32,11 +34,30 @@
     <script src="{{ asset('assets/front/js/counter.js') }}"></script>
     <script src="{{ asset('assets/front/js/click-scroll.js') }}"></script>
 
+    <script>
+        
+        function hideFlashMessages() {
+            const flashMessages = document.querySelectorAll('.alert');
+            flashMessages.forEach(message => {
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 5000); 
+            });
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            hideFlashMessages();
+        });
+    </script>
+
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js" integrity="computed-SHA-512-value" crossorigin=""></script>
     
 
     
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClAGkEOReRLQ-4e41vkorlpPRiG8rNn_4&libraries=places"></script>
+
 
     {% endblock %}
 </head>
@@ -63,6 +84,9 @@
 </body>
 
 </html>
+
+
+</html>
 <script type="text/javascript">
     (function(d, m){
         var kommunicateSettings = 
@@ -74,3 +98,4 @@
     })(document, window.kommunicate || {});
 /* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
 </script>
+

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des types de dons{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<div class="text-center">
+    <br>
+    <br>
+    <h1>Liste des types de dons</h1>
+    <br>
+    <br>
+    <div class="container-fluid"> <!-- Use a fluid container to ensure full width -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for type_don in type_dons %}
+                <div class="col-md-4"> <!-- Reduced width to 4 columns for medium screens -->
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ type_don.nom }}</h5>
+                            <div class="btn-group" role="group">
+                                <a href="{{ path('type_dons_modifier', {'id': type_don.id}) }}" class="custom-btn btn mt-3">
+                                    <i class="fas fa-edit"></i> <!-- Icône Modifier -->
+                                </a>
+                                <a href="{{ path('type_dons_delete', {'id': type_don.id}) }}" class="custom-btn btn mt-3" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce type de don ?')">
+                                    <i class="fas fa-trash-alt"></i> <!-- Icône Supprimer -->
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+    <a href="{{ path('type_dons_add') }}" class="custom-btn btn mt-3">Ajouter un type de don</a>
+    <br>
+    <br>
+</div>
+
+<style>
+    .custom-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 15px;
+    }
+
+    .custom-card:hover {
+        transform: scale(1.05); /* effet de zoom */
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* ombre légère */
+        background-color: #f8f9fa; /* couleur de fond légèrement plus claire */
+    }
+</style>
+
+{% endblock %}

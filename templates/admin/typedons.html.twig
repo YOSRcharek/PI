@@ -1,0 +1,43 @@
+
+{% extends 'baseAdmin.html.twig' %}
+
+     {% block title %}Liste des types de dons{% endblock %}
+
+{% block body %}
+<div class="text-center">
+
+    <h2
+              class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+            >
+              Liste des types de dons
+            </h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for type_don in type_dons %}
+                <tr>
+                    <th scope="row">{{ type_don.id }}</th>
+                    <td>{{ type_don.nom }}</td>
+                    <td>
+                        
+                        <a href="{{ path('type_dons_modifier_admin', {'id': type_don.id}) }}" class="btn btn-secondary">Modifier</a>
+                        <a href="{{ path('type_dons_delete_admin', {'id': type_don.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce type de don ?')">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('type_dons_add_admin') }}" class="btn btn-success">Ajouter un type de don</a>
+    <br>
+    <br>
+    <br>
+</div>
+{% endblock %}

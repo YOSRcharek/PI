@@ -6,6 +6,8 @@ use App\Repository\DonsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Regex;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DonsRepository::class)]
@@ -17,23 +19,30 @@ class Dons
     private ?int $id = null;
 
     #[ORM\Column]
+    
+    
+    #[Assert\GreaterThan(0, message: "Le montant doit etre positif")]
+    #[Assert\NotBlank(message:"Le montant est requis")]
     private ?float $montant = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateMisDon = null;
 
     #[ORM\ManyToOne(inversedBy: 'dons')]
+    #[Assert\NotBlank(message:"Le type est requis")]
     private ?TypeDons $type = null;
 
     #[ORM\ManyToOne(inversedBy: 'dons')]
-    private ?association $association = null;
+    #[Assert\NotBlank(message:"Nom de l'association est requis")]
+    private ?Association $association = null;
 
-    #[ORM\ManyToMany(targetEntity: volontaire::class, inversedBy: 'dons')]
+    #[ORM\ManyToMany(targetEntity: Volontaire::class, inversedBy: 'dons')]
     private Collection $volontaire;
 
     public function __construct()
     {
         $this->volontaire = new ArrayCollection();
+        $this->dateMisDon = new \DateTime();
     }
 
     public function getId(): ?int

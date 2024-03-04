@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TypeDonsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TypeDonsRepository::class)]
@@ -16,6 +17,13 @@ class TypeDons
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Le nom est requis")]
+    #[Assert\Length(
+        min: 2,
+        max: 15,
+        minMessage: "Le nom doit contenir au moins {{ limit }} caractères",
+        maxMessage: "Le nom ne peut pas contenir plus de {{ limit }} caractères"
+    )]
     private ?string $nom = null;
 
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Dons::class)]
@@ -71,5 +79,11 @@ class TypeDons
         }
 
         return $this;
+    }
+
+
+    public function __toString(): string
+    {
+        return $this->nom;
     }
 }

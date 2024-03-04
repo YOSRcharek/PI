@@ -17,6 +17,7 @@ donate:
     path: /donate
     controller: App\Controller\HomeController::donate
 
+
 buttons:
     path: /buttons
     controller: App\Controller\AdminController::buttons
@@ -163,3 +164,4 @@ handle_contact_form:
 get_places:
     path: /get-places
     controller: App\Controller\MapboxController::getPlacesAction
+

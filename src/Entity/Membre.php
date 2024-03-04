@@ -44,8 +44,8 @@ class Membre
     private ?string $fonction = null;
 
     #[ORM\ManyToOne(inversedBy: 'membres')]
-    private Association $association;
 
+    private Association $association;
 
     public function getId(): ?int
     {
