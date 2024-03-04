@@ -32,6 +32,7 @@
               top: 50%; /* Position verticale au centre */
                z-index: 9;
                transform: translate(-30%, -40%); 
+               cursor: move;
             }
             .DetailPopupProject {
                 display: none;
@@ -100,7 +101,11 @@
             document.getElementById("popupFormProject").style.display = "block";
             document.getElementById("overlayProject").style.display = "block"; // Afficher l'overlayProject
         }
-        
+        function submitFormIfValid() {
+            if (document.getElementById('newProjectForm').checkValidity()) {
+                document.getElementById('newProjectForm').submit(); // Soumettre le formulaire si valide
+            }
+        }
           function closeFormProject() {
             document.getElementById("popupFormProject").style.display = "none";
             document.getElementById("overlayProject").style.display = "none"; // Masquer l'overlayProject
@@ -160,27 +165,15 @@
                                     
                                         <div class="col-lg-6 col-12">
                                             {{ form_row(form2.nomProjet, {'label': 'Name:', 'placeholder': 'Name', 'attr': {'class': 'form-control '}}) }}
-                                            {% if form_errors(form2.nomProjet) %}
-                                                <div class="text-danger">
-                                                    {{ form_errors(form2.nomProjet) }}
-                                                </div>
-                                            {% endif %}
+                                       
                                         </div>
                                         <div class="col-lg-6 col-12">
                                             {{ form_row(form2.status, {'label': 'Status:', 'attr': {'class': 'form-control'}}) }}
-                                            {% if form_errors(form2.status) %}
-                                                <div class="text-danger">
-                                                    {{ form_errors(form2.status) }}
-                                                </div>
-                                            {% endif %}
+                                      
                                         
                                         </div>
                                         {{ form_row(form2.description, {'label': 'Description:', 'placeholder': 'Description', 'attr': {'class': 'form-control'}}) }}
-                                        {% if form_errors(form2.description) %}
-                                            <div class="text-danger">
-                                                {{ form_errors(form2.description) }}
-                                            </div>
-                                        {% endif %}
+                                   
                                     
                                         <div class="col-lg-6 col-12">
                                             <label for="dateDebut">From:</label>
@@ -204,8 +197,6 @@
                                             
                                     </div>
                                     <button type="submit" class="form-control">Add Project</button>
-                                    
-                                    {{ form_end(form2) }}
                                 </form>
                             </div>
                         </div>

@@ -53,24 +53,54 @@
 
     <div
       x-show="isSideMenuOpen"
-      x-transition:enter="transition ease-in-out duration-150"
-      x-transition:enter-start="opacity-0"
-      x-transition:enter-end="opacity-100"
-      x-transition:leave="transition ease-in-out duration-150"
-      x-transition:leave-start="opacity-100"
-      x-transition:leave-end="opacity-0"
-      class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+    >
    </div>
     <div class="flex flex-col flex-1 w-full">
 
       {{ include('admin/header.html.twig') }}
-      {% block body %}
-      {{ include('admin/index.html.twig') }}
-      {% endblock %}
 
+{% block body %}
+<body>
+    <div class="container p-5 my-5 border">
+        <h1 class="text-center">Détails de l'projet</h1>
+
+        <table class="table table-bordered table-striped mx-auto mt-4" style="width: 80%;">
+            <tbody>
+                <tr>
+                    <th scope="row" class="text-end">Nom:</th>
+                    <td>{{ projet.nomProjet }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-end">Status:</th>
+                    <td>{{ projet.status }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-end">Description:</th>
+                    <td>{{ projet.description }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-end">From:</th>
+                    <td>{{ projet.dateDebut|date('Y-m-d')  }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-end">To:</th>
+                    <td>  {{ projet.dateFin|date('Y-m-d') }} </td>
+                </tr>
+               
+              
+               
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center mt-4">
+            <a href="{{ path('app_show') }}" class="btn btn-secondary mx-2">Retour à la liste</a>
+        </div>
     </div>
-   </div>
- 
+</body>    
+{% endblock %}
+</div>
+</div>
 
-  </body>
+
+</body>
 </html>

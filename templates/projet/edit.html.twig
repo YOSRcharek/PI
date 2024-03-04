@@ -11,51 +11,32 @@
 
                     <div class="col-lg-6 col-12">
                         {{ form_row(form.nomProjet, {'label': 'Name:', 'placeholder': 'Name', 'attr': {'class': 'form-control '}}) }}
-                        {% if form_errors(form.nomProjet) %}
-                            <div class="text-danger">
-                                {{ form_errors(form.nomProjet) }}
-                            </div>
-                        {% endif %}
+                     
                     </div>
                     <div class="col-lg-6 col-12">
                         {{ form_row(form.status, {'label': 'Status:', 'attr': {'class': 'form-control'}}) }}
-                        {% if form_errors(form.status) %}
-                            <div class="text-danger">
-                                {{ form_errors(form.status) }}
-                            </div>
-                        {% endif %}
+                      
 
                     </div>
                     {{ form_row(form.description, {'label': 'Description:', 'placeholder': 'Description', 'attr': {'class': 'form-control'}}) }}
-                    {% if form_errors(form.description) %}
-                        <div class="text-danger">
-                            {{ form_errors(form.description) }}
-                        </div>
-                    {% endif %}
+                 
 
                     <div class="col-lg-6 col-12">
                         <label for="dateDebut">From:</label>
                         {{ form_widget(form.dateDebut, {'id': 'dateDebut', 'placeholder': 'Start Date', 'attr': {'class': 'form-control'}}) }}
-                        {% if form_errors(form.dateDebut) %}
-                            <div class="text-danger">
-                                {{ form_errors(form.dateDebut) }}
-                            </div>
-                        {% endif %}
+                       
                     </div>
 
                     <div class="col-lg-6 col-12">
                         <label for="dateDebut">To:</label>
                         {{ form_widget(form.dateFin, {'id': 'dateFIN', 'placeholder': 'End Date', 'attr': {'class': 'form-control'}}) }}
-                        {% if form_errors(form.dateFin) %}
-                            <div class="text-danger">
-                                {{ form_errors(form.dateFin) }}
-                            </div>
-                        {% endif %}
+                     
                     </div>
-
+                    {{ form_widget(form.association, {'attr': {'style': 'display: none;'}}) }}
+                       
                 </div>
                 <button type="submit" class="form-control">Edit Project</button>
-                {{ form_end(form) }}
+
             </form>
         </div>
     </div>

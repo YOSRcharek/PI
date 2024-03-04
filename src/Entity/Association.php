@@ -38,7 +38,7 @@ class Association
     private ?bool $status = null;
 
     #[ORM\Column(type: Types::BLOB)]
-    private $document ;
+    private $document;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateDemande = null;
@@ -70,6 +70,7 @@ class Association
     #[ORM\Column]
     private ?bool $ActiveCompte = null;
 
+
     public function __construct()
     {
         $this->dateDemande = new \DateTime();
@@ -82,7 +83,7 @@ class Association
         $this->dons = new ArrayCollection();
         $this->events = new ArrayCollection();
     }
-
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -412,5 +413,7 @@ class Association
 
         return $this;
     }
+
+
     
 }

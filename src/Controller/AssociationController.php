@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Form\AssociationType;
 use App\Form\ProjetType;
 use App\Form\MembreType;
+use App\Form\AssoType;
 use App\Repository\AssociationRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\MembreRepository;
@@ -22,6 +23,8 @@ use App\Service\FileReadService;
 use App\Service\MailerTraitement;
 use Symfony\Component\Mailer\MailerInterface;
 use App\Twig\Base64EncodeExtensionService;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 class AssociationController extends AbstractController
 {
@@ -81,7 +84,7 @@ public function __construct(Base64EncodeExtensionService $base64EncodeExtensionS
         return $this->render('association/create.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/edit/{id}', name: 'app_edit')]
+    #[Route('/editAssoc/{id}', name: 'app_edit_assoc')]
     public function edit(Request $request, EntityManagerInterface $entityManager, AssociationRepository $associationRepo, int $id): Response
     {
         $association = $associationRepo->find($id);
@@ -90,10 +93,11 @@ public function __construct(Base64EncodeExtensionService $base64EncodeExtensionS
             throw $this->createNotFoundException('Association not found');
         }
 
-        $form = $this->createForm(AssociationType::class, $association);
+        $form = $this->createForm(AssoType::class, $association);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           
             $entityManager->flush();
 
             return $this->redirectToRoute('app_show');
@@ -101,6 +105,7 @@ public function __construct(Base64EncodeExtensionService $base64EncodeExtensionS
 
         return $this->render('association/edit.html.twig', ['form' => $form->createView()]);
     }
+
     #[Route('detail/{id}', name: 'app_details')]
     public function showDetails(AssociationRepository $AssociationRepo, $id): Response
     {
@@ -108,66 +113,100 @@ public function __construct(Base64EncodeExtensionService $base64EncodeExtensionS
             'association' => $AssociationRepo->find($id),
         ]);
     }
+   
+    
+
+
     #[Route('/delete/{id}', name: 'app_delete')]
-    public function delete(Request $request, $id, ManagerRegistry $manager,AssociationRepository $associationRepo): Response
-    {
-        // Action pour supprimer une association
-        $em = $manager->getManager();
-        $association = $associationRepo->find($id);
+public function delete(Request $request, $id, ManagerRegistry $manager, AssociationRepository $associationRepo): Response
+{
+    // Récupérer l'EntityManager
+    $em = $manager->getManager();
 
-        $em->remove($association);
-        $em->flush();
-        return $this->redirectToRoute('app_show');  // Modifié pour utiliser le nom de la route correct
+    // Récupérer l'association à supprimer
+    $association = $associationRepo->find($id);
+
+    // Vérifier si l'association existe
+    if (!$association) {
+        throw $this->createNotFoundException('Association not found');
     }
 
+
+    // Récupérer tous les membres liés à l'association
+    $membres = $association->getMembres();
+
+    // Supprimer tous les membres liés
+    foreach ($membres as $membre) {
+        $em->remove($membre);
+    }
+
+    // Récupérer tous les projets liés à l'association
+    $projets = $association->getProjets();
+
+    // Supprimer tous les projets liés
+    foreach ($projets as $projet) {
+        $em->remove($projet);
+    }
+
+    // Supprimer l'association elle-même
+    $em->remove($association);
+
+    // Appliquer les modifications à la base de données
+    $em->flush();
+
+    return $this->redirectToRoute('app_show');
+}
     #[Route('/createAcc', name: 'app_inscrire')]
-    public function inscrire(ManagerRegistry $managerRegistry, Request $request, MailerTraitement $service): Response
-    {
-        // Action to create a new association
-        $association = new Association();
     
-        $form = $this->createForm(AssociationType::class, $association);
-    
-        // Handle form submission
-        $form->handleRequest($request);
-    
-        try {
-            // Begin the transaction
-            $entityManager = $managerRegistry->getManager();
-            $entityManager->beginTransaction();
-    
-            if ($form->isSubmitted() && $form->isValid()) {
-                // Get the uploaded file
-                /** @var UploadedFile $documentFile */
-                $documentFile = $form->get('document')->getData();
-           
-                if ($documentFile) {
-                    $documentContent = file_get_contents($documentFile->getPathname());
-    
-                    $association->setDocument($documentContent);
-                }
-    
-                $entityManager->persist($association);
-                $entityManager->flush();
-    
-                // Get the email entered in the form
-                $email = $form->get('email')->getData();
-    
-                // Send the email
-                $service->sendEmail($email);
-    
-                $entityManager->commit();
-    
-                return $this->redirectToRoute('app_home');
+public function inscrire(ManagerRegistry $managerRegistry, Request $request, MailerTraitement $service): Response
+{
+    // Action to create a new association
+    $association = new Association();
+
+    $form = $this->createForm(AssociationType::class, $association);
+
+    // Handle form submission
+    $form->handleRequest($request);
+
+    try {
+        // Begin the transaction
+        $entityManager = $managerRegistry->getManager();
+        $entityManager->beginTransaction();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Get the uploaded file
+            /** @var UploadedFile $documentFile */
+            $documentFile = $form->get('document')->getData();
+       
+            if ($documentFile) {
+                $documentContent = file_get_contents($documentFile->getPathname());
+
+                $association->setDocument($documentContent);
             }
-    
-        } catch (\Exception $e) {
-            $entityManager->rollback();
-            throw $e;
+
+            $entityManager->persist($association);
+            $entityManager->flush();
+
+            // Get the email entered in the form
+            $email = $form->get('email')->getData();
+
+            // Send the email
+            $service->sendEmail($email);
+
+            $entityManager->commit();
+
+            return $this->redirectToRoute('app_home');
         }
-    
-        return $this->render('home/create-account.html.twig', ['form' => $form->createView()]);
+
+    } catch (\Exception $e) {
+        $entityManager->rollback();
+        throw $e;
+
     }
+
+    return $this->render('home/create-account.html.twig', ['form' => $form->createView()]);
+}
+
 
 
     #[Route('/dessapprouver/{id}', name: 'app_desapp')]
@@ -226,6 +265,9 @@ public function profil(Request $request, AssociationRepository $associationRepo,
     $form = $this->createForm(MembreType::class, $membre);
     $form2 = $this->createForm(ProjetType::class, $projet);
 
+    $ongoingProjectsCount = $projetRepo->countOngoingProjects($id);
+    $completedProjectsCount = $projetRepo->countCompletedProjects($id);
+
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
         $membre->setAssociation($association);
@@ -233,6 +275,7 @@ public function profil(Request $request, AssociationRepository $associationRepo,
         $entityManager->flush();
 
         return $this->redirectToRoute('app_profil', ['id' => $id]);
+
     }
 
      $form2->handleRequest($request);
@@ -245,13 +288,18 @@ public function profil(Request $request, AssociationRepository $associationRepo,
         return $this->redirectToRoute('app_profil', ['id' => $id]);
          
     }
+    
     return $this->render('association/profile.html.twig', [
         'association' => $association,
         'projets' => $projets,
         'membres'=> $membres,
         'form' => $form->createView(),
-        'form2' => $form2->createView()
+        'form2' => $form2->createView(),
+        'ongoingProjectsCount' => $ongoingProjectsCount,
+        'completedProjectsCount' => $completedProjectsCount,
     ]);
+            
+     
 }
 
 

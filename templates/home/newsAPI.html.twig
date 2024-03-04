@@ -21,7 +21,63 @@
         <div class="row">
   
             <div class="col-lg-7 col-12">
-              </div>
+                {% for article in associationNews %}
+                                
+                                <div class="news-block">
+                                    <div class="news-block-top">
+                                        {% if article.imageUrl is not null %}
+                                        <a href="news-detail.html">
+                                            <img src="{{ article.imageUrl }}" alt="{{ article.title }}"  
+                                                class="news-image img-fluid">
+                                        </a>
+                                        {% endif %}
+                                        
+                                        <div class="news-category-block">
+                                            <a href="#" class="category-block-link">
+                                               {{article.category}}
+                                            </a>
+                
+                                            
+                                        </div>
+                                    </div>
+                
+                                    <div class="news-block-info">
+                                        <div class="d-flex mt-2">
+                                            <div class="news-block-date">
+                                                <p>
+                                                    <i class="bi-calendar4 custom-icon me-1"></i>
+                                                    {{ article.publishedAt|date('F j, Y') }}
+                                                </p>
+                                            </div>
+                
+                                            <div class="news-block-author mx-5">
+                                                <p>
+                                                    <i class="bi-person custom-icon me-1"></i>
+                                                    {{article.author}}
+                                                </p>
+                                            </div>
+                
+                                            <div class="news-block-comment">
+                                                <p>
+                                                    <i class="bi-chat-left custom-icon me-1"></i>
+                                                    {{ article.commentsCount }} Comments
+                                                </p>
+                                            </div>
+                                        </div>
+                
+                                        <div class="news-block-title mb-2">
+                                            <h4><a href="news-detail.html" class="news-block-title-link">{{ article.title }}</a></h4>
+                                        </div>
+                
+                                        <div class="news-block-body">
+                                            <p>{{ article.description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+               
+            </div>
           
             <div class="col-lg-4 col-12 mx-auto mt-4 mt-lg-0">
                 <form class="custom-form search-form" action="#" method="post" role="form">

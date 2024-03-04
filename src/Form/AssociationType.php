@@ -14,7 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\File as FileConstraint; 
+use Symfony\Component\Validator\Constraints\Image as ImageConstraint; 
 
 class AssociationType extends AbstractType
 {
@@ -25,27 +28,27 @@ class AssociationType extends AbstractType
         $builder
         
         ->add('nom', TextType::class, [
-                'label' => 'Nom:',
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Regex([
-                        'pattern' => '/^[a-zA-Z]+$/',
-                        'message' => "Le nom de l'association doit contenir uniquement des lettres.",
-                    ]),
-                ],
-            ])
+            'label' => 'Nom:',
+            'constraints' => [
+                new Assert\NotBlank(['message' => 'The association name cannot be blank.']),
+                new Assert\Regex([
+                    'pattern' => '/^[a-zA-Z]+$/',
+                    'message' => 'The association name should contain only letters.',
+                ]),
+            ],
+        ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description:',
                 'required' => false,
                 'constraints' => [
-                    new Assert\NotBlank(),
-                ],
+                new Assert\NotBlank(['message' => 'The description cannot be blank.']),
+            ],
             ])
             ->add('domaineActivite', TextType::class, [
                 'label' => 'Domaine:',
                 'constraints' => [
-                    new Assert\NotBlank(),
-                ],
+                new Assert\NotBlank(['message' => 'The domaine cannot be blank.']),
+            ]
             ])
             ->add('adresse', TextType::class, [
                 'label' => 'Adresse:',
@@ -59,17 +62,17 @@ class AssociationType extends AbstractType
                 'label' => 'Telephone:',
                 'required' => false,
                 'constraints' => [
-                    new Assert\NotBlank(),
-                    new Assert\Regex([
-                        'pattern' => '/^\d+$/',
-                        'message' => "Le téléphone de l'association doit contenir uniquement des chiffres.",
-                    ]),
-                    new Assert\Length([
-                        'min' => 8,
-                        'max' => 8,
-                        'exactMessage' => "Le téléphone de l'association doit avoir une longueur de 8 chiffres.",
-                    ]),
-                ],
+                        new Assert\NotBlank(['message' => 'The telephone number cannot be blank.']),
+                        new Assert\Regex([
+                            'pattern' => '/^\d+$/',
+                            'message' => 'The telephone number should contain only digits.',
+                        ]),
+                        new Assert\Length([
+                            'min' => 8,
+                            'max' => 8,
+                            'exactMessage' => 'The telephone number must be exactly 8 digits long.',
+                        ]),
+                    ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email:',
@@ -89,29 +92,59 @@ class AssociationType extends AbstractType
                 'mapped' => false,
             ])
             ->add('document', FileType::class, [
-                'label' => 'Document'
-            ])
+                    'label' => 'Document:',
+                    'required' => true,
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                        new FileConstraint([
+                            'maxSize' => '1024k',
+                            'mimeTypes' => [
+                                'application/pdf',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        ]),
+                    ],
+                    'attr' => [
+                        'class' => 'form-control',
+                    ],
+                ])
             ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe:',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Le mot de passe ne peut pas être vide.',
+                        'message' => 'The password cannot be blank.',
                     ]),
                     new Assert\Length([
                         'min' => 8,
-                        'minMessage' => 'Le mot de passe doit contenir au moins {{ limit }} caractères.',
-                    ]),
+                        'minMessage' => 'The password must be at least {{ limit }} characters long.',
+               ]),
                     new Assert\Regex([
                         'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])/',
-                        'message' => 'Le mot de passe doit contenir au moins une lettre majuscule et une lettre minuscule.',
+                        'message' => 'The password must contain at least one uppercase and one lowercase letter.',
                     ]),
                 ],
             ])
 
             ->add('image', FileType::class, [
-                'label' => 'Image',
                 
-            ]);
+                'label' => 'Image',
+                'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new ImageConstraint([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            // Add more image MIME types if needed
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image file (JPEG or PNG)',
+                    ]),
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+        
         ;
     }
 

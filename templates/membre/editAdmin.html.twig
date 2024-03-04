@@ -53,24 +53,58 @@
 
     <div
       x-show="isSideMenuOpen"
-      x-transition:enter="transition ease-in-out duration-150"
-      x-transition:enter-start="opacity-0"
-      x-transition:enter-end="opacity-100"
-      x-transition:leave="transition ease-in-out duration-150"
-      x-transition:leave-start="opacity-100"
-      x-transition:leave-end="opacity-0"
-      class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+    >
    </div>
     <div class="flex flex-col flex-1 w-full">
 
       {{ include('admin/header.html.twig') }}
-      {% block body %}
-      {{ include('admin/index.html.twig') }}
-      {% endblock %}
+
+{% block body %}
+    <div class="container p-5 my-5 border">
+        <h1>Modifier l'membre</h1>
+
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+    
+        <div class="col-lg-6 col-12">
+            {{ form_row(form.nomMembre, {'label': 'First Name:', 'attr': {'class': 'form-control', 'placeholder': 'First Name', 'required': 'required'}}) }}
+          
+        </div>
+        <div class="col-lg-6 col-12">
+            {{ form_row(form.prenomMembre, {'label': 'Last Name:', 'attr': {'class': 'form-control', 'placeholder': 'Last Name', 'required': 'required'}}) }}
+       
+        </div>
+            {{ form_row(form.emailMembre, {'label': 'Email:', 'attr': {'class': 'form-control', 'placeholder': 'Nom@gmail.com', 'required': 'required', 'pattern': '[^ @]*@[^ @]*'}}) }}
+         
+       
+        <div class="col-lg-6 col-12">
+            {{ form_row(form.telephone, {'label': 'Telephone:', 'attr': {'class': 'form-control', 'placeholder': '+216', 'required': 'required'}}) }}
+   
+        </div>
+        <div class="col-lg-6 col-12">
+
+            {{ form_row(form.fonction, {'label': 'Function:', 'attr': {'class': 'form-control', 'required': 'required'}}) }}
+     
+
+        <div class="row mb-2">
+          {{ form_widget(form.association, {'attr': {'style': 'display: none;'}}) }}
+
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="{{ path('app_show_membre') }}">Retour à la liste des membres</a>
+            </div>
+        </div>
+
 
     </div>
-   </div>
- 
+{% endblock %}
+</div>
+</div>
 
-  </body>
+
+</body>
 </html>

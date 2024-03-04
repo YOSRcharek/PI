@@ -10,11 +10,20 @@
              
             </h2>
             <!-- With actions -->
-            <h4
+           
+
+            <div class="col">
+              <h4
               class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300"
             >
-            Les associations
+            Les projets
             </h4>
+          </div>
+          <div class="col text-end">
+          <a href={{path('app_create_projet')}}>  <button class="btn btn-primary" >Add Projet</button>   </a>
+          </div>
+
+
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
               <div class="w-full overflow-x-auto">
                 <table class="w-full whitespace-no-wrap">
@@ -22,72 +31,43 @@
                     <tr
                       class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                     >
-                    <th class="px-4 py-3">Images</th>
                     <th class="px-4 py-3">Nom</th>
-                      <th class="px-4 py-3">Domaine</th>
-                      <th class="px-4 py-3">Email</th>
-                      <th class="px-4 py-3">isActive</th>
-                      <th class="px-4 py-3">Adresse</th>
+                    <th class="px-4 py-3">Status</th>
+                 
+                      <th class="px-4 py-3">Date debut</th>
+                      <th class="px-4 py-3">Date Fin</th>
                       <th class="px-4 py-3">Actions</th>
                     </tr>
                   </thead>
                   <tbody
                     class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                   >
-                {% for association in associations %}
+                {% for projet in projets %}
                   
                     <tr class="text-gray-700 dark:text-gray-400">
-                      <td class="px-4 py-3">
-                        <div class="flex items-center text-sm">
-                          <!-- Avatar with inset shadow -->
-                          <div
-                            class="relative hidden w-8 h-8 mr-3 rounded-full md:block"
-                          > 
-                            <img
-                              class="object-cover w-full h-full rounded-full"
-                              src="{{asset('assets/front/images/tuniCollabLogo.png')}}"
-                              alt=""
-                              loading="lazy"
-                            />
-                            <div
-                              class="absolute inset-0 rounded-full shadow-inner"
-                              aria-hidden="true"
-                            ></div>
-                          </div>
-                         
-                        </div>
-                      </td>
+                    
                       <td class="px-4 py-3 text-sm">
-                        {{ association.nom }}
+                        {{ projet.nomProjet }}
                       </td>
                       <td class="px-4 py-3 text-xs">
                         <span
                           class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700"
                         >
-                        {{ association.domaineActivite }}
+                        {{ projet.status }}
                         </span>
                       </td>
-                      <td class="px-4 py-3 text-sm">
-                        {{ association.email }}
-                      </td>
-                      <td class="px-4 py-3 text-sm">
-                        {% if association.ActiveCompte %}
-                            <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                Yes
-                            </span>
-                        {% else %}
-                            <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
-                                No
-                            </span>
-                        {% endif %}
-                    </td>
                     
                       <td class="px-4 py-3 text-sm">
-                        {{ association.adresse }}
+                        {{ projet.dateDebut|date('Y-m-d') }}
+                      </td>
+                      
+                    
+                      <td class="px-4 py-3 text-sm">
+                        {{ projet.dateFin|date('Y-m-d') }}
                       </td>
                       <td class="px-4 py-3">
                         <div class="flex items-center space-x-4 text-sm">
-                          <a href="{{ path('app_details', {'id': association.id}) }}" >
+                          <a href="{{ path('app_details_projet', {'id': projet.id}) }}" >
                           <button
                           class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                           aria-label="Edit"
@@ -107,7 +87,7 @@
                         ></path>
                         </button>
                       </a>
-                      <a href="{{ path('app_edit_assoc', {'id': association.id}) }}" >
+                      <a href="{{ path('app_edit_projetAdmin', {'id': projet.id}) }}" >
                           
                           <button
                             class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
@@ -128,7 +108,7 @@
                       <!-- Delete Button with Modal Confirmation -->
                      
                         <button
-                          class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal{{ association.id }}"
+                          class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" type="button"  data-bs-toggle="modal" data-bs-target="#deleteModal{{ projet.id }}"
                           aria-label="Delete"
                         >
                           <svg
@@ -146,7 +126,7 @@
                         </button>
                 
                       <!-- Modal -->
-                      <div class="modal fade" id="deleteModal{{ association.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="deleteModal{{ projet.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                           <div class="modal-dialog">
                               <div class="modal-content">
                                   <div class="modal-header">
@@ -154,11 +134,11 @@
                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                   <div class="modal-body">
-                                      Êtes-vous sûr de vouloir supprimer cette association ?
+                                      Êtes-vous sûr de vouloir supprimer cette projet ?
                                   </div>
                                   <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                      <a href="{{ path('app_delete', {'id': association.id}) }}" class="btn btn-danger">Supprimer</a>
+                                      <a href="{{ path('app_delete_projet', {'id': projet.id}) }}" class="btn btn-danger">Supprimer</a>
                                   </div>
                               </div>
                           </div>

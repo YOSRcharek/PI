@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
   <head>
@@ -53,24 +55,61 @@
 
     <div
       x-show="isSideMenuOpen"
-      x-transition:enter="transition ease-in-out duration-150"
-      x-transition:enter-start="opacity-0"
-      x-transition:enter-end="opacity-100"
-      x-transition:leave="transition ease-in-out duration-150"
-      x-transition:leave-start="opacity-100"
-      x-transition:leave-end="opacity-0"
-      class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
+    >
    </div>
     <div class="flex flex-col flex-1 w-full">
 
       {{ include('admin/header.html.twig') }}
-      {% block body %}
-      {{ include('admin/index.html.twig') }}
-      {% endblock %}
 
-    </div>
-   </div>
- 
+{% block body %}
+<div class="container p-5 my-5 border">
+              <h1>Add projet</h1>
+              <div class="row">
+                {{ form_start(form, {'attr': {'class': 'form '}}) }}
+             
+                 <div class="col-lg-6 col-12">
+                     {{ form_row(form.nomMembre, {'label': 'Nom:', 'attr': {'class': 'form-control', 'placeholder': 'Nom', 'required': 'required'}}) }}
+                     {# Afficher les erreurs spécifiques au champ nomMembre #}
+                    
+                 </div>
+                 
+                 <div class="col-lg-6 col-12">
+                     {{ form_row(form.prenomMembre, {'label': 'Prénom:', 'attr': {'class': 'form-control', 'placeholder': 'Prénom', 'required': 'required'}}) }}
+                     {# Afficher les erreurs spécifiques au champ prenomMembre #}
+                   
+                 </div>
+                 
+                 <div class="col-lg-6 col-12">
+                     {{ form_row(form.telephone, {'label': 'Téléphone:', 'attr': {'class': 'form-control', 'placeholder': 'Téléphone', 'required': 'required'}}) }}
+                     {# Afficher les erreurs spécifiques au champ telephone #}
+                    
+                 
+                 <div class="col-lg-6 col-12">
+                     {{ form_row(form.emailMembre, {'label': 'Email:', 'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'required'}}) }}
+                     {# Afficher les erreurs spécifiques au champ emailMembre #}
+                 
+                 </div>
+                 
+                 <div class="col-lg-6 col-12">
+                     {{ form_row(form.fonction, {'label': 'Fonction:', 'attr': {'class': 'form-control', 'required': 'required'}}) }}
+                     {# Afficher les erreurs spécifiques au champ fonction #}
+             
+                 </div>
+                 <div class="col-lg-6 col-12">
+                    {{ form_row(form.association, {'label': 'Association:', 'placeholder': 'Association', 'attr': {'class': 'form-control'}}) }}
+                   
+           
+             </div>
 
-  </body>
+             <br/>
+             <button type="submit" class="btn btn-primary">Add member</button>
+             {{ form_end(form) }} 
+             {# Fin du formulaire #}
+             
+{% endblock %}
+</div>
+</div>
+
+
+</body>
 </html>
