@@ -1,0 +1,62 @@
+{% extends 'baseAdmin.html.twig' %}
+
+
+{% block title %}Liste des Événements{% endblock %}
+
+{% block body %}
+    <h1>Liste des Événements</h1>
+
+    {% if event is not empty %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        
+                        <th scope="col">Nom</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Date de début</th>
+                        <th scope="col">Date de fin</th>
+                        <th scope="col">Localisation</th>
+                        <th scope="col">Capacité maximale</th>
+                        <th scope="col">Capacité actuelle</th>
+                        <th scope="col">Type d'événement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in event %}
+                        <tr>
+                            
+                            <td>{{ event.nomEvent }}</td>
+                            <td>{{ event.description }}</td>
+                            <td>{{ event.dateDebut ? event.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ event.dateFin ? event.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ event.localisation }}</td>
+                            <td>{{ event.capaciteMax }}</td>
+                            <td>{{ event.capaciteActuelle }}</td>
+                            <td>{{ event.type.getNom() }}</td>
+
+                            <td>
+                           
+                            <form method="post" action="{{ path('app_delete_eventadmin', {'id': event.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
+                            <td>
+                                <a href="{{ path('app_edit_eventadmin', {'id': event.id}) }}" class="btn btn-primary">Modifier</a>
+
+                            </td> 
+                            <td>
+                      
+
+                                   <a href="{{ path('app_event_detailsadmin', {'id': event.id}) }}">Voir les détails</a>
+
+                    </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Aucun événement trouvé.</p>
+    {% endif %}
+{% endblock %}

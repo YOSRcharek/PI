@@ -1,4 +1,4 @@
-const Encore = require('@symfony/webpack-encore');
+    const Encore = require('@symfony/webpack-encore');
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
@@ -10,7 +10,12 @@ Encore
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
-    .addEntry('app', './assets/app.js')
+    .addEntry('app', [
+        './assets/app.js',
+        '@fullcalendar/core',
+        '@fullcalendar/daygrid',
+    ])
+    
     .enableStimulusBridge('./assets/controllers.json')
     .splitEntryChunks()
     .enableSingleRuntimeChunk()

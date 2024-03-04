@@ -230,11 +230,11 @@ class Association
         return $this->services;
     }
 
-    public function addService(Service $service): static
+    public function addService(Service $Service): static
     {
-        if (!$this->services->contains($service)) {
-            $this->services->add($service);
-            $service->setAssociation($this);
+        if (!$this->services->contains($Service)) {
+            $this->services->add($Service);
+            $Service->setAssociation($this);
         }
 
         return $this;

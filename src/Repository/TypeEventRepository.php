@@ -20,7 +20,10 @@ class TypeEventRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, TypeEvent::class);
     }
-
+    public function findTypeByName(string $typeName): ?TypeEvent
+    {
+        return $this->findOneBy(['nom' => $typeName]);
+    }
 //    /**
 //     * @return TypeEvent[] Returns an array of TypeEvent objects
 //     */

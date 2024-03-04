@@ -26,6 +26,12 @@ use App\Twig\Base64EncodeExtensionService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
+
+
+
+
+
+
 class AssociationController extends AbstractController
 {
     private $base64EncodeExtensionService;
@@ -42,7 +48,7 @@ public function __construct(Base64EncodeExtensionService $base64EncodeExtensionS
             'controller_name' => 'AssociationController',
         ]);
     }
-    #[Route('/associations', name: 'app_show')]
+    #[Route('/associations', name: 'app_show_association')]
     public function show(AssociationRepository $associationRepo): Response
     {
         $associations = $associationRepo->findByStatus(1);
@@ -303,9 +309,6 @@ public function profil(Request $request, AssociationRepository $associationRepo,
 }
 
 
-
-
-
 private function getDocumentContent($document)
 {
     return $document ? $this->base64EncodeExtensionService->readfile($document) : null;
@@ -316,11 +319,7 @@ private function generateToken(): string
 }
 public function findByStatus($status): array
 {
-    return $this->createQueryBuilder('a')
-        ->andWhere('a.status = :status')
-        ->setParameter('status', $status)
-        ->getQuery()
-        ->getResult();
+    return $this->getDoctrine()->getRepository(Association::class)->findBy(['status' => $status]);
 }
 public function findByAssociation($associationId): array
 {
@@ -331,6 +330,7 @@ public function findByAssociation($associationId): array
     $projects = $qb->getQuery()->getResult();
     return $projects;
 }
+
 
 
 }

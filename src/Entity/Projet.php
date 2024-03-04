@@ -107,12 +107,13 @@ class Projet
         return $this;
     }
 
-    public function getAssociation(): ?association
+    public function getAssociation(): ?Association
     {
         return $this->association;
     }
 
     public function setAssociation(Association $association): static
+
     {
         $this->association = $association;
 

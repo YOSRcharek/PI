@@ -1,6 +1,9 @@
 <?php
 
+
 namespace App\Entity;
+
+use App\Entity\User;
 
 use App\Repository\VolontaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -37,7 +40,7 @@ class Volontaire
     #[ORM\ManyToMany(targetEntity: event::class, inversedBy: 'volontaires')]
     private Collection $event;
 
-    #[ORM\ManyToMany(targetEntity: service::class, inversedBy: 'volontaires')]
+    #[ORM\ManyToMany(targetEntity: Service::class, inversedBy: 'volontaires')]
     private Collection $condidature;
 
     #[ORM\ManyToMany(targetEntity: Dons::class, mappedBy: 'volontaire')]
@@ -152,14 +155,14 @@ class Volontaire
     }
 
     /**
-     * @return Collection<int, service>
+     * @return Collection<int, Service>
      */
     public function getCondidature(): Collection
     {
         return $this->condidature;
     }
 
-    public function addCondidature(service $condidature): static
+    public function addCondidature(Service $condidature): static
     {
         if (!$this->condidature->contains($condidature)) {
             $this->condidature->add($condidature);
@@ -168,7 +171,7 @@ class Volontaire
         return $this;
     }
 
-    public function removeCondidature(service $condidature): static
+    public function removeCondidature(Service $condidature): static
     {
         $this->condidature->removeElement($condidature);
 

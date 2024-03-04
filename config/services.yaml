@@ -10,12 +10,15 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+
     
     App\Twig\Base64EncodeExtensionService:
         arguments:
             $fileReadService: '@App\Service\FileReadService'
         tags:
             - { name: 'twig.extension' }
+
 
     App\Service\NewsAPIService:
         arguments:
@@ -30,6 +33,6 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-
+    
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

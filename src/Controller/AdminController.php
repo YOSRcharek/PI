@@ -15,6 +15,7 @@ class AdminController extends AbstractController
         return $this->render('baseAdmin.html.twig');
     }
     
+    
     public function buttons(): Response
     {
         return $this->render('/admin/buttons.html.twig');
@@ -71,4 +72,5 @@ class AdminController extends AbstractController
     {
         return $this->render('/admin/pages/login.html.twig');
     }
+    
 }
