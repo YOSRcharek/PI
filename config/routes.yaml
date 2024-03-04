@@ -74,6 +74,12 @@ login:
     path: /login
     controller: App\Controller\AdminController::login
 
+users:
+    path: /users
+    controller: App\Controller\UserController::userList
+
+google_login:
+    path: /connect/google
 handle_contact_form:
     path: /handle-contact-form
     controller: App\Controller\HomeController::handleContactForm

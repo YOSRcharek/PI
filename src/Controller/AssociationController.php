@@ -131,6 +131,7 @@ public function delete(Request $request, $id, ManagerRegistry $manager, Associat
         throw $this->createNotFoundException('Association not found');
     }
 
+
     // Récupérer tous les membres liés à l'association
     $membres = $association->getMembres();
 
@@ -200,6 +201,7 @@ public function inscrire(ManagerRegistry $managerRegistry, Request $request, Mai
     } catch (\Exception $e) {
         $entityManager->rollback();
         throw $e;
+
     }
 
     return $this->render('home/create-account.html.twig', ['form' => $form->createView()]);
