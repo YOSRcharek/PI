@@ -1,68 +1,68 @@
 <header>
-<nav class="navbar navbar-expand-lg bg-light shadow-lg">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            <img src="{{asset('assets/front/images/tuniCollabLogo.png')}}"  class="logo img-fluid" >
-            
-            <span>
-                TuniCollab
-                <small>Non-profit Organization</small>
-            </span>
-        </a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/#top">Home</a>
-                </li>
-                 <li class="nav-item">
-                        <a class="nav-link click-scroll" href="/#section_2">About</a>
+    <nav class="navbar navbar-expand-lg bg-light shadow-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{asset('assets/front/images/tuniCollabLogo.png')}}"  class="logo img-fluid" >
+                
+                <span>
+                    TuniCollab
+                    <small>Non-profit Organization</small>
+                </span>
+            </a>
+    
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" href="/#top">Home</a>
+                    </li>
+                     <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/#section_2">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="/#section_3">Causes</a>
+                        </li>
+    
+                           <li class="nav-item">
+                        <a class="nav-link click-scroll" href="/#section_4">Volunteer</a>
+                    </li> 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link click-scroll dropdown-toggle" href="#"
+                            id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">Events</a>
+    
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
+                            <li><a class="dropdown-item" href={{ path('app_create_event') }}>Add events</a></li>
+    
+                            <li><a class="dropdown-item" href={{ path('app_show_events') }}>show all events</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link click-scroll" href="/#section_3">Causes</a>
+                        <a class="nav-link click-scroll" href={{ path('news_API') }}>News</a>
                     </li>
-
-                       <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/#section_4">Volunteer</a>
-                </li> 
-                <li class="nav-item dropdown">
-                    <a class="nav-link click-scroll dropdown-toggle" href="#"
-                        id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Events</a>
-
-                    <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                        <li><a class="dropdown-item" href={{ path('app_create_event') }}>Add events</a></li>
-
-                        <li><a class="dropdown-item" href={{ path('app_show_events') }}>show all events</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href={{ path('news_API') }}>News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/#section_6">Contact</a>
-                </li>
-
-                <li class="nav-item ">
-                    <a class="nav-link click-scroll" href={{ path('donate') }}>Donate</a>
-                </li>
-                  <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/logout">Logout</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/login">Login</a>
-                </li>
-             
-                <li class="nav-item ms-3">
-                    <a class="nav-link custom-btn custom-border-btn btn" href={{ path('createAcc') }}>SignUp</a>
-                </li>
-            </ul>
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" href="/#section_6">Contact</a>
+                    </li>
+    
+                    <li class="nav-item ">
+                        <a class="nav-link click-scroll" href={{ path('donate') }}>Donate</a>
+                    </li>
+                      <li class="nav-item">
+                        <a class="nav-link click-scroll" href="/logout">Logout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link click-scroll" href="/login">Login</a>
+                    </li>
+                 
+                    <li class="nav-item ms-3">
+                        <a class="nav-link custom-btn custom-border-btn btn" href={{ path('createAcc') }}>SignUp</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-</header>
+    </nav>
+    </header>
