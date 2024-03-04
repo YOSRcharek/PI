@@ -125,38 +125,47 @@ public function __construct(Base64EncodeExtensionService $base64EncodeExtensionS
     {
         // Action to create a new association
         $association = new Association();
-
+    
         $form = $this->createForm(AssociationType::class, $association);
-
+    
         // Handle form submission
         $form->handleRequest($request);
-
+    
         try {
             // Begin the transaction
             $entityManager = $managerRegistry->getManager();
             $entityManager->beginTransaction();
-
+    
             if ($form->isSubmitted() && $form->isValid()) {
-                // Persist the association
+                // Get the uploaded file
+                /** @var UploadedFile $documentFile */
+                $documentFile = $form->get('document')->getData();
+           
+                if ($documentFile) {
+                    $documentContent = file_get_contents($documentFile->getPathname());
+    
+                    $association->setDocument($documentContent);
+                }
+    
                 $entityManager->persist($association);
                 $entityManager->flush();
-
+    
                 // Get the email entered in the form
                 $email = $form->get('email')->getData();
-
+    
                 // Send the email
                 $service->sendEmail($email);
-
+    
                 $entityManager->commit();
-
+    
                 return $this->redirectToRoute('app_home');
             }
-
+    
         } catch (\Exception $e) {
             $entityManager->rollback();
             throw $e;
         }
-
+    
         return $this->render('home/create-account.html.twig', ['form' => $form->createView()]);
     }
 
