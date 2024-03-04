@@ -1,0 +1,31 @@
+
+{% extends 'baseAdmin.html.twig' %}
+{% set base_path = app.request.basepath ~ '/backend/' %}
+
+      {% block body %}
+       
+
+  <table id="mytable" class="table text-start align-middle table-striped table-bordered table-hover mb-0">
+    <thead>
+      <tr class="text-dark">
+        <th>ID Post</th>
+        <th>Comment Id </th>
+        <th>Comment</th>
+        <th>Reactions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for comment in comments %}
+        <tr>
+		   <td>{{ comment.IDPost.id }}</td>
+          <td>{{ comment.id }}</td>
+          <td>{{ comment.contentcomment }}</td>
+          <td>{{ comment.upvotes }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+
+</table>
+</body>
+          {% endblock %}

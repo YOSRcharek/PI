@@ -1,0 +1,75 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+news_listing:
+    path: /news
+    controller: App\Controller\HomeController::news
+
+news_Detail:
+    path: /newsDetail
+    controller: App\Controller\HomeController::newsDetail
+
+donate:
+    path: /donate
+    controller: App\Controller\HomeController::donate
+
+buttons:
+    path: /buttons
+    controller: App\Controller\AdminController::buttons
+
+cards:
+    path: /cards
+    controller: App\Controller\AdminController::cards
+
+charts:
+    path: /charts
+    controller: App\Controller\AdminController::charts
+
+forms:
+    path: /forms
+    controller: App\Controller\AdminController::forms
+
+associations:
+    path: /associations
+    controller: App\Controller\AdminController::associations
+
+demandes:
+    path: /demandes
+    controller: App\Controller\AdminController::demandes
+
+
+modals:
+    path: /modals
+    controller: App\Controller\AdminController::modals
+
+erreur:
+    path: /erreur
+    controller: App\Controller\AdminController::erreur
+
+blank:
+    path: /blank
+    controller: App\Controller\AdminController::blank
+
+createAcc:
+    path: /createAcc
+    controller: App\Controller\AdminController::createAcc
+
+forgetPass:
+    path: /forgetPass
+    controller: App\Controller\AdminController::forgetPass
+
+login:
+    path: /login
+    controller: App\Controller\AdminController::login
+
+users:
+    path: /users
+    controller: App\Controller\UserController::userList
+
+google_login:
+    path: /connect/google
+    
+post_rate:
+    path: '/post/{id}/rate'
+    controller: 'App\Controller\PostController::rate'
+    methods: ['POST']

@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier l'Association{% endblock %}
+
+{% block body %}
+    <div class="container p-5 my-5 border">
+        <h1>Modifier l'Association</h1>
+
+        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                {{ form_label(form.nom, 'Nom:', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                {{ form_label(form.adresse, 'Adresse:', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                {{ form_label(form.description, 'Description:', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                {{ form_label(form.email, 'Email:', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                {{ form_label(form.telephone, 'Telephone:', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                {{ form_label(form.domaineActivite, 'Domaine:', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.domaineActivite, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+       
+
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-primary">Modifier</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="{{ path('app_show') }}">Retour à la liste des associations</a>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <form method="post" class="form-signin">
+                {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                
+                {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+                {% endif %}
+                
+                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <label for="username" class="sr-only">Email</label>
+                <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" placeholder="Email address" autocomplete="email" required autofocus>
+                
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" name="_password" id="password" class="form-control" placeholder="Password" autocomplete="current-password" required>
+                
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                
+                <button class="btn btn-lg btn-primary btn-block mt-3" type="submit">Sign in</button>
+                
+                <p class="mt-3 text-center"><a href="{{ path('app_forgot_password_request') }}">Forgot password?</a></p>
+            </form>
+                       <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" style="display: inline-block; background-color: #4285F4; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer; font-size: 16px;">
+    <span>Login with Google</span>
+</a>
+
+
+
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}

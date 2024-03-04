@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <canvas id="product-count-chart"></canvas>
+
+    <script src="{{ asset('node_modules/chart.js/dist/chart.min.js') }}"></script>
+    <script>
+        var productCountData = {{ catnom|json_encode()|raw }};
+        var labels = productCountData.map(function(data) {
+            return data.category;
+        });
+        var data = productCountData.map(function(data) {
+            return data.count;
+        });
+
+        var ctx = document.getElementById('product-count-chart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        '#FF6384',
+                        '#36A2EB',
+                        '#FFCE56',
+                        '#008080',
+                        '#800080',
+                        '#808000',
+                        '#000080',
+                        '#008000',
+                    ],
+                }],
+            },
+        });
+    </script>
+{% endblock %}
