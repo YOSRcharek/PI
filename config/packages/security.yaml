@@ -21,14 +21,14 @@ security:
         main:
 
             lazy: true
-            provider: users_in_memory
-
+            #  provider: users_in_memory
+            provider: app_user_provider
+            
             guard:
                authenticators:
                     - App\Security\GoogleAuthenticator
                     
-            lazy: true
-            provider: app_user_provider
+            
             entry_point: security.authenticator.guard.main.0  # Specify the GoogleAuthenticator as the entry point
 
             form_login:
