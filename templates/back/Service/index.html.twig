@@ -23,8 +23,8 @@
                 <td>{{ Service.description }}</td>
                 <td>{{ Service.disponibilite ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('app_Service_show', {'id': Service.id}) }}">show</a>
-                    <a href="{{ path('app_Service_edit', {'id': Service.id}) }}">edit</a>
+                    <a href="{{ path('app_Service_show', {'id': Service.id}) }}" class="custom-button1">Afficher</a>
+                    <a href="{{ path('app_Service_edit', {'id': Service.id}) }}" class="custom-button">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +35,48 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_Service_new') }}">Create new</a>
+    <a href="{{ path('app_Service_new') }}" class="custom-button2">Create new</a>
+    <style>
+    .custom-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #d11313;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+   .custom-button1 {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #1724d8; /* Couleur de fond du bouton */
+    color: #ffffff; /* Couleur du texte du bouton */
+    text-decoration: none; /* Supprime le soulignement par défaut */
+    border: 2px solid #1724d8; /* Ajoute une bordure de 2px solide de la même couleur que le fond */
+    border-radius: 25px; /* Arrondit les coins du bouton */
+    margin-right: 10px; /* Ajoute une marge à droite au bouton */
+    font-weight: bold; /* Rend le texte en gras */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition lisse pour la couleur de fond et la couleur du texte */
+}
+    .custom-button2 {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #b77b25;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-right: 10px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-button:hover {
+        background-color: #c78d2a;;
+    }
+</style>
 {% endblock %}
+
+
+

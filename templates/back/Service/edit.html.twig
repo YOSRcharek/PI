@@ -1,13 +1,15 @@
 {% extends 'base.back.html.twig' %}
 
-{% block title %}Edit Service{% endblock %}
+{% block title %}Modifier le service{% endblock %}
 
 {% block body %}
-    <h1>Edit Service</h1>
+    <h1>Modifier le service</h1>
 
-    {{ include('/back/Service/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('/back/Service/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('app_Service_back_index') }}">back to list</a>
+    
+   <a href="{{ path('app_Service_back_index') }}" class="btn btn-primary" style="background-color: blue; width: 200px;">Retour à la liste</a>
 
-    {{ include('/back/Service/_delete_form.html.twig') }}
+    {{ include('/back/Service/_delete_form.html.twig', {'button_label': 'Supprimer'}) }}
+    
 {% endblock %}

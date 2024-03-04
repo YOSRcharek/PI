@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Endroid\QrCode\QrCode;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+
+
 
 #[Route('/Service')]
 class ServiceController extends AbstractController
@@ -59,10 +63,12 @@ class ServiceController extends AbstractController
     #[Route('/Service/{id}', name: 'app_Service_show', methods: ['GET'])]
     public function show(Service $Service): Response
     {
+      
         return $this->render('front/Service/show.html.twig', [
             'Service' => $Service,
         ]);
     }
+    
 
     #[Route('/editService/{id}', name: 'app_Service_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Service $Service, EntityManagerInterface $entityManager): Response

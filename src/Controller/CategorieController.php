@@ -56,7 +56,7 @@ class CategorieController extends AbstractController
     #[Route('/{id}', name: 'app_categorie_show', methods: ['GET'])]
     public function show(Categorie $categorie): Response
     {
-        return $this->render('/front/categorie/show.html.twig', [
+        return $this->render('/back/categorie/show.html.twig', [
             'categorie' => $categorie,
         ]);
     }
@@ -73,7 +73,7 @@ class CategorieController extends AbstractController
             return $this->redirectToRoute('app_categorie_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('front/categorie/edit.html.twig', [
+        return $this->renderForm('/front/categorie/edit.html.twig', [
             'categorie' => $categorie,
             'form' => $form,
         ]);
