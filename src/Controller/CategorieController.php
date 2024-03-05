@@ -59,7 +59,7 @@ class CategorieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_categorie_edit', methods: ['GET', 'POST'])]
+    #[Route('category/{id}/edit', name: 'app_categorie_edit', methods: ['GET', 'POST'])]
     #[ParamConverter("categorie", class: "App\Entity\Categorie", options: ["id" => "id"])]
     public function edit(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
     {
@@ -78,7 +78,7 @@ class CategorieController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_categorie_delete', methods: ['POST'])]
+    #[Route('/scc/{id}', name: 'app_categorie_delete', methods: ['POST'])]
     #[ParamConverter("categorie", class: "App\Entity\Categorie", options: ["id" => "id"])]
     public function delete(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
     {

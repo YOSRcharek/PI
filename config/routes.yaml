@@ -165,3 +165,5 @@ get_places:
     path: /get-places
     controller: App\Controller\MapboxController::getPlacesAction
 
+captcha_routing:
+    resource: "@CaptchaBundle/Resources/config/routing.yml"
