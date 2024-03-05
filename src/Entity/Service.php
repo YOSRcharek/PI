@@ -6,6 +6,7 @@ use App\Repository\ServiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ServiceRepository::class)]
 class Service
@@ -15,22 +16,38 @@ class Service
     #[ORM\Column]
     private ?int $id = null;
 
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Le nom du service est requis.")]
+    #[Assert\Length(
+        min:5,
+        max:25,
+        minMessage:"Le nom du service doit comporter au moins 5 caractères.",
+        maxMessage:"Le nom du service ne peut pas dépasser 15 caractères."
+    )]
     private ?string $nomService = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"La description est requise.")]
+    #[Assert\Length(
+        max:100,
+        maxMessage:"La description ne peut pas dépasser 25 caractères."
+    )]
     private ?string $description = null;
 
     #[ORM\Column]
     private ?bool $disponibilite = null;
 
-    #[ORM\ManyToOne(inversedBy: 'services')]
+    #[ORM\ManyToOne(inversedBy: 'Services')]
+    #[ORM\JoinColumn(name:"categorie_id",referencedColumnName:"id")]
     private ?Categorie $Categorie = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name:"commentaire_id",referencedColumnName:"id")]
     private ?Commentaire $Commentaire = null;
 
-    #[ORM\ManyToOne(inversedBy: 'services')]
+    #[ORM\ManyToOne(inversedBy: 'Services')]
+    #[ORM\JoinColumn(name:"association_id",referencedColumnName:"id")]
     private ?Association $association = null;
 
     #[ORM\ManyToMany(targetEntity: Volontaire::class, mappedBy: 'condidature')]

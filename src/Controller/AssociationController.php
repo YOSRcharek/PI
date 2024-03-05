@@ -25,13 +25,6 @@ use Symfony\Component\Mailer\MailerInterface;
 use App\Twig\Base64EncodeExtensionService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-
-
-
-
-
-
-
 class AssociationController extends AbstractController
 {
     private $base64EncodeExtensionService;
