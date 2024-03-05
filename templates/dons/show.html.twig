@@ -4,7 +4,7 @@
 
 {% block body %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  
+
 <div class="text-center">
     <br>
     <br>
@@ -12,8 +12,21 @@
     <br>
     <br>
     <div class="container"> <!-- Add a container here -->
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            {% for don in Dons %}
+        <!-- Add the filter form -->
+       <form id="filterForm" class="row g-3">
+          <div class="col-auto">
+            <label for="montantFilter" class="visually-hidden">Montant</label>
+            <input type="text" class="form-control" id="montantFilter" name="montant" placeholder="Enter Montant">
+          </div>
+          <div class="col-auto">
+             <button type="submit" class="btn btn-primary mb-3">Filter</button>
+          </div>
+        </form>
+
+        <br>
+        <div id="filteredResults" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <!-- Display the filtered results here -->
+            {% for don in pagination %}
                 <div class="col">
                     <div class="card custom-card">
                         <div class="card-body">
@@ -40,6 +53,45 @@
     <a href="{{ path('dons_add') }}" class="custom-btn btn mt-3">Ajouter un don</a>
     <br>
     <br>
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                 {% if pagination.previous is defined %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('app_dons', {'page': pagination.previous}) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&laquo;</span>
+                    </li>
+                {% endif %}
+
+                {% for page in 1..pagination.pageCount %}
+                    {% if page == pagination.currentPageNumber %}
+                        <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ path('app_dons', {'page': page}) }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if pagination.next is defined %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('app_dons', {'page': pagination.next}) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&raquo;</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    <br>
+    <br>
 </div>
 
 <style>
@@ -54,5 +106,54 @@
         background-color: #f8f9fa; /* couleur de fond légèrement plus claire */
     }
 </style>
+
+<script>
+    $(document).ready(function () {
+        $('#filterForm').submit(function (e) {
+            e.preventDefault();
+            var montant = $('#montantFilter').val();
+
+            // Make AJAX request to filter by montant
+            $.ajax({
+                url: "{{ path('filter_dons_by_montant') }}",
+                type: "GET",
+                data: { montant: montant },
+                success: function (response) {
+                    var dons = response.dons;
+                    var filteredResults = '';
+
+                    // Iterate through filtered results and append them to the DOM
+                    dons.forEach(function (don) {
+                        filteredResults += '<div class="col">' +
+                            '<div class="card custom-card">' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">Association: ' + (don.association != null ? don.association.nom : '') + '</h5>' +
+                            '<p class="card-text">Montant: ' + don.montant + '</p>' +
+                            '<p class="card-text">Date de mise: ' + don.dateMisDon + '</p>' +
+                            '<p class="card-text">Type: ' + (don.type != null ? don.type.nom : '') + '</p>' +
+                            '<p class="card-text"></p>' +
+                            '<div class="btn-group" role="group">' +
+                            '<a href="" class="custom-btn btn mt-3">' +
+                            '<i class="fas fa-edit"></i> <!-- Icône Modifier -->' +
+                            '</a>' +
+                            '<a href="" class="custom-btn btn mt-3" onclick="return confirm(' + "'Êtes-vous sûr de vouloir supprimer ce don ?'" + ')">' +
+                            '<i class="fas fa-trash-alt"></i> <!-- Icône Supprimer -->' +
+                            '</a>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    });
+
+                    // Update the filteredResults container with the filtered results
+                    $('#filteredResults').html(filteredResults);
+                },
+                error: function () {
+                    console.error("An error occurred while processing the AJAX request.");
+                }
+            });
+        });
+    });
+</script>
 
 {% endblock %}
