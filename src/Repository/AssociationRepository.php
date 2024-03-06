@@ -20,7 +20,15 @@ class AssociationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Association::class);
     }
+    
 
+    public function isEmailUnique($email)
+    {
+        // Implémentez la logique pour vérifier si l'e-mail est unique
+        $existingAssociation = $this->findOneBy(['email' => $email]);
+
+        return $existingAssociation === null;
+    }
 //    /**
 //     * @return Association[] Returns an array of Association objects
 //     */

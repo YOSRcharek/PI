@@ -187,10 +187,14 @@ public function delete(Request $request, $id, ManagerRegistry $manager, Associat
     try {
         if ($form->isSubmitted() && $form->isValid()) {
             // Get the uploaded file
-            $pdfFile = $form->get('document')->getData();
-            $pdfContent = file_get_contents($pdfFile);
+            /** @var UploadedFile $documentFile */
+            $documentFile = $form->get('document')->getData();
+       
+            if ($documentFile) {
+                $documentContent = file_get_contents($documentFile->getPathname());
 
-            $association->setDocument($pdfContent);
+                $association->setDocument($documentContent);
+            }
 
             // Persist the association
             $entityManager->persist($association);
@@ -259,26 +263,44 @@ public function delete(Request $request, $id, ManagerRegistry $manager, Associat
     }
 
     #[Route('/approuver/{id}', name: 'app_approuver')]
-public function approuver($id, ManagerRegistry $managerRegistry, Request $request, MailerInterface $mailer, MailerTraitement $service): Response
+    public function approuver($id, ManagerRegistry $managerRegistry, Request $request, MailerInterface $mailer, MailerTraitement $service): Response
 {
     $entityManager = $this->getDoctrine()->getManager();
-        $association = $entityManager->getRepository(Association::class)->find($id);
+    $association = $entityManager->getRepository(Association::class)->find($id);
 
-        if (!$association) {
-            throw $this->createNotFoundException('Association non trouvée avec l\'identifiant ' . $id);
-        }
+    if (!$association) {
+        throw $this->createNotFoundException('Association non trouvée avec l\'identifiant ' . $id);
+    }
 
+    // Récupérer l'email de l'association
+    $email = $association->getEmail();
+
+    // Rechercher l'utilisateur associé à cet email
+    $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+
+    // Vérifier si l'utilisateur existe
+    if ($user) {
+        // Marquer l'association comme vérifiée
+        $user->setIsVerified(true);
+    
         // Mettre à jour le champ status
         $association->setStatus(true);
+        
+        // Générer un token unique
+        $token = $this->generateToken(); 
+
         // Envoi de l'email au demandeur pour activer son compte
-        $token = $this->generateToken(); // Générer un token unique
-        $email = $association->getEmail(); // Supposant que l'email est un attribut de l'association
-        $service->sendActivationEmail($mailer, $email, $token); // Appel à la fonction pour envoyer l'email
+        $service->sendActivationEmail($mailer, $email, $token); 
+        
+        // Enregistrer les modifications
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_show'); // Redirigez où vous le souhaitez après la mise à jour
-    
-}/*
+        return $this->redirectToRoute('associations'); // Redirigez où vous le souhaitez après la mise à jour
+    } 
+}
+
+
+/*
 #[Route('/profil/{id}', name: 'app_profil')]
 public function profil(Request $request, AssociationRepository $associationRepo, EntityManagerInterface $entityManager, ProjetRepository $projetRepo, MembreRepository $membreRepo, $id): Response
 {    

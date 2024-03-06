@@ -18,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\File as FileConstraint; 
 use Symfony\Component\Validator\Constraints\Image as ImageConstraint; 
+use App\Validator\Constraints as AppAssert;
+use App\Validator\UniqueEmail;
 
 class AssociationType extends AbstractType
 {
@@ -82,6 +84,7 @@ class AssociationType extends AbstractType
                         'message' => "L'email '{{ value }}' n'est pas une adresse email valide.",
                         'mode' => 'strict',
                     ]),
+                    new UniqueEmail(),
                 ],
             ])
             ->add('status')
