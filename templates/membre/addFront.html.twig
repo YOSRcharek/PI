@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="addMembrePopUP">
+    <div class="formPopup" id="popupForm">
+        <div class="col-lg-6 col-12">
+            <form class="custom-form volunteer-form mb-5 mb-lg-0" action="{{ path('app_create_membreFront') }}
+            " method="post" role="form">
+           
+                <h2 class="mb-4">New member</h2>
+                <div class="row">
+                  {# Afficher les erreurs globales du formulaire #}
+                {{ form_errors(form) }}
+
+    <div class="row">
+    {{ form_start(form, {'attr': {'class': 'custom-form volunteer-form mb-5 mb-lg-0', 'novalidate': 'novalidate'}}) }}
+
+        <div class="col-lg-6 col-12">
+            {{ form_row(form.nomMembre, {'label': 'Nom:', 'attr': {'class': 'form-control', 'placeholder': 'Nom', 'required': 'required'}}) }}
+            {# Afficher les erreurs spécifiques au champ nomMembre #}
+            {{ form_errors(form.nomMembre) }}
+        </div>
+        
+        <div class="col-lg-6 col-12">
+            {{ form_row(form.prenomMembre, {'label': 'Prénom:', 'attr': {'class': 'form-control', 'placeholder': 'Prénom', 'required': 'required'}}) }}
+            {# Afficher les erreurs spécifiques au champ prenomMembre #}
+            {{ form_errors(form.prenomMembre) }}
+        </div>
+        
+        <div class="col-lg-6 col-12">
+            {{ form_row(form.telephone, {'label': 'Téléphone:', 'attr': {'class': 'form-control', 'placeholder': 'Téléphone', 'required': 'required'}}) }}
+            {# Afficher les erreurs spécifiques au champ telephone #}
+            {{ form_errors(form.telephone) }}
+        </div>
+        
+        <div class="col-lg-6 col-12">
+            {{ form_row(form.emailMembre, {'label': 'Email:', 'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'required'}}) }}
+            {# Afficher les erreurs spécifiques au champ emailMembre #}
+            {{ form_errors(form.emailMembre) }}
+        </div>
+        
+        <div class="col-lg-6 col-12">
+            {{ form_row(form.fonction, {'label': 'Fonction:', 'attr': {'class': 'form-control', 'required': 'required'}}) }}
+            {# Afficher les erreurs spécifiques au champ fonction #}
+            {{ form_errors(form.fonction) }}
+        </div>
+        {{ form_widget(form.association, {'attr': {'style': 'display: none;'}}) }}
+        
+    </div>
+
+   <button type="submit" class="form-control">Add member</button>
+
+
+
+      </div>
+                        {{ form_end(form) }}
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

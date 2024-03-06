@@ -13,9 +13,21 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Form\UserFormType;
+use App\Form\UserdataprofileType;
+use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Security;
 
 class ProjetController extends AbstractController
 {
+    private $security;
+
+
+public function __construct(Security $security)
+{
+   
+    $this->security = $security;
+}
     #[Route('/projet', name: 'app_projet')]
     public function index(): Response
     {
@@ -41,6 +53,53 @@ public function create(EntityManagerInterface $entityManager, Request $request):
 
     return $this->render('projet/add.html.twig', ['form' => $form->createView()]);
 }
+#[Route('/createProjetFront', name: 'app_create_projetFront')]
+    public function createFront(Security $security, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
+
+        // Vérifier si un utilisateur est connecté
+        if (!$user) {
+            throw $this->createAccessDeniedException('You must be logged in to access this page.');
+        }
+
+        // Récupérer l'adresse e-mail de l'utilisateur connecté
+        $email = $user->getEmail();
+
+        // Trouver l'association par son adresse e-mail
+        $association = $entityManager->getRepository(Association::class)->findOneBy(['email' => $email]);
+
+        if (!$association) {
+            throw $this->createNotFoundException('Association not found for the logged-in user.');
+        }
+
+        // Créer un nouveau projet
+        $projet = new Projet();
+
+        // Créer le formulaire pour le projet
+        $form = $this->createForm(ProjetType::class, $projet);
+
+        // Traiter la soumission du formulaire
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Associer le projet à l'association
+            $projet->setAssociation($association);
+
+            // Enregistrer le projet
+            $entityManager->persist($projet);
+            $entityManager->flush();
+
+            // Rediriger vers la page du profil après l'enregistrement du projet
+            return $this->redirectToRoute('app_profil');
+        }
+
+        // Afficher le formulaire de création de projet
+        return $this->render('projet/addFront.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
 #[Route('/editProjet/{id}', name: 'app_edit_projet')]
 public function edit(Request $request, EntityManagerInterface $entityManager, ProjetRepository $projetRepo, int $id): Response
 {
@@ -56,7 +115,7 @@ public function edit(Request $request, EntityManagerInterface $entityManager, Pr
     if ($form->isSubmitted() && $form->isValid()) {
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_profil');
     }
 
     return $this->render('projet/edit.html.twig', [

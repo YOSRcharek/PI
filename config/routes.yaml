@@ -5,7 +5,10 @@ news_listing:
     path: /news
     controller: App\Controller\HomeController::news
 
-
+profil:
+    path: /profil
+    controller: App\Controller\AssociationController::profil
+    
 news_Detail:
     path: /newsDetail
     controller: App\Controller\HomeController::newsDetail

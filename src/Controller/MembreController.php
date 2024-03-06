@@ -12,9 +12,21 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Form\UserFormType;
+use App\Form\UserdataprofileType;
+use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Security;
 
 class MembreController extends AbstractController
 {
+    private $security;
+
+
+public function __construct(Security $security)
+{
+   
+    $this->security = $security;
+}
     #[Route('/membre', name: 'app_membre')]
     public function index(): Response
     {
@@ -40,7 +52,52 @@ class MembreController extends AbstractController
 
         return $this->render('membre/add.html.twig', ['form' => $form->createView()]);
     }
+    #[Route('/createMembreFront', name: 'app_create_membreFront')]
+    public function createFront(Security $security, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        // Récupérer l'utilisateur connecté
+        $user = $security->getUser();
 
+        // Vérifier si un utilisateur est connecté
+        if (!$user) {
+            throw $this->createAccessDeniedException('You must be logged in to access this page.');
+        }
+
+        // Récupérer l'adresse e-mail de l'utilisateur connecté
+        $email = $user->getEmail();
+
+        // Trouver l'association par son adresse e-mail
+        $association = $entityManager->getRepository(Association::class)->findOneBy(['email' => $email]);
+
+        if (!$association) {
+            throw $this->createNotFoundException('Association not found for the logged-in user.');
+        }
+
+        // Créer un nouveau membre
+        $membre = new Membre();
+
+        // Créer le formulaire pour le membre
+        $form = $this->createForm(MembreType::class, $membre);
+
+        // Traiter la soumission du formulaire
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Associer le membre à l'association
+            $membre->setAssociation($association);
+
+            // Enregistrer le membre
+            $entityManager->persist($membre);
+            $entityManager->flush();
+
+            // Rediriger vers la page du profil après l'enregistrement du membre
+            return $this->redirectToRoute('app_profil');
+        }
+
+        // Afficher le formulaire de création de membre
+        return $this->render('membre/addFront.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 #[Route('/editMembre/{id}', name: 'app_edit_membre')]
 public function edit(Request $request, EntityManagerInterface $entityManager, MembreRepository $MembreRepo, int $id): Response
 {
@@ -56,7 +113,7 @@ public function edit(Request $request, EntityManagerInterface $entityManager, Me
     if ($form->isSubmitted() && $form->isValid()) {
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_profil');
     }
 
     return $this->render('Membre/edit.html.twig', [
