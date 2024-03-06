@@ -125,25 +125,7 @@ class AssociationType extends AbstractType
                 ],
             ])
 
-            ->add('image', FileType::class, [
-                
-                'label' => 'Image',
-                'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                    new ImageConstraint([
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                            // Add more image MIME types if needed
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image file (JPEG or PNG)',
-                    ]),
-                ],
-                'attr' => [
-                    'class' => 'form-control',
-                ],
-            ])
+           
         
         ;
     }

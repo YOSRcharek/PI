@@ -46,8 +46,6 @@ class Association
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::BLOB)]
-    private $image;
 
     #[ORM\OneToMany(mappedBy: 'association', targetEntity: Service::class)]
     private Collection $services;
@@ -210,17 +208,7 @@ class Association
         return $this;
     }
 
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    public function setImage($image): static
-    {
-        $this->image = $image;
-
-        return $this;
-    }
+   
 
     /**
      * @return Collection<int, Service>

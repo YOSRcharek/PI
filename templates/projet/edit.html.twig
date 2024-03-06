@@ -7,6 +7,7 @@
             <form class="custom-form volunteer-form mb-5 mb-lg-0" action="{{ path('app_edit_projet', {'id': projet.id}) }}" method="post" role="form">
                 <h2 class="mb-4">Edit Project</h2>
                 <div class="row">
+
                     {{ form_start(form, {'attr': {'class': 'custom-form volunteer-form mb-5 mb-lg-0'}}) }}
 
                     <div class="col-lg-6 col-12">
@@ -36,8 +37,10 @@
                        
                 </div>
                 <button type="submit" class="form-control">Edit Project</button>
+  {{ form_end(form) }}
 
             </form>
+          
         </div>
     </div>
 </div>
