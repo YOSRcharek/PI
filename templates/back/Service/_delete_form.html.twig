@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+</head>
+</html>
 <form method="post" action="{{ path('app_Service_delete', {'id': Service.id}) }}" onsubmit="return confirm('Êtes-vous sûr(e) de vouloir supprimer cet élément ?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ Service.id) }}">
     <button class="btn btn-danger" style="border: 2px solid red;">
