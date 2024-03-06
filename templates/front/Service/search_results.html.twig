@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Résultats de la recherche</h1>
+
+    {% for service in services %}
+        <div>
+            <h2>{{ service.nomService }}</h2>
+            <p>{{ service.description }}</p>
+        </div>
+    {% else %}
+        <p>Aucun service trouvé.</p>
+    {% endfor %}
+{% endblock %}

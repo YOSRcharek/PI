@@ -20,6 +20,99 @@
     <script src="{{ asset('assets/front/js/custom.js') }}"></script>
     <script src="{{ asset('assets/front/js/counter.js') }}"></script>
     <script src="{{ asset('assets/front/js/click-scroll.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script> 
+    $(document).ready(function () {
+        $("#searchInput").on("keyup", function () {
+            var query = $(this).val();
+            if (query.length === 0) {
+                
+               $.ajax({
+                    url: "{{ path('search_service') }}",
+                    type: "GET",
+                    
+                    success: function (response) {
+                        var results = response.results;
+                        var message = response.message;
+
+                        if (results.length > 0) {
+                            $('#prev').hide();
+                            $('#new').empty();
+                            $('#new').show();
+                            $.each(results, function (i, service) {
+                                var card = '<div class="col-md-6">' +
+        '<div class="card">' +
+        '<img src="assets/front/images/causes/group-african-kids-paying-attention-class.jpg" class="card-img-top" alt="Event Image">' +
+        '<div class="card-body">' +
+        '<h5 class="card-title">' + Service.nomService + '</h5>' +
+        '<p class="card-text">' + service.description + '</p>' +
+        '<p class="card-text"><strong>Date:</strong> ' + event.date + ' - ' + event.dateFin + '</p>' +
+        '<p class="card-text"><strong>Type:</strong> ' + event.type + '</p>' +
+        '<p class="card-text"><strong>Location:</strong> ' + event.localisation + '</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+                                $('#new').append(card);
+                            });
+                        } else {
+                            
+                            $('#prev').show();
+                            $('#new').hide();
+                            
+                    }
+
+                        console.log(message); // Afficher le message dans la console pour le débogage
+                    },
+                    error: function () {
+                        console.error("Une erreur s'est produite lors du traitement de la requête AJAX.");
+                    }
+               });
+                
+            } else {
+                $.ajax({
+                    url: "{{ path('search_service') }}",
+                    type: "GET",
+                    data: { query: query },
+                    success: function (response) {
+                        var results = response.results;
+                        var message = response.message;
+
+                        if (results.length > 0) {
+                            $('#prev').hide();
+                            $('#new').empty();
+                            $('#new').show();
+                            $.each(results, function (i, event) {
+                                var card = '<div class="col-md-6">' +
+        '<div class="card">' +
+        '<img src="assets/front/images/causes/group-african-kids-paying-attention-class.jpg" class="card-img-top" alt="Event Image">' +
+        '<div class="card-body">' +
+        '<h5 class="card-title">' + event.nomEvent + '</h5>' +
+        '<p class="card-text">' + event.description + '</p>' +
+        '<p class="card-text"><strong>Date:</strong> ' + event.date + ' - ' + event.dateFin + '</p>' +
+        '<p class="card-text"><strong>Type:</strong> ' + event.type + '</p>' +
+        '<p class="card-text"><strong>Location:</strong> ' + event.localisation + '</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+                                $('#new').append(card);
+                            });
+                        } else {
+                            
+                            $('#prev').show();
+                            $('#new').hide();
+                            
+                        }
+
+                        console.log(message); // Afficher le message dans la console pour le débogage
+                    },
+                    error: function () {
+                        console.error("Une erreur s'est produite lors du traitement de la requête AJAX.");
+                    }
+                });
+            }
+        });
+    });</script>
+
     {% endblock %}
 </head>
 <body>

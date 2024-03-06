@@ -55,6 +55,18 @@
     "endroid/qr-code-bundle": {
         "version": "5.0.1"
     },
+    "friendsofsymfony/jsrouting-bundle": {
+        "version": "3.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.3",
+            "ref": "a9f2e49180f75cdc71ae279a929c4b2e0638de84"
+        }
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v5.9.0"
+    },
     "nelmio/cors-bundle": {
         "version": "2.4",
         "recipe": {
@@ -154,6 +166,19 @@
         },
         "files": [
             "./config/packages/security.yaml"
+        ]
+    },
+    "symfony/translation": {
+        "version": "5.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "e28e27f53663cc34f0be2837aba18e3a1bef8e7b"
+        },
+        "files": [
+            "./config/packages/translation.yaml",
+            "./translations/.gitignore"
         ]
     },
     "symfony/twig-bundle": {

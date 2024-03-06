@@ -45,4 +45,29 @@ class ServiceRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+public function findSearch(SearchData $data): array
+{
+    $query = $this
+        ->createQueryBuilder('s')
+        ->select('c', 's')
+        ->join('s.category', 'c');
+
+    if (!empty($data->q)) {
+        $query = $query
+            ->andWhere('s.name LIKE :q')
+            ->setParameter('q', "%{$data->q}%");
+    }
+
+    // Ajoutez d'autres conditions en fonction de vos besoins
+
+    return $query->getQuery()->getResult();
+}
+public function service(ServiceRepository $repository, Knp\Component\Pager\PaginatorInterface $paginator, Request $request)
+{
+    $query = $repository->createQueryBuilder('s')->getQuery();
+    $services = $paginator->paginate($query, $request->query->getInt('page', 1), 10);
+    return $this->render('front/Service/paginator.html.twig', ['Services' => $services]);
+}
+
+
 }
