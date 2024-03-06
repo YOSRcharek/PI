@@ -165,4 +165,10 @@ get_places:
     path: /get-places
     controller: App\Controller\MapboxController::getPlacesAction
 
-    
+# config/routes.yaml
+
+register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+
+

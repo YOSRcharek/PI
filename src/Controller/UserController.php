@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Form\UserFormType;
 
 use App\Entity\User;
+use App\Form\UserdataprofileType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use App\Twig\Base64EncodeExtensionService;
 
 
 
@@ -89,12 +91,18 @@ public function deleteBook(Request $request, $id, ManagerRegistry $manager, User
         $email = $user->getEmail();
         $roles = $user->getRoles();
         $bio = $user->getBio();
+        $image = $user->getImage();
+        // $imageContents = stream_get_contents($image);
+
+        // // Encode the image data to base64
+        // $encodedImage = base64_encode($imageContents);
 
 
         return $this->render('user/profile.html.twig', [
             'email' => $email,
             'roles' => $roles,
             'bio'=>$bio,
+            'image'=>$image,
 
         ]);
     }
@@ -102,5 +110,33 @@ public function deleteBook(Request $request, $id, ManagerRegistry $manager, User
 
 
 
+    #[Route('/updateProfile', name: 'update_profile')]
+    public function updateProfile(Request $request, ManagerRegistry $manager, UserRepository $userRepository,): Response
+    {
+        $em = $manager->getManager();
+        $user = $userRepository->find($this->getUser()->getId()); // Get the currently logged-in user
+    
 
+
+        $form = $this->createForm(UserdataprofileType::class, $user);
+        $form->handleRequest($request);
+        // Create a form to handle updating user profile data
+     
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Handle form submission
+    
+            // Persist changes to the database
+            $em->persist($user);
+            $em->flush();
+    
+            // Redirect to the profile page after successful update
+            return $this->redirectToRoute('user_profile');
+        }
+    
+        // Render the form to update user profile data
+        return $this->render('user/update_profile.html.twig', [
+            'form' => $form->createView(), // Pass the form view to the template
+
+        ]);
+    }
 }

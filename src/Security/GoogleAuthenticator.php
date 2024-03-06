@@ -152,6 +152,14 @@ class GoogleAuthenticator extends SocialAuthenticator
         }
 
         $user->setGoogleId($googleUser->getId());
+        $image = $googleUser->getAvatar();
+
+        // $imageContents = stream_get_contents($imageUrl);
+
+        // Encode the image data to base64
+
+        $user->setImage($image);
+
         $this->em->persist($user);
         $this->em->flush();
 
@@ -165,7 +173,7 @@ class GoogleAuthenticator extends SocialAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        $targetUrl = $this->router->generate('user_profile');
+        $targetUrl = $this->router->generate('app_home');
 
         return new RedirectResponse($targetUrl);
     }

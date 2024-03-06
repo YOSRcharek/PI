@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -45,6 +46,9 @@ private ?string $googleId = null;
 
     #[ORM\Column(length: 255,nullable: true)]
     private ?string $bio = null;
+
+    #[ORM\Column(length: 255,nullable: true)]
+    private ?string $image = null;
 
     public function getId(): ?int
     {
@@ -169,4 +173,16 @@ private ?string $googleId = null;
 
         return $this;
     }
+
+   public function getImage(): ?string
+{
+    return $this->image;
+}
+
+public function setImage(?string $image): self
+{
+    $this->image = $image;
+
+    return $this;
+}
 }

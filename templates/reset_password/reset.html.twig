@@ -1,12 +1,54 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link href="{{ asset('assets/front/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/front/css/bootstrap-icons.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/front/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
 
-{% block title %}Reset your password{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/front/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/front/js/jquery.sticky.js') }}"></script>
+    <script src="{{ asset('assets/front/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/front/js/counter.js') }}"></script>
+    <script src="{{ asset('assets/front/js/click-scroll.js') }}"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+        .suggestion {
+            cursor: pointer;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+        }
+        .suggestion:hover {
+            background-color: #f0f0f0;
+        }
+    </style></body>
+{% endblock %}
+{% block title %}Reset Your Password{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
-
-    {{ form_start(resetForm) }}
-        {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
-    {{ form_end(resetForm) }}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h1 class="card-title text-center">Reset Your Password</h1>
+                        <hr>
+                        {{ form_start(resetForm, {'attr': {'class': 'form'}}) }}
+                            <div class="form-group">
+                                {{ form_row(resetForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Enter your new password'}}) }}
+                            </div>
+                            <button type="submit" class="form-control">Reset Password</button>
+                        {{ form_end(resetForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

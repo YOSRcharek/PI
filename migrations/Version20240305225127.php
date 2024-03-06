@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DoctrineMigrations;
+namespace App\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240228201213 extends AbstractMigration
+final class Version20240305225127 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,14 +20,14 @@ final class Version20240228201213 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE association ADD latitude DOUBLE PRECISION NOT NULL, ADD longitude DOUBLE PRECISION NOT NULL');
-        $this->addSql('ALTER TABLE membre CHANGE telephone telephone VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE admin ADD image LONGBLOB DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD image LONGBLOB DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE association DROP latitude, DROP longitude');
-        $this->addSql('ALTER TABLE membre CHANGE telephone telephone INT NOT NULL');
+        $this->addSql('ALTER TABLE admin DROP image');
+        $this->addSql('ALTER TABLE user DROP image');
     }
 }
