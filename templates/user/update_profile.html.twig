@@ -1,14 +1,30 @@
-{# templates/user/user_profile_form.html.twig #}
-
 {% extends 'base.html.twig' %}
 
 {% block title %}Update Profile{% endblock %}
 
 {% block body %}
-    <h1>Update Profile</h1>
-    {{ form_start(form) }}
-    {{ form_row(form.bio) }}
-    {{ form_row(form.image) }}
-    <button type="submit">Update</button>
-    {{ form_end(form) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1 class="card-title text-center">Update Profile</h1>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_row(form.bio, {'attr': {'class': 'form-control', 'placeholder': 'Enter your bio'}}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.image, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

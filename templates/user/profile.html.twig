@@ -79,27 +79,25 @@
                     {% if image is not null %}
                         <img src="{{ image }}" alt="Profile Image">
                     {% else %}
-                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Default Profile Image">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png">
                     {% endif %}
                 </div>
                 <div class="profile-header-info">
                     <h4 class="m-t-10 m-b-5">{{ email }}</h4>
-                                        <p>Volunteer</p> <!-- Added "Volunteer" text -->
-
+                    <p>Profile: Volunteer</p> <!-- Added "Volunteer" text -->
                     {% if bio is not null %}
-                        <p>Bio :   {{ bio }}</p>
-                    {% else %}
-                        <form action="{{ path('update_bio') }}" method="post">
-                            <label for="bio">Bio:</label><br>
-                            <textarea id="bio" name="bio" rows="4" cols="50"></textarea><br>
-                            <button type="submit">Update Bio</button>
-                        </form>
+                        <p>Bio: {{ bio }}</p> <!-- Display user bio if available -->
                     {% endif %}
+                      <div >
+                    <a href="{{ path('update_profile') }}" class="btn btn-primary">Edit Profile</a>
                 </div>
+                </div>
+              
             </div>
         </div>
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>

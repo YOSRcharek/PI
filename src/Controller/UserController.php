@@ -13,6 +13,12 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use App\Twig\Base64EncodeExtensionService;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
+
+
+
 
 
 
@@ -110,33 +116,102 @@ public function deleteBook(Request $request, $id, ManagerRegistry $manager, User
 
 
 
-    #[Route('/updateProfile', name: 'update_profile')]
-    public function updateProfile(Request $request, ManagerRegistry $manager, UserRepository $userRepository,): Response
-    {
-        $em = $manager->getManager();
-        $user = $userRepository->find($this->getUser()->getId()); // Get the currently logged-in user
-    
+// #[Route('/updateProfile', name: 'update_profile')]
+// public function updateProfile(Request $request, ManagerRegistry $manager, UserRepository $userRepository): Response
+// {
+//     $em = $manager->getManager();
+//     $user = $userRepository->find($this->getUser()->getId()); // Get the currently logged-in user
+
+//     $form = $this->createForm(UserdataprofileType::class, $user);
+//     $form->handleRequest($request);
+
+//     if ($form->isSubmitted() && $form->isValid()) {
+//         $imageFile = $form->get('image')->getData();
+//         if ($imageFile) {
+//             // Generate a unique name for the file
+//             $fileName = uniqid().'.'.$imageFile->guessExtension();
+
+//             // Move the file to the directory where images are stored
+//             $imageFile->move(
+//                 $this->getParameter('user_images_directory'),
+//                 $fileName
+//             );
+
+//             // Update the user entity with the new image path
+//             $user->setImage($fileName);
+//         }
+
+//         // Persist changes to the database
+//         $em->persist($user);
+//         $em->flush();
+
+//         // Redirect to the profile page after successful update
+//         return $this->redirectToRoute('user_profile');
+//     }
+
+//     // Render the form to update user profile data
+//     return $this->render('user/update_profile.html.twig', [
+//         'form' => $form->createView(), // Pass the form view to the template
+//     ]);
+// }
 
 
-        $form = $this->createForm(UserdataprofileType::class, $user);
-        $form->handleRequest($request);
-        // Create a form to handle updating user profile data
-     
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Handle form submission
-    
-            // Persist changes to the database
-            $em->persist($user);
-            $em->flush();
-    
-            // Redirect to the profile page after successful update
-            return $this->redirectToRoute('user_profile');
+
+
+
+
+
+
+
+#[Route('/updateProfile', name: 'update_profile')]
+public function updateProfile(Request $request, ManagerRegistry $manager, UserRepository $userRepository, SluggerInterface $slugger): Response
+{
+    $em = $manager->getManager();
+    $user = $userRepository->find($this->getUser()->getId()); // Get the currently logged-in user
+
+    $form = $this->createForm(UserdataprofileType::class, $user);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $imageFile = $form->get('image')->getData();
+        if ($imageFile) {
+            $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+
+            // Move the file to the directory where brochures are stored
+            try {
+                $imageFile->move(
+                    $this->getParameter('brochures_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            // updates the 'imageFilename' property to store the PDF file name
+            // instead of its contents
+            $user->setImage("uploads/brochures/$newFilename");
         }
-    
-        // Render the form to update user profile data
-        return $this->render('user/update_profile.html.twig', [
-            'form' => $form->createView(), // Pass the form view to the template
 
-        ]);
+        // Persist changes to the database
+        $em->persist($user);
+        $em->flush();
+
+        // Redirect to the profile page after successful update
+        return $this->redirectToRoute('user_profile');
     }
+
+    // Render the form to update user profile data
+    return $this->render('user/update_profile.html.twig', [
+        'form' => $form->createView(), // Pass the form view to the template
+    ]);
+}
+
+
+
+
+
+
 }

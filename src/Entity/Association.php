@@ -23,7 +23,7 @@ class Association
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $adresse = null;
+    private ?string $adresse = null;        
 
     #[ORM\Column(length: 255)]
     private ?string $domaineActivite = null;
