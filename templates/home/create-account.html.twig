@@ -1,3 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+
 <!DOCTYPE html>
 <html :class="{ 'theme-dark': dark }" x-data="data()" lang="en">
   <head>
@@ -22,6 +29,20 @@
     <link href="{{ asset('assets/front/css/templatemo-kind-heart-charity.css') }}" rel="stylesheet">
 
     {% endblock %}
+    <title>Create account - TuniCollab</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/front/images/grandLogo.png') }}" />
+
+    <link rel="stylesheet" href="assets/back/css/tailwind.output.css" />
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+    <script src="assets/back/js/init-alpine.js"></script>
+ 
 
     {% block javascripts %}
     <script src="{{ asset('assets/front/js/jquery.min.js') }}"></script>
@@ -50,23 +71,31 @@
   
   </head>
   <body>
-    <section class="volunteer-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="custom-form volunteer-form">
-                        <h2 class="text-center mb-4">Create account</h2>
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+        <div class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">
+            <div class="flex flex-col overflow-y-auto md:flex-row">
+                <div class="h-32 md:h-auto md:w-1/2">
+                    <img aria-hidden="true" class="object-cover w-full h-full dark:hidden"
+                        src="{{ asset('assets/front/images/volontInscrir.png') }}" alt="Logo" />
+                </div>
+                <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
+                    <div class="w-full">
                         {% if app.flashes('success') %}
-                        <div class="alert alert-success">
-                            {{ app.flashes('success')[0] }}
-                        </div>
+                            <div class="alert alert-success">
+                                {{ app.flashes('success')[0] }}
+                            </div>
                         {% endif %}
-                        {{ form_start(form, {'attr': {'class': 'form'}}) }}
+                        <h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Create account as a association</h1>
+  
+                       
+                     <form method="post" action="{{ path('app_inscrire') }}" 
+
+                        {{ form_start(form, {'attr': {'class': 'form','enctype': 'multipart/form-data'}}) }}
+
                         <div class="row">
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                     {{ form_row(form.email, {'label': 'Email:', 'attr': {'class': 'form-control'}}) }}
-                                 
                                 </div>
                             </div>
                             <div class="col-lg-6 col-12">
@@ -75,23 +104,14 @@
                                   
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group">
-                                    {{ form_row(form.document, {'label': 'Document:', 'attr': {'class': 'form-control'}}) }}
-                                  
-                                </div>
-                            </div>
+                           
                             <div class="col-lg-6 col-12">
                                 <div class="form-group">
                                 {{ form_row(form.nom, {'label': 'Name:', 'attr': {'class': 'form-control'}}) }}
                               
                             </div>
                         </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                
-                                </div>
-                            </div>
+                            
                                 <div class="col-lg-6 col-12">  
                                     <div class="form-group">      
                                  {{ form_row(form.telephone, {'label': 'Phone:', 'attr': {'class': 'form-control'}}) }}
@@ -110,13 +130,14 @@
                                   
                                 </div>
                             </div>
-                                <div class="col-lg-6 col-12">
-                                    <div class="form-group">
-                                {{ form_row(form.image, {'label': 'Picture:', 'attr': {'class': 'form-control'}}) }}
-                           
+                               
+                        <div >
+                            <div class="col-lg-6 col-12">
+                                <div class="form-group">
+                                  
+                                    {{ form_row(form.document, {'label': 'Document:', 'attr': {'class': 'form-control-file'}}) }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-12">
                             <div class="form-group">
                                 {{ form_row(form.adresse, {'label': 'Adress:','id':'search', 'attr': {'class': 'form-control'}}) }}
                                  
@@ -192,13 +213,25 @@
                             </div>
                         </div>
                         </div>
-                        <button type="submit" class="form-control">Submit</button>
-                  
-                    </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        {{ form_widget(form.status, {'attr': {'style': 'display: none;'}}) }}
+                        {{ form_widget(form.ActiveCompte, {'attr': {'style': 'display: none;'}}) }}
+                        {{ form_widget(form.dateDemande, {'attr': {'style': 'display: none;'}}) }}
+
+                    {{ form_end(form) }}
+                    </form>
+                    <hr class="my-8" />
+                    <p class="mt-4">
+                        <a class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+                            href="./login.html">Already have an account? Login</a>
+                    </p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
     
   </body>
 </html>
+{% endblock %}
+

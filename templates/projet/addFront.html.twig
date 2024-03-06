@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="editProjectPopUP">
+    <div class="editPopupProject" id="popupEditProject">
+        <div class="col-lg-6 col-12">
+            <form class="custom-form volunteer-form mb-5 mb-lg-0" action="{{ path('app_create_projet')}}" method="post" role="form">
+        
+                <button type="button" class="btn-close" onclick="closeFormProject()"></button>
+
+                    <h2 class="mb-4">New Project</h2>
+                    <div class="row ">
+                    {{ form_start(form2, {'attr': {'class': 'custom-form volunteer-form mb-5 mb-lg-0'}}) }}
+                    
+                        <div class="col-lg-6 col-12">
+                            {{ form_row(form2.nomProjet, {'label': 'Name:', 'placeholder': 'Name', 'attr': {'class': 'form-control '}}) }}
+                       
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            {{ form_row(form2.status, {'label': 'Status:', 'attr': {'class': 'form-control'}}) }}
+                      
+                        
+                        </div>
+                        {{ form_row(form2.description, {'label': 'Description:', 'placeholder': 'Description', 'attr': {'class': 'form-control'}}) }}
+                   
+                    
+                        <div class="col-lg-6 col-12">
+                            <label for="dateDebut">From:</label>
+                            {{ form_widget(form2.dateDebut, {'id': 'dateDebut', 'placeholder': 'Start Date', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form2.dateDebut) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form2.dateDebut) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-lg-6 col-12">
+                            <label for="dateDebut">To:</label>
+                            {{ form_widget(form2.dateFin, {'id': 'dateFIN', 'placeholder': 'End Date', 'attr': {'class': 'form-control'}}) }}
+                            {% if form_errors(form2.dateFin) %}
+                                <div class="text-danger">
+                                    {{ form_errors(form2.dateFin) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                          {{ form_widget(form.association, {'attr': {'style': 'display: none;'}}) }}
+                            
+                    </div>
+                    <button type="submit" class="form-control">Add Project</button>
+                    {{ form_end(form) }}
+                    
+                </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -157,7 +157,7 @@ public function delete(Request $request, $id, ManagerRegistry $manager, Associat
 }
     #[Route('/createAcc', name: 'app_inscrire')]
     
-public function inscrire(ManagerRegistry $managerRegistry, Request $request, MailerTraitement $service): Response
+    public function inscrire(ManagerRegistry $managerRegistry, Request $request, MailerTraitement $service): Response
 {
     // Action to create a new association
     $association = new Association();
@@ -167,40 +167,38 @@ public function inscrire(ManagerRegistry $managerRegistry, Request $request, Mai
     // Handle form submission
     $form->handleRequest($request);
 
-    try {
-        // Begin the transaction
-        $entityManager = $managerRegistry->getManager();
-        $entityManager->beginTransaction();
+    // Begin the transaction
+    $entityManager = $managerRegistry->getManager();
+    $entityManager->beginTransaction();
 
+    try {
         if ($form->isSubmitted() && $form->isValid()) {
             // Get the uploaded file
-            /** @var UploadedFile $documentFile */
-            $documentFile = $form->get('document')->getData();
-       
-            if ($documentFile) {
-                $documentContent = file_get_contents($documentFile->getPathname());
+            $pdfFile = $form->get('document')->getData();
+            $pdfContent = file_get_contents($pdfFile);
 
-                $association->setDocument($documentContent);
-            }
+            $association->setDocument($pdfContent);
 
+            // Persist and flush the entity
             $entityManager->persist($association);
             $entityManager->flush();
 
-            // Get the email entered in the form
             $email = $form->get('email')->getData();
 
-            // Send the email
             $service->sendEmail($email);
 
             $entityManager->commit();
 
             return $this->redirectToRoute('app_home');
         }
-
     } catch (\Exception $e) {
-        $entityManager->rollback();
-        throw $e;
+        echo "<script>console.error('Exception occurred: " . $e->getMessage() . "');</script>";
 
+        $entityManager->rollback();
+        
+        throw $e;
+    } finally {
+        $entityManager->close();
     }
 
     return $this->render('home/create-account.html.twig', ['form' => $form->createView()]);
