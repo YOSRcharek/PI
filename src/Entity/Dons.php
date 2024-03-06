@@ -86,7 +86,7 @@ class Dons
         return $this;
     }
 
-    public function getAssociation(): ?association
+    public function getAssociation(): ?Association
     {
         return $this->association;
     }

@@ -53,7 +53,7 @@ class DonsController extends AbstractController
     
         try {
             if ($form->isSubmitted() && $form->isValid()) {
-                $entityManager = $doctrine()->getManager();
+                $entityManager = $doctrine->getManager();
                 $entityManager->persist($dons);
                 $entityManager->flush();
     
@@ -61,7 +61,7 @@ class DonsController extends AbstractController
     
                 $this->addFlash('success', 'Don ajouté avec succès.');
     
-                // Redirect to the index route with the montant parameter
+                
                 return $this->redirectToRoute('app_stripe', ['montant' => $montant]);
             }
         } catch (\Exception $e) {
@@ -83,7 +83,7 @@ class DonsController extends AbstractController
         $form->handleRequest($request);
         try {
             if ($form->isSubmitted() && $form->isValid()) {
-                $entityManager = $doctrine()->getManager();
+                $entityManager = $doctrine->getManager();
                 $entityManager->persist($dons);
                 $entityManager->flush();
     
@@ -219,8 +219,6 @@ class DonsController extends AbstractController
         $montant = $request->query->get('montant');
     
         $dons = $donsRepository->findByMontant($montant);
-    
-        // Serialize the entities to an array
         $donsArray = [];
         foreach ($dons as $don) {
             $donsArray[] = [
@@ -231,9 +229,48 @@ class DonsController extends AbstractController
                 'type' => $don->getType() !== null ? $don->getType()->getNom() : null,
             ];
         }
-    
-        // Return the serialized entities as JSON response
         return new JsonResponse(['dons' => $donsArray]);
     }
+
+
+    #[Route('/filter-dons-by-date-mis', name: 'filter_dons_by_date_mis')]
+    public function filterDonsByDateMis(Request $request, DonsRepository $donsRepository): JsonResponse
+    {
+        $dateMis = $request->query->get('dateMis');
+        $dateMisDateTime = new \DateTime($dateMis);
+        $dons = $donsRepository->findByDateMisDon($dateMisDateTime);
+        $donsArray = [];
+        foreach ($dons as $don) {
+            $donsArray[] = [
+                'id' => $don->getId(),
+                'montant' => $don->getMontant(),
+                'dateMisDon' => $don->getDateMisDon()->format('d-m-Y'),
+                'association' => $don->getAssociation() !== null ? $don->getAssociation()->getNom() : null,
+                'type' => $don->getType() !== null ? $don->getType()->getNom() : null,
+            ];
+        }
+        return new JsonResponse(['dons' => $donsArray]);
+    }
+
+      
+
+    #[Route('/sort-dons', name: 'sort_dons')]
+    public function sortDons(Request $request, DonsRepository $donsRepository): JsonResponse
+    {
+        $sortBy = $request->query->get('sortBy');
+        $dons = $donsRepository->findBy([], [$sortBy => 'ASC']);
+        $donsArray = [];
+        foreach ($dons as $don) {
+            $donsArray[] = [
+                'id' => $don->getId(),
+                'montant' => $don->getMontant(),
+                'dateMisDon' => $don->getDateMisDon()->format('d-m-Y'),
+                'association' => $don->getAssociation() !== null ? $don->getAssociation()->getNom() : null,
+                'type' => $don->getType() !== null ? $don->getType()->getNom() : null,
+            ];
+        }
+        return new JsonResponse(['dons' => $donsArray]);
+    }
+   
 }
 

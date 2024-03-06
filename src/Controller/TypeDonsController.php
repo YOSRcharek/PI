@@ -37,7 +37,7 @@ class TypeDonsController extends AbstractController
     }
     
     #[Route('/add', name: 'type_dons_add', methods: ['GET', 'POST'])]
-    public function add(Request $request): Response
+    public function add(Request $request, ManagerRegistry $doctrine): Response
     {
         $typeDon = new TypeDons();
 
@@ -45,7 +45,7 @@ class TypeDonsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->persist($typeDon);
             $entityManager->flush();
 
@@ -60,7 +60,7 @@ class TypeDonsController extends AbstractController
     }
 
     #[Route('/addadmin', name: 'type_dons_add_admin', methods: ['GET', 'POST'])]
-    public function adds(Request $request): Response
+    public function adds(Request $request, ManagerRegistry $doctrine): Response
     {
         $typeDon = new TypeDons();
 
@@ -68,7 +68,7 @@ class TypeDonsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $doctrine->getManager();
             $entityManager->persist($typeDon);
             $entityManager->flush();
 
