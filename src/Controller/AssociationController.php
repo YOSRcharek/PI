@@ -24,14 +24,28 @@ use App\Service\MailerTraitement;
 use Symfony\Component\Mailer\MailerInterface;
 use App\Twig\Base64EncodeExtensionService;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Entity\User;
+use App\Form\RegistrationFormType;
+use App\Security\EmailVerifier;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use App\Form\UserFormType;
+use App\Form\UserdataprofileType;
+use App\Repository\UserRepository;
+use Symfony\Component\Security\Core\Security;
 
 class AssociationController extends AbstractController
 {
     private $base64EncodeExtensionService;
+    private $security;
 
-public function __construct(Base64EncodeExtensionService $base64EncodeExtensionService)
+
+public function __construct(Security $security,Base64EncodeExtensionService $base64EncodeExtensionService)
 {
     $this->base64EncodeExtensionService = $base64EncodeExtensionService;
+    $this->security = $security;
 }
     #[Route('/association', name: 'app_show')]
     
@@ -157,7 +171,7 @@ public function delete(Request $request, $id, ManagerRegistry $manager, Associat
 }
     #[Route('/createAcc', name: 'app_inscrire')]
     
-    public function inscrire(ManagerRegistry $managerRegistry, Request $request, MailerTraitement $service): Response
+    public function inscrire(ManagerRegistry $managerRegistry, Request $request, MailerTraitement $service, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
 {
     // Action to create a new association
     $association = new Association();
@@ -168,7 +182,6 @@ public function delete(Request $request, $id, ManagerRegistry $manager, Associat
     $form->handleRequest($request);
 
     // Begin the transaction
-    $entityManager = $managerRegistry->getManager();
     $entityManager->beginTransaction();
 
     try {
@@ -179,19 +192,40 @@ public function delete(Request $request, $id, ManagerRegistry $manager, Associat
 
             $association->setDocument($pdfContent);
 
-            // Persist and flush the entity
+            // Persist the association
             $entityManager->persist($association);
             $entityManager->flush();
 
-            $email = $form->get('email')->getData();
+            // Create a new user with association role
+            $user = new User();
+            $user->setEmail($association->getEmail()); // Assuming association has email
+            // Set other user properties as needed
 
-            $service->sendEmail($email);
+            // Assign association role
+            $user->setRoles(['ROLE_ASSOCIATION']);
 
+            // Hash and set password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $association->getPassword() 
+                )
+            );
+
+            // Persist the user
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // Send email or perform other actions
+            $service->sendEmail($association->getEmail());
+
+            // Commit transaction
             $entityManager->commit();
 
             return $this->redirectToRoute('app_home');
         }
     } catch (\Exception $e) {
+        // Handle exceptions
         echo "<script>console.error('Exception occurred: " . $e->getMessage() . "');</script>";
 
         $entityManager->rollback();
@@ -244,7 +278,7 @@ public function approuver($id, ManagerRegistry $managerRegistry, Request $reques
 
         return $this->redirectToRoute('app_show'); // Redirigez où vous le souhaitez après la mise à jour
     
-}
+}/*
 #[Route('/profil/{id}', name: 'app_profil')]
 public function profil(Request $request, AssociationRepository $associationRepo, EntityManagerInterface $entityManager, ProjetRepository $projetRepo, MembreRepository $membreRepo, $id): Response
 {    
@@ -297,8 +331,70 @@ public function profil(Request $request, AssociationRepository $associationRepo,
     ]);
             
      
+}*/
+#[Route('/profil', name: 'app_profil')]
+public function profil(Request $request,Security $security, AssociationRepository $associationRepo, EntityManagerInterface $entityManager, ProjetRepository $projetRepo, MembreRepository $membreRepo): Response
+{   
+    $user = $this->security->getUser();
+
+// Check if a user is logged in
+if (!$user) {
+    throw $this->createAccessDeniedException('You must be logged in to access this page.');
 }
 
+// Get the user's email
+$email = $user->getEmail();
+
+// Find the association by email
+$entityManager = $this->getDoctrine()->getManager();
+$association = $entityManager->getRepository(Association::class)->findOneBy(['email' => $email]);
+
+$associationId = $association->getId();
+
+// Utiliser l'ID de l'association pour enregistrer les projets et les membres
+$projets = $projetRepo->findByAssociation($associationId);
+$membres = $membreRepo->findByAssociation($associationId);
+    $membre = new Membre();
+    $projet = new Projet();
+    $form = $this->createForm(MembreType::class, $membre);
+    $form2 = $this->createForm(ProjetType::class, $projet);
+
+    $ongoingProjectsCount = $projetRepo->countOngoingProjects($associationId);
+    $completedProjectsCount = $projetRepo->countCompletedProjects($associationId);
+
+    $form->handleRequest($request);
+    if ($form->isSubmitted() && $form->isValid()) {
+        $membre->setAssociation($association);
+        $entityManager->persist($membre);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_profil');
+
+    }
+
+     $form2->handleRequest($request);
+    if ($form2->isSubmitted() && $form2->isValid()) {
+
+        $projet->setAssociation($association);
+        $entityManager->persist($projet);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_profil');
+         
+    }
+    
+    return $this->render('association/profile.html.twig', [
+        'association' => $association,
+        'projets' => $projets,
+        'membres'=> $membres,
+        'form' => $form->createView(),
+        'form2' => $form2->createView(),
+        'ongoingProjectsCount' => $ongoingProjectsCount,
+        'completedProjectsCount' => $completedProjectsCount,
+    ]);
+            
+     
+}
 
 private function getDocumentContent($document)
 {

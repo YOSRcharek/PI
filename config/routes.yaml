@@ -5,6 +5,7 @@ news_listing:
     path: /news
     controller: App\Controller\HomeController::news
 
+
 news_Detail:
     path: /newsDetail
     controller: App\Controller\HomeController::newsDetail
@@ -17,6 +18,9 @@ donate:
     path: /donate
     controller: App\Controller\HomeController::donate
 
+search_project_ajax:
+    path: /search_project_ajax
+    controller: 'App\Controller\ProjetController::searchProjectAjax'
 
 buttons:
     path: /buttons

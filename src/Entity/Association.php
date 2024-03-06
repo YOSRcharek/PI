@@ -68,6 +68,9 @@ class Association
     #[ORM\Column]
     private ?bool $ActiveCompte = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?User $userID = null;
+
 
     public function __construct()
     {
@@ -398,6 +401,18 @@ class Association
     public function setActiveCompte($ActiveCompte): static
     {
         $this->ActiveCompte = $ActiveCompte;
+
+        return $this;
+    }
+
+    public function getUserID(): ?User
+    {
+        return $this->userID;
+    }
+
+    public function setUserID(?User $userID): static
+    {
+        $this->userID = $userID;
 
         return $this;
     }

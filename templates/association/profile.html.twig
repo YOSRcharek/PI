@@ -142,7 +142,14 @@
                                 <div class="row my-4">
                                     <div class="col-md-12">
                                         <div>
-                                            <p class="text-muted mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>{{ association.email }}
+                                            <p class="text-muted mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i> {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                       
+                      
+                                                {{ app.user.email }}
+                                           
+                                    {% else %}
+                                  
+                                    {% endif %}
                                             </p>
                                             <p class="text-muted fw-medium mb-0"><i class="mdi mdi-phone-in-talk-outline me-2"></i>{{ association.telephone }}
                                             </p>

@@ -209,16 +209,137 @@
                 </div>
                
             </div>
-             <form class="custom-form search-form" action="#" method="post" role="form">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-            
-                    <button type="submit" class="form-control">
-                        <i class="bi-search"></i>
-                    </button>
-            </form>
+          
         </div>
 
         <div class="row" id="all-projects">
+            <form class="custom-form search-form" action="#" method="post" role="form">
+              <input class="form-control" id="searchInput" type="search" placeholder="Search" aria-label="Search">
+        
+            <button type="submit" class="form-control">
+                <i class="bi-search"></i>
+            </button>
+            <div><p></p></div>
+            <div id="searchResults"></div>
+
+    </form>
+              <div id="searchResults"></div>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+               <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                
+           <script>
+    $(document).ready(function () {
+        $("#searchInput").on("keyup", function () {
+            var query = $(this).val();
+            if (query.length === 0) {
+                $.ajax({
+                    url: "{{ path('search_project_ajax') }}",
+                    type: "GET",
+                    success: function (response) {
+                        var results = response.results;
+                        var message = response.message;
+
+                        if (results.length > 0) {
+                            $('#all-projects .col-md-6').show(); // Afficher tous les projets
+                            $('#searchResults').empty().hide(); // Cacher les résultats de la recherche
+                        } else {
+                            $('#all-projects .col-md-6').hide(); // Cacher tous les projets
+                            $('#searchResults').empty().show().append('<div>No results found.</div>'); // Afficher un message si aucun résultat n'a été trouvé
+                        }
+
+                        console.log(message); // Afficher le message dans la console pour le débogage
+                    },
+                    error: function () {
+                        console.error("Une erreur s'est produite lors du traitement de la requête AJAX.");
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "{{ path('search_project_ajax') }}",
+                    type: "GET",
+                    data: { query: query },
+                    success: function (response) {
+                        var results = response.results;
+                        var message = response.message;
+
+                        if (results.length > 0) {
+                            $('#all-projects .col-md-6').hide(); // Cacher tous les projets existants
+                            $('#searchResults').empty().show(); // Afficher les résultats de la recherche
+                            $.each(results, function (i, project) {
+                                var editLink = '<a class="dropdown-item" href="/edit-projet/' + project.id + '" type="button">Edit</a>';var deleteLink = '<a class="dropdown-item delete-item" data-bs-toggle="modal" type="button" data-bs-target="#deleteProjetModel' + project.id + '" aria-label="Delete">Delete</a>';
+                               
+                                var dateDebut = new Date(project.dateDebut);
+                                 var dateForme = dateDebut.getFullYear() + '-' + ('0' + (dateDebut.getMonth() + 1)).slice(-2) + '-' + ('0' + dateDebut.getDate()).slice(-2);
+                                var projectCard = '<div class="col-md-6" id="project-items-2">' +
+                                    '<div class="card">' +
+                                    '<div class="card-body">' +
+                                    '<div class="d-flex mb-3">' +
+                                    '<div class="flex-grow-1 align-items-start">' +
+                                    '<div>' +
+                                    '<h6 class="mb-0 text-muted">' +
+                                    '<i class="mdi mdi-circle-medium text-success fs-3 align-middle"></i>' +
+                                    '<span class="team-date">' + dateForme+ '</span>' +
+                                    '</h6>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="dropdown ms-2">' +
+                                    '<a href="#" class="dropdown-toggle font-size-16 text-muted" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                    '<i class="mdi mdi-dots-horizontal"></i>' +
+                                    '</a>' +
+                                    '<div class="dropdown-menu dropdown-menu-end">' +
+                                    '<a class="dropdown-item" onclick="openDetailProject(\'' + project.nomProjet + '\', \'' + project.description + '\')" type="button">Detail</a>' +
+                                    editLink +
+                                    '<div class="dropdown-divider"></div>' +
+                                    deleteLink +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="DetailProjectPopUP">' +
+                                    '<div class="DetailPopupProject" id="popupDetailProject">' +
+                                    '<div>' +
+                                    '<div class="custom-text-box">' +
+                                    '<button type="button" class="btn-close" onclick="closeDetailProject()"></button>' +
+                                    '<h2 class="mb-2">Detail Project</h2>' +
+                                    '<h5 class="mb-3" id="projectName">' + project.nomProjet + '</h5>' +
+                                    '<p class="mb-0" id="projectDescription">' + project.description + '</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="mb-4">' +
+                                    '<h5 class="mb-1 font-size-17 team-title">' + project.nomProjet + '</h5>' +
+                                    '<p class="text-muted mb-0 team-description">' + project.description + '</p>' +
+                                    '</div>' +
+                                    '<div class="d-flex">' +
+                                    '<div class="avatar-group float-start flex-grow-1 task-assigne">' +
+                                    '</div>' +
+                                    '<div class="align-self-end">' +
+                                    '<span class="badge badge-soft-success p-2 team-status">' + project.status + '</span>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                                $('#searchResults').append(projectCard);
+                            });
+                        }
+                         else {
+                            $('#all-projects .col-md-6').hide(); // Cacher tous les projets
+                            $('#searchResults').empty().show().append('<div>No results found.</div>'); // Afficher un message si aucun résultat n'a été trouvé
+                        }
+
+                        console.log(message); // Afficher le message dans la console pour le débogage
+                    },
+                    error: function () {
+                        console.error("Une erreur s'est produite lors du traitement de la requête AJAX.");
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+        
             {% for projet in projets %}
             <div class="col-md-6" id="project-items-2">
                 <div class="card">

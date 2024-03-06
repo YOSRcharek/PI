@@ -126,6 +126,39 @@ public function editAdmin(Request $request, EntityManagerInterface $entityManage
             'completedProjectsCount' => $completedProjectsCount,
         ]);
     }
+    #[Route('/search_project_ajax', name: 'search_project_ajax')]
+public function searchProjectAjax(Request $request, ProjetRepository $projetRepository): JsonResponse
+{
+    $query = $request->query->get('query');
+
+    // Effectuer une recherche dans le repository ProjetRepository
+    $results = $projetRepository->createQueryBuilder('p')
+        ->where('p.nomProjet LIKE :query')
+        ->setParameter('query', '%' . $query . '%')
+        ->getQuery()
+        ->getResult();
+
+    $formattedResults = [];
+    foreach ($results as $result) {
+        $formattedResults[] = [
+            'id' => $result->getId(),
+            'nomProjet' => $result->getNomProjet(),
+            'description' => $result->getDescription(),
+            'dateDebut' => $result->getDateDebut(),
+            'dateFin' => $result->getDateFin(),
+            'status' => $result->getStatus(),
+
+        ];
+    }
+
+    if (!empty($formattedResults)) {
+        $response = ['results' => $formattedResults, 'message' => 'Résultats trouvés.'];
+    } else {
+        $response = ['results' => [], 'message' => 'Aucun résultat trouvé.'];
+    }
+
+    return new JsonResponse($response);
+}
 
 }
 
