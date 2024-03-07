@@ -63,7 +63,6 @@ public function __construct(Security $security)
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
 
-        // Récupérer l'adresse e-mail de l'utilisateur connecté
         $email = $user->getEmail();
 
         // Trouver l'association par son adresse e-mail
@@ -166,5 +165,35 @@ public function editAdmin(Request $request, EntityManagerInterface $entityManage
     return $this->render('membre/editAdmin.html.twig', [
         'form' => $form->createView(),
     ]);
+}
+#[Route('/search_member_ajax', name: 'search_member_ajax')]
+public function searchMemberAjax(Request $request, MembreRepository $MembreRepository): JsonResponse
+{
+    $query = $request->query->get('query');
+
+    // Effectuer une recherche dans le repository membreRepository
+    $results = $MembreRepository->createQueryBuilder('p')
+        ->where('p.nomMembre LIKE :query')
+        ->setParameter('query', '%' . $query . '%')
+        ->getQuery()
+        ->getResult();
+
+    $formattedResults = [];
+    foreach ($results as $result) {
+        $formattedResults[] = [
+            'id' => $result->getId(),
+            'nomMembre' => $result->getNomMembre(),
+            'prenomMembre' => $result->getPrenomMembre(),
+            'fonction' => $result->getFonction(),
+        ];
+    }
+
+    if (!empty($formattedResults)) {
+        $response = ['results' => $formattedResults, 'message' => 'Résultats trouvés.'];
+    } else {
+        $response = ['results' => [], 'message' => 'Aucun résultat trouvé.'];
+    }
+
+    return new JsonResponse($response);
 }
 }

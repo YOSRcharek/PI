@@ -35,6 +35,7 @@ use App\Form\UserFormType;
 use App\Form\UserdataprofileType;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Security;
+use Doctrine\ORM\QueryBuilder;
 
 class AssociationController extends AbstractController
 {
@@ -56,15 +57,50 @@ public function __construct(Security $security,Base64EncodeExtensionService $bas
         ]);
     }
     #[Route('/associations', name: 'app_show_association')]
-    public function show(AssociationRepository $associationRepo): Response
-    {
-        $associations = $associationRepo->findByStatus(1);
-        return $this->render('admin/associations.html.twig', ['associations' => $associations]);
+   
+
+    public function show(AssociationRepository $associationRepo, EntityManagerInterface $entityManager, UserRepository $userRepo): Response
+{
+    $query = $entityManager->createQuery(
+        'SELECT u FROM App\Entity\User u 
+         WHERE u.isVerified = true 
+         AND u.roles = :role'
+    )->setParameter('role', '["ROLE_ASSOCIATION"]');
+
+    $users = $query->getResult();
+
+    $associations = [];
+    foreach ($users as $user) {
+        $email = $user->getEmail();
+        $association = $associationRepo->findOneBy(['email' => $email]);
+        if ($association) {
+            $associations[] = $association;
+        }
     }
+
+    return $this->render('admin/associations.html.twig', ['associations' => $associations]);
+}
+
+
     #[Route('/demandes', name: 'app_demandes')]
-    public function demandes(AssociationRepository $associationRepo): Response
+    public function demandes(AssociationRepository $associationRepo,EntityManagerInterface $entityManager,): Response
     { 
-        $demandes = $associationRepo->findByStatus(0);
+        $query = $entityManager->createQuery(
+        'SELECT u FROM App\Entity\User u 
+         WHERE u.isVerified = false 
+         AND u.roles = :role'
+      )->setParameter('role', '["ROLE_ASSOCIATION"]');
+
+    $users = $query->getResult();
+    $demandes = [];
+    foreach ($users as $user) {
+        $email = $user->getEmail();
+        $demande = $associationRepo->findOneBy(['email' => $email]);
+        if (demande) {
+            $demandes[] = $demande;
+        }
+    }
+
         $demandesWithDocuments = [];
 
           foreach($demandes as $demande){
@@ -426,10 +462,12 @@ private function generateToken(): string
 {
     return bin2hex(random_bytes(32)); // Example: Generate a random hexadecimal string
 }
-public function findByStatus($status): array
+public function findByIsVerified($isVerified): array
 {
-    return $this->getDoctrine()->getRepository(Association::class)->findBy(['status' => $status]);
+    return $this->getDoctrine()->getRepository(User::class)->findBy(['isVerified' => $isVerified]);
 }
+
+
 public function findByAssociation($associationId): array
 {
     $qb = $this->createQueryBuilder('p');

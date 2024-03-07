@@ -5,14 +5,46 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Association; 
+use App\Entity\User; 
+
+use Doctrine\ORM\EntityManagerInterface;
 
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
-    public function index(): Response
-    {
-        return $this->render('baseAdmin.html.twig');
-    }
+    public function index(EntityManagerInterface $entityManager): Response
+{
+    $totalAssociations = $entityManager->getRepository(User::class)->createQueryBuilder('u')
+        ->select('COUNT(u)')
+        ->where('u.isVerified = :isVerified')
+        ->andWhere('u.roles = :role')
+        ->setParameter('isVerified', true)
+        ->setParameter('role', '["ROLE_ASSOCIATION"]')
+        ->getQuery()
+        ->getSingleScalarResult();
+
+     $totalDemandes = $entityManager->getRepository(User::class)->createQueryBuilder('u')
+        ->select('COUNT(u)')
+        ->where('u.isVerified = :isVerified')
+        ->andWhere('u.roles = :role')
+        ->setParameter('isVerified',false)
+        ->setParameter('role', '["ROLE_ASSOCIATION"]')
+        ->getQuery()
+        ->getSingleScalarResult();
+    $totalVolontaires = $entityManager->getRepository(User::class)->createQueryBuilder('u')
+        ->select('COUNT(u)')
+        ->where('u.isVerified = :isVerified')
+        ->andWhere('u.roles = :role')
+        ->setParameter('isVerified',true)
+        ->setParameter('role', '["ROLE_VOLONTAIRE"]')
+        ->getQuery()
+        ->getSingleScalarResult();
+    return $this->render('baseAdmin.html.twig', ['totalAssociations' => $totalAssociations,'totalDemandes' => $totalDemandes,'totalVolontaires' => $totalVolontaires]);
+}
+
+
+
     #[Route('/typedonsadmin', name: 'typedons')]
     public function typedons(): Response
     {

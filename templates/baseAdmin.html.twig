@@ -111,7 +111,8 @@
             </div>
         {% endfor %}
       {% block body %}
-      {{ include('admin/index.html.twig') }}
+      {{ include('admin/index.html.twig', {'totalAssociations': totalAssociations,'totalDemandes': totalDemandes,'totalVolontaires':totalVolontaires}) }}
+
       {% endblock %}
 
     </div>
