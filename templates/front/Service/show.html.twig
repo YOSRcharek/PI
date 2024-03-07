@@ -31,10 +31,9 @@
          {# -------------------------- Share ------------------------------------  #}
 
     <a href="{{ path('app_Service_index') }}">back to list</a>
-  
+ 
 
-
-    <a href="{{ path('app_Service_edit', {'id': Service.id}) }}">edit</a>
+    <a href="{{ path('app_Service_editfront', {'id': Service.id}) }}">edit</a>
     <img src="{{ path('service_qr_code', {'id': Service.id}) }}" alt="QR Code">
     
 

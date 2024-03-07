@@ -117,6 +117,23 @@ class ServiceController extends AbstractController
             'form' => $form,
         ]);
     }
+    #[Route('front/editService/{id}', name: 'app_Service_editfront', methods: ['GET', 'POST'])]
+    public function editfront(Request $request, Service $Service, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ServiceType::class, $Service);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_Service_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('front/Service/edit.html.twig', [
+            'Service' => $Service,
+            'form' => $form,
+        ]);
+    }
 
     #[Route('/deleteService/{id}', name: 'app_Service_delete', methods: ['POST'])]
     public function delete(Request $request, Service $Service, EntityManagerInterface $entityManager): Response
@@ -151,7 +168,7 @@ class ServiceController extends AbstractController
         $service = $repository->find($id);
         $qrCode = $qrCodeFactory->create($service->getNomService());
     
-        // Vous pouvez personnaliser le QR code ici
+         //Vous pouvez personnaliser le QR code ici
         $qrCode->setSize(300); // Définit la taille du QR code
     $qrCode->setMargin(10); // Définit la marge autour du QR code
     $qrCode->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0]); // Définit la couleur de premier plan
@@ -160,6 +177,23 @@ class ServiceController extends AbstractController
     
         return new Response($qrCode->writeString(), Response::HTTP_OK, ['Content-Type' => $qrCode->getContentType()]);
     }
+    #[Route('/', name: 'app_analyse_index', methods: ['GET'])]
+    public function paginer(ServiceRepository $ServiceRepository,Request $request,PaginatorInterface $paginator): Response
+    {   
+        
+        $Services = $analyseRepository->findAll();
+            
+        $Services = $paginator->paginate(
+                    $Services,
+                    $request->query->getInt('page',1),
+                    1, 
+            ); 
+            return $this->render('front/Service/index.html.twig', [
+                'Services' => $Services, 
+    
+            ]);
+        }  
+   
    
     
     
