@@ -14,8 +14,7 @@
                             <h5 class="card-title">{{ service.nomService }}</h5>
                             <p class="card-text">{{ service.description }}</p>
                             <p class="card-text"><strong>Availability:</strong> {{ service.disponibilite ? 'Yes' : 'No' }}</p>
-                            <a href="{{ path('app_Service_show', {'id': service.id}) }}" class="btn btn-primary btn-sm mr-2">Show</a>
-                            <a href="{{ path('app_Service_edit', {'id': service.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+
                         </div>
                     </div>
                 </div>
@@ -24,6 +23,5 @@
             {% endfor %}
         </div>
 
-        <a href="{{ path('app_Service_new') }}" class="btn btn-success">Create New Service</a>
     </div>
 {% endblock %}

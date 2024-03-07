@@ -30,11 +30,11 @@ class ServiceType extends AbstractType
                 'choice_label' => 'message'
              
             ])
-            ->add('association',EntityType::class , [
-                'class' => 'App\Entity\Association',
-                'choice_label' => 'nom'
+            // ->add('association',EntityType::class , [
+            //     'class' => 'App\Entity\Association',
+            //     'choice_label' => 'nom'
                 
-            ])
+            // ])
         ;
     }
 

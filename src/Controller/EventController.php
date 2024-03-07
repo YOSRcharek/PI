@@ -42,15 +42,19 @@ class EventController extends AbstractController
     #[Route('/event/create', name: 'app_create_event')]
     public function createEvent(EntityManagerInterface $entityManager, Request $request): Response
     {
+
+        
+
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
     
         $form->handleRequest($request);
     
+
         try {
             if ($form->isSubmitted() && $form->isValid()) {
                 $imageFile = $form->get('image')->getData();
-    
+                
                 if ($imageFile instanceof UploadedFile) {
                     $newFilename = md5(uniqid()) . '.' . $imageFile->guessExtension();
     

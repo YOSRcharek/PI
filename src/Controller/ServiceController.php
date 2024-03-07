@@ -14,37 +14,78 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Endroid\QrCode\QrCode;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use App\Entity\Association;
+use Symfony\Component\Security\Core\Security;
+
 
 class ServiceController extends AbstractController
 {
-    #[Route('front/Services', name: 'app_Service_index', methods: ['GET'])]
+    private $security;
+
+
+public function __construct(Security $security)
+{
+   
+    $this->security = $security;
+}
+    #[Route('front/allservices', name: 'app_allservice', methods: ['GET'])]
     
     public function service(ServiceRepository $ServiceRepository): Response
     {
-        return $this->render('front/Service/index.html.twig', [
+        return $this->render('front/Service/all.html.twig', [
             'Services' => $ServiceRepository->findAll(),
         ]);
+        
     }
 
-
-    #[Route('back/Services', name: 'app_Service_back_index', methods: ['GET'])]
-    
-    public function serviceback(ServiceRepository $ServiceRepository): Response
+    #[Route('front/Services', name: 'app_Service_index', methods: ['GET'])]
+    public function serviceback(EntityManagerInterface $entityManager, Security $security): Response
     {
-        return $this->render('back/Service/index.html.twig', [
-            'Services' => $ServiceRepository->findAll(),
+        // Get the current user
+        $user = $security->getUser();
+    
+        // Check if the user is authenticated
+        if (!$user) {
+            throw $this->createAccessDeniedException('You must be logged in to access this page.');
+        }
+    
+        // Retrieve the associated association using the user's email
+        $association = $entityManager->getRepository(Association::class)->findOneBy(['email' => $user->getEmail()]);
+    
+        // If no association found, return an error response or handle accordingly
+        if (!$association) {
+            throw $this->createNotFoundException('Association not found.');
+        }
+    
+        // Retrieve services associated with the association
+        $services = $association->getServices();
+    
+        return $this->render('front/Service/index.html.twig', [
+            'Services' => $services,
         ]);
-    }
+    }   
 
     #[Route('/newService', name: 'app_Service_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,Security $security): Response
     {
-        
+        $user = $security->getUser();
+
+        // Vérifier si un utilisateur est connecté
+        if (!$user) {
+            throw $this->createAccessDeniedException('You must be logged in to access this page.');
+        }
+
+        $email = $user->getEmail();
+
+        // Trouver l'association par son adresse e-mail
+        $association = $entityManager->getRepository(Association::class)->findOneBy(['email' => $email]);
         $Service = new Service();
         $form = $this->createForm(ServiceType::class, $Service);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $Service->setAssociation($association);
+
             $entityManager->persist($Service);
             $entityManager->flush();
 
