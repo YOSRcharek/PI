@@ -16,6 +16,7 @@ use App\Twig\Base64EncodeExtensionService;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 
@@ -212,6 +213,33 @@ public function updateProfile(Request $request, ManagerRegistry $manager, UserRe
 
 
 
+#[Route('/search_user_ajax', name: 'search_user_ajax')]
+public function searchUserAjax(Request $request, UserRepository $userRepository): JsonResponse
+{
+    $query = $request->query->get('query');
+
+    $results = $userRepository->createQueryBuilder('u')
+        ->where('u.email LIKE :query')
+        ->setParameter('query', '%' . $query . '%')
+        ->getQuery()
+        ->getResult();
+
+    $formattedResults = [];
+    foreach ($results as $result) {
+        $formattedResults[] = [
+            'id' => $result->getId(),
+            'email' => $result->getEmail(),
+            'isVerified' => $result->getIsVerified(),
+        ];
+    }
+
+    if (!empty($formattedResults)) {
+        $response = ['results' => $formattedResults, 'message' => 'Résultats trouvés.'];
+    } else {
+        $response = ['results' => [], 'message' => 'Aucun résultat trouvé.'];
+    }
+    return new JsonResponse($response);
+}
 
 
 }

@@ -72,6 +72,11 @@
                             <button type="submit" class="btn btn-primary">Register</button>
                             {{ form_end(registrationForm) }}
                         </form>
+                        <a href="{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}" style="display: inline-block; background-color: #ffffff; color: #4285F4; text-decoration: none; padding: 10px 20px; border-radius: 5px; border: 2px solid #4285F4; cursor: pointer; font-size: 16px; display: flex; align-items: center;">
+    <img src="assets/front/images/google.png" alt="Google Logo" style="width: 24px; height: 24px; margin-right: 10px;">
+    <span style="flex: 1;">Login with Google</span>
+</a>
+
                    
               
                       <hr class="my-8" />

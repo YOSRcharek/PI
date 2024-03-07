@@ -4,13 +4,28 @@
 
 {% block body %}
     <div class="container">
-        <h1>Edit User</h1>
-        {{ form_start(form) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.roles) }}
-        {{ form_row(form.password) }}
-        {{ form_row(form.isVerified) }}
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        {{ form_end(form) }}
+        <h1 class="mb-4">Edit User</h1>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_start(form, {'attr': {'class': 'edit-user-form'}}) }}
+                <div class="form-group">
+                    {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.roles, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        {{ form_widget(form.isVerified, {'attr': {'class': 'form-check-input', 'id': 'isVerified'}}) }}
+                        <label class="form-check-label" for="isVerified">Is Verified</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
     </div>
 {% endblock %}

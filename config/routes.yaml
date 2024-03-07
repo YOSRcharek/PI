@@ -178,4 +178,7 @@ register:
     path: /register
     controller: App\Controller\RegistrationController::register
 
+search_user_ajax:
+    path: /search_user_ajax
+    controller: App\Controller\UserController::searchUserajax  
 
