@@ -56,7 +56,7 @@ class DonsController extends AbstractController
                 $entityManager = $doctrine->getManager();
                 $entityManager->persist($dons);
                 $entityManager->flush();
-    
+                 //envoyer le montant
                 $montant = $dons->getMontant();
     
                 $this->addFlash('success', 'Don ajouté avec succès.');
