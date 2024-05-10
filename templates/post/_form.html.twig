@@ -1,0 +1,72 @@
+<div class="container text-center mt-8">
+  <div class="row">
+    <div class="d-flex flex-column">
+   
+
+     
+     {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+
+
+ <div class="row mt-3">
+        <div class="col-2 mt-3">{{ form_label(form.title, "Post Title:", {'attr': {'class': 'col-md-6'}}) }}</div>
+        <div class="col-8">{{ form_widget(form.title) }}</div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-2 mt-3">{{ form_label(form.content, "Post Content:", {'attr': {'class': 'col-md-6'}}) }}</div>
+       
+        
+        <div class="col-8">
+        {{ form_widget(form.content) }}  
+        </div>
+ </div>
+
+      <div class="row mt-3">
+        <div class="col-2 mt-3">{{ form_label(form.imageFile, "Image:", {'attr': {'class': 'col-md-6'}}) }}</div>
+        <div class="col-8">{{ form_widget(form.imageFile) }}</div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-2 mt-3">{{ form_label(form.videoFile, "Video:", {'attr': {'class': 'col-md-6'}}) }}</div>
+        <div class="col-8">{{ form_widget(form.videoFile) }}</div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-2 mt-3">{{ form_label(form.quote, "Quote:", {'attr': {'class': 'col-md-6'}}) }}</div>
+        <div class="col-8">
+        {{ form_widget(form.quote) }}
+         {{ form_errors(form.quote) }}
+        </div>
+      </div>
+      <!-- Inside your Twig template -->
+<!-- Inside your Twig template -->
+<script>
+    function validateForm() {
+        var title = document.getElementById('{{ form.title.vars.id }}').value;
+        var content = document.getElementById('{{ form.content.vars.id }}').value;
+        var quote = document.getElementById('{{ form.quote.vars.id }}').value;
+
+        if (title.trim() === '') {
+            alert('Please fill the form.');
+            return false;
+        }
+        if (content.trim() === '') {
+            alert('Please enter content.');
+            return false;
+        }
+        if (quote.trim() === '') {
+            alert('Please enter a quote.');
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+
+      {{ form_end(form) }}
+    </div>
+  </div>
+</div>
+

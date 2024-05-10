@@ -7,14 +7,14 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "captcha-com/symfony-captcha-bundle": "*",
+       
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.18",
         "easycorp/easyadmin-bundle": "^4.9",
         "endroid/qr-code-bundle": "^5.0",
-        "gregwar/captcha-bundle": "^2.2",
+      
         "hwi/oauth-bundle": "^2.2",
         "imagine/imagine": "^1.3",
         "knplabs/knp-paginator-bundle": "^5.2",
@@ -56,7 +56,10 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.2.0"
+        }
     },
     "autoload": {
         "psr-4": {

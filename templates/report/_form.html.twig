@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+{% if app.session.flashBag.has('success') %}
+    <div class="alert alert-success">
+        {% for message in app.session.flashBag.get('success') %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}

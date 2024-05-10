@@ -1,0 +1,79 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% set base_path = app.request.basepath ~ '/backend/' %}
+
+      {% block body %}
+        <main class="h-full pb-16 overflow-y-auto">
+          <div class="container grid px-6 mx-auto">
+            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"></h2>
+            <!-- With actions -->
+            <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300" >
+ 
+
+              <!--________________________________________MAIN______________________________________-->
+  <!--
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Reports Tables</h1>
+
+
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">back</a></li>
+          <li class="breadcrumb-item">Posts</li>
+          <li class="breadcrumb-item active">Reports</li>
+        </ol>
+      </nav>
+
+    </div>  <! End Page Title -->
+
+
+
+    <section class="section">
+      <div class="container-fluid pt-4 px-4">
+        <div class="bg-light text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">reports</h6></div>
+
+            <div class="table-responsive">
+                <table  id="mytable" class="table text-start align-middle table-striped table-bordered table-hover mb-0">
+                  <thead>
+                    <tr class="text-dark">
+                        <th scope="col">#ID</th>
+                        <th scope="col">Reporter</th>
+                        <th scope="col">Title</th>
+                        <th scope="col" class="col-2">Content</th>
+                        <th scope="col">reason</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for report in reports %}
+                    <tr>
+                        <td>{{report.id}}</td>
+                    
+                        <td>{{report.reportedPost.getTitle()}}</td>
+                        <td class="col-2">{{report.reportedPost.getContent()}}</td>
+                        <td>{{report.reason}}</td>
+                        
+                        
+                        
+                        <td><a class="btn btn-outline-primary" href="{{ path('app_post_show', {'id': report.reportedPost.id}) }}">Show Post</a>
+                        <a class="btn btn-info" href="{{ path('app_report_show', {'id': report.id}) }}">Report Details</a></td>
+
+                    </tr>
+                {% endfor %}
+                    </td>
+
+                </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+   </section>
+ 
+</body>
+</html>
+    {% endblock %}

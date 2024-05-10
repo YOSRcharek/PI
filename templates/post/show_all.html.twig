@@ -1,0 +1,248 @@
+
+{% block title %}Posts{% endblock %}
+
+
+{% extends 'base1.html.twig' %}
+
+{% block body %}
+
+
+<div class="row  align-middle">
+
+<div class="section">
+      <div class="row justify-content-center footer-cta" data-aos="fade-up">
+        <div class="col-lg-7 mx-auto text-center">
+          <h3 class="mb-4">Be a part our community</h2>
+          <p>
+            <a
+              href="{{ path('app_post_new') }}"
+              
+              class="btn btn-primary text-white py-3 px-4" >Create Post</a
+            >
+          </p>
+        </div>
+        <!-- /.col-lg-7 -->
+      </div>
+      <!-- /.row -->
+    </div>
+</div>
+</div>
+
+<div  class="blog mt-2">
+      <div class="container" >
+        <div class="row">
+          <div class="row">
+            <div class="col-8">
+              <h2>Posts</h2>
+              <p>Check our latest posts</p>
+            </div>
+            <div class="col-4 pb-6 align-self-end">
+              <div class="row justify-content-around g-0">
+           
+              </div>
+            </div>     
+          </div>
+        
+          <div class="col-lg-8 entries">
+            {% for post in posts %}
+            <article class="entry">
+              
+              <div class="entry-img">
+              {% if post.image %}
+              <img src="{{ vich_uploader_asset(post, 'imageFile') }}" alt="Post Image">
+              {% endif %}
+                {# <img src="{{ vich_uploader_asset(post, 'imageFile') }}" alt="" class="img-fluid"> #}
+              </div>
+
+              <h2 class="entry-title">
+                <a href="{{ path('app_post_show', {'id': post.id}) }}">{{post.title}}</a>
+                {% for i in 1..post.rating %}
+    <i class="bi bi-star-fill" style="color: #ffe234;"></i>
+       
+    {% endfor %}
+    {% for i in 1..(5-post.rating) %}
+    <i class="bi bi-star"></i>
+    {% endfor %} </h2>
+
+              <div class="entry-meta">
+                <ul>
+                  <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="{{ path('app_post_show', {'id': post.id}) }}">{{post.username}}</a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-hourglass-bottom"></i> <a href="{{ path('app_post_show', {'id': post.id}) }}"><time >{{ post.getElapsedTime()}}</time></a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="{{ path('app_post_show', {'id': post.id}) }}">{{post.comments|length}} Comments</a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a href="{{ path('app_post_show', {'id': post.id}) }}"><time >{{ post.createdat ? post.createdat|date('Y-m-d') : '' }}</time></a></li>
+                  <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="{{ path('app_post_show', {'id': post.id}) }}">{{post.rating}} stars</a></li>                </ul>
+              </div>
+              
+              <div class="entry-content">
+              <h4> Your quote :  </h4>
+                <p>
+                  {{post.quote}}
+                </p>
+
+                   {% if post.quote is defined %}
+								<blockquote>
+									<p>{{ post.content }}</p>
+								</blockquote>
+							{% endif %}
+                <div class="read-more">
+                  <a href="{{ path('app_post_show', {'id': post.id}) }}">Read More</a>
+                </div>
+              </div>
+
+            </article>
+            {% endfor %}
+<!-- End blog entry -->
+  
+        {% if isPaginated %}
+            <div class="blog-pagination">
+              <ul class="justify-content-center">
+              <li ><a href="{{ path('app_show_all', {'page': currentPage-1 }) }}"><i class="bi bi-chevron-double-left"></i></a></li>
+              {% for i in range(1, nbrPages) %}
+                <li class="{{ i == currentPage ? 'active' : '' }}"><a href="{{path('app_show_all', {'page': i,'sort':sort}) }}">{{i}}</a></li>
+              {% endfor %}
+                {#% dump nbrPages, currentPage, nbr, sort %}  #}
+                <li ><a href="{{ path('app_show_all', {'page': currentPage+1,'sort':sort}) }}"><i class="bi bi-chevron-double-right"></i></a></li>
+              {# <li ><a href=""><i class="bi bi-sliders2-vertical"></i></a></li> #}
+              <li>
+             {{ include('post/showall.html.twig') }}
+              </li>
+              <script>
+              document.querySelector('label[for="show_all_form_nbr"]').style.display = 'none';
+              </script>
+              {# {{ include('post/showall.html.twig') }} #}
+              </ul>
+            </div>  
+            {% endif %}
+          </div>
+          <!-- End blog entries list -->
+
+  {#  ################################################  tri scripts ###########################################################################}
+          <div class="col-lg-4">
+            <div class="sidebar">
+            <div class="sidebar-title">
+
+                  <form method="get" action="{{ path('app_show_all', {'page': currentPage, 'nbr': nbr,'sort': sort}) }}">
+                    <label for="sort">Sort by:</label>
+                    <select class="form-select form-select mb-3" id="sort" name="sort" onchange="this.form.submit()">
+                      <option value="date_desc"{{ sort == 'date_desc' ? ' selected' : '' }}>Date (newest to oldest)</option>
+                      <option value="date_asc"{{ sort == 'date_asc' ? ' selected' : '' }}>Date (oldest to newest)</option>
+                      <option value="title_asc"{{ sort == 'title_asc' ? ' selected' : '' }}>Title (A-Z)</option>
+                      <option value="title_desc"{{ sort == 'title_desc' ? ' selected' : '' }}>Title (Z-A)</option>
+                      <option value="rating_desc"{{ sort == 'rating_desc' ? ' selected' : '' }}>Rating (highest to lowest)</option>
+                      
+                    </select>
+                  </form>
+
+                </div>
+  {#  ################################################search scripts ###########################################################################}
+
+              < h3 class="sidebar-title">Search</h3>
+              <div class="sidebar-item search-form">
+                <form action="">
+                  <input type="text" id="search" class="form-control" placeholder="Search posts ...">
+                  <button type="submit"><i class="bi bi-search"></i></button>
+                </form>
+              </div><!-- End sidebar search formn-->
+
+              <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
+              <script type="text/javascript">
+                jQuery(document).ready(function() {
+                var searchRequest = null;
+                $("#search").keyup(function() {
+                    var minlength = 2;
+                    var that = this;
+                    var value = $(this).val();
+                    var entitySelector = $("#entitiesNav").html('');
+                    var postContainer = $('#recent-posts').html('');
+                    var searchTitle = $('#search-title').html('Search results for: ' + value);
+                    if (value.length >= minlength ) {
+                        if (searchRequest != null)
+                            searchRequest.abort();
+                            searchRequest = $.ajax({
+                            type: "GET",
+                            url: "{{ path('ajax_search_post') }}",
+                            data: {
+                                'q' : value
+                            },
+                            dataType: "text",
+                            success: function(msg){
+                              
+                                //we need to check if the value is the same
+                                if (value==$(that).val()) {
+                                    var result = JSON.parse(msg);
+                                    $.each(result, function(key, arr) {
+                                      $.each(arr, function(id, value) {
+                                          if (key == 'posts') { // assuming the posts are in a property called 'posts'
+                                              if (id != 'error') {
+                                                  // create the post item and append it to the container
+                                                  console.log(value);
+                                                  var postItem = $('<div class="post-item clearfix">').appendTo(postContainer);
+                                                  $('<img>').attr('src', '/images/post/' + value.image).appendTo(postItem);
+                                                  $('<h4>').html('<a href="/post/'+id+'">'+value.title+'</a>').appendTo(postItem);
+                                                  $('<time>').attr('datetime', value.createdat).text(value.createdat).appendTo(postItem);
+                                              } else {
+                                                  postContainer.append('<li class="errorLi">'+value+'</li>');
+                                              }
+                                          }
+                                      });
+                                  });
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+   </script>
+    {#  ################################################search scripts ###########################################################################}
+
+ <!-- Sidebar -->
+<div class="sidebar">
+    <h3 class="sidebar-title">Recent Posts</h3>
+    <div class="sidebar-item recent-posts">
+        {% for post in newestPostsSidebar %}
+            <div class="post-item clearfix">
+                <div class="entry-img">
+                    {% if post.image %}
+                        <img src="{{ vich_uploader_asset(post, 'imageFile') }}" alt="Post Image">
+                    {% endif %}
+                </div>
+                <h4><a href="{{ path('app_post_show', {'id': post.id}) }}">{{ post.title }}</a></h4>
+                <time datetime="{{ post.createdat|date('Y-m-d') }}">{{ post.createdat|date('M j, Y') }}</time>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+        
+              <h3 class="sidebar-title">Tags</h3>
+
+                 <div class="sidebar-item tags">
+                   <ul>
+                  <li><a href="#">App</a></li>
+                  <li><a href="#">IT</a></li>
+                  <li><a href="#">Business</a></li>
+                  <li><a href="#">Mac</a></li>
+                  <li><a href="#">Design</a></li>
+                  <li><a href="#">Office</a></li>
+                  <li><a href="#">Creative</a></li>
+                  <li><a href="#">Studio</a></li>
+                  <li><a href="#">Smart</a></li>
+                  <li><a href="#">Tips</a></li>
+                  <li><a href="#">Marketing</a></li>
+                </ul>
+              </div>
+              <!-- End sidebar tags-->
+
+              <!-- End sidebar tags-->
+
+            </div>
+            <!-- End sidebar -->
+
+          </div><!-- End blog sidebar -->
+
+        </div>
+
+      </div>
+    </div><!-- End Blog Section -->
+</div>
+  <!-- End #main -->
+{% endblock %}

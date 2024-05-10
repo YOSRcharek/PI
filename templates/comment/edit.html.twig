@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Comment{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <style>
+    .btn-primary:hover,
+    .btn-danger:hover,
+    .btn-secondary:hover {
+      background-color: #fdc134;
+      border-color: #fdc134;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h1 class="mb-4">Edit Comment</h1>
+
+        {{ include('comment/_form.html.twig', {'button_label': 'Update', 'button_class': 'btn btn-primary'}) }}
+
+        <hr class="my-5">
+
+        {{ include('comment/_delete_form.html.twig', {'button_label': 'Delete', 'button_class': 'btn btn-danger'}) }}
+        
+        <a href="{{ path('app_show_all') }}" class="btn btn-secondary mt-3">Back to list</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
