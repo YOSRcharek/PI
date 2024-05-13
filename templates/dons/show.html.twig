@@ -4,16 +4,48 @@
 
 {% block body %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  
+
 <div class="text-center">
     <br>
     <br>
     <h1>Liste des Dons</h1>
     <br>
     <br>
-    <div class="container"> <!-- Add a container here -->
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            {% for don in Dons %}
+    <div class="container"> 
+        <div class="row">
+           <div class="col">
+               <form id="filterMontantForm" class="row g-3">
+                   <div class="col-auto">
+                     <label for="montantFilter" class="visually-hidden">Montant</label>
+                     <input type="text" class="form-control" id="montantFilter" name="montant" placeholder="Enter Montant">
+                  </div>
+                  <div class="col-auto">
+                     <button type="submit" class="btn btn-primary mb-3">Filter</button>
+                  </div>
+               </form>
+           </div>
+           <div class="col">
+               <form id="filterDateMisForm" class="row g-3">
+                   <div class="col-auto">
+                      <label for="dateMisFilter" class="visually-hidden">Date</label>
+                      <input type="date" class="form-control" id="dateMisFilter" name="dateMis">
+                  </div>
+                  <div class="col-auto">
+                      <button type="submit" class="btn btn-primary mb-3">Filtrer par date</button>
+                  </div>
+              </form>
+           </div>
+           <div class="col">
+              <select id="sortCriteria" class="form-select mb-3">
+                  <option value="" disabled selected>Choisir un critère de tri</option>
+                 <option value="montant">Trier par montant</option>
+                 <option value="dateMisDon">Trier par date de mise</option>
+              </select>
+           </div>
+       </div>
+        <br>
+        <div id="filteredResults" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for don in pagination %}
                 <div class="col">
                     <div class="card custom-card">
                         <div class="card-body">
@@ -40,6 +72,33 @@
     <a href="{{ path('dons_add') }}" class="custom-btn btn mt-3">Ajouter un don</a>
     <br>
     <br>
+    <div class="d-flex justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% for page in 1..pagination.pageCount %}
+                    {% if page == pagination.currentPageNumber %}
+                        <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="{{ path('app_dons', {'page': page}) }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if pagination.next is defined %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ path('app_dons', {'page': pagination.next}) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&raquo;</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    <br>
+    <br>
 </div>
 
 <style>
@@ -49,10 +108,106 @@
     }
 
     .custom-card:hover {
-        transform: scale(1.05); /* effet de zoom */
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* ombre légère */
-        background-color: #f8f9fa; /* couleur de fond légèrement plus claire */
+        transform: scale(1.05); 
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+        background-color: #f8f9fa; 
     }
 </style>
 
+<script>
+    $(document).ready(function () {
+        $('#filterMontantForm').submit(function (e) {
+            e.preventDefault();
+            var montant = $('#montantFilter').val();
+             $.ajax({
+    url: "{{ path('filter_dons_by_montant') }}",
+    type: "GET",
+    data: { montant: montant },
+    success: function (response) {
+        var dons = response.dons;
+        var filteredResults = '';
+        dons.forEach(function (don) {
+            filteredResults += '<div class="col">' +
+                '<div class="card custom-card">' +
+                '<div class="card-body">' +
+                '<h5 class="card-title">Association: ' + (don.association !== null ? don.association : 'N/A') + '</h5>' +
+                '<p class="card-text">Montant: ' + don.montant + '</p>' +
+                '<p class="card-text">Date de mise: ' + don.dateMisDon + '</p>' +
+                '<p class="card-text">Type: ' + (don.type !== null ? don.type : 'N/A') + '</p>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+        });
+        $('#filteredResults').html(filteredResults);
+    },
+    error: function () {
+        console.error("error");
+    }
+});
+        });
+
+        $('#filterDateMisForm').submit(function (e) {
+            e.preventDefault();
+            var dateMis = $('#dateMisFilter').val();
+            $.ajax({
+                url: "{{ path('filter_dons_by_date_mis') }}",
+                type: "GET",
+                data: { dateMis: dateMis },
+                success: function (response) {
+                    var dons = response.dons;
+                    var filteredResults = '';
+                    dons.forEach(function (don) {
+                        filteredResults += '<div class="col">' +
+                            '<div class="card custom-card">' +
+                            '<div class="card-body">' +
+                            '<h5 class="card-title">Association: ' + (don.association != null ? don.association : '') + '</h5>' +
+                            '<p class="card-text">Montant: ' + don.montant + '</p>' +
+                            '<p class="card-text">Date de mise: ' + don.dateMisDon + '</p>' +
+                            '<p class="card-text">Type: ' + (don.type != null ? don.type : '') + '</p>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>';
+                    });
+
+                    // Update the filteredResults container with the filtered results
+                    $('#filteredResults').html(filteredResults);
+                },
+                error: function () {
+                    console.error("error");
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+    $('#sortCriteria').change(function () {
+        var sortBy = $(this).val();
+        $.ajax({
+            url: "{{ path('sort_dons') }}",
+            type: "GET",
+            data: { sortBy: sortBy },
+            success: function (response) {
+                var dons = response.dons;
+                var sortedResults = '';
+                dons.forEach(function (don) {
+                    sortedResults += '<div class="col">' +
+                        '<div class="card custom-card">' +
+                        '<div class="card-body">' +
+                        '<h5 class="card-title">Association: ' + (don.association != null ? don.association : '') + '</h5>' +
+                        '<p class="card-text">Montant: ' + don.montant + '</p>' +
+                        '<p class="card-text">Date de mise: ' + don.dateMisDon + '</p>' +
+                        '<p class="card-text">Type: ' + (don.type != null ? don.type : '') + '</p>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+                });
+                $('#filteredResults').html(sortedResults);
+            },
+            error: function () {
+                console.error("error");
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

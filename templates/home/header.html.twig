@@ -48,6 +48,9 @@
                     <li class="nav-item">
                         <a class="nav-link click-scroll" href="{{ path('app_show_all')}}">Blog</a>
                     </li>
+                     <li class="nav-item">
+                    <a class="nav-link click-scroll" href={{ path('donate') }}>Donate</a>
+                    </li>
 
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         <li class="nav-item dropdown">
