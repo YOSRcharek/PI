@@ -1,43 +1,47 @@
-
 {% extends 'baseAdmin.html.twig' %}
 
-     {% block title %}Liste des types de dons{% endblock %}
+{% block title %}Liste des types de dons{% endblock %}
 
 {% block body %}
-<div class="text-center">
-
-    <h2
-              class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
-            >
-              Liste des types de dons
-            </h2>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Actions</th>
+<main class="h-full pb-16 overflow-y-auto">
+  <div class="container grid px-6 mx-auto">
+    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+      Liste des types de dons
+    </h2>
+    <!-- Table with actions -->
+    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+      <div class="w-full overflow-x-auto">
+        <table class="w-full whitespace-no-wrap">
+          <thead>
+            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+              <th class="px-4 py-3">ID</th>
+              <th class="px-4 py-3">Nom</th>
+              <th class="px-4 py-3">Actions</th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
             {% for type_don in type_dons %}
-                <tr>
-                    <th scope="row">{{ type_don.id }}</th>
-                    <td>{{ type_don.nom }}</td>
-                    <td>
-                        
-                        <a href="{{ path('type_dons_modifier_admin', {'id': type_don.id}) }}" class="btn btn-secondary">Modifier</a>
-                        <a href="{{ path('type_dons_delete_admin', {'id': type_don.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce type de don ?')">Supprimer</a>
-                    </td>
-                </tr>
+            <tr class="text-gray-700 dark:text-gray-400">
+              <td class="px-4 py-3">{{ type_don.id }}</td>
+              <td class="px-4 py-3">{{ type_don.nom }}</td>
+              <td class="px-4 py-3">
+                <a href="{{ path('type_dons_modifier_admin', {'id': type_don.id}) }}" class="btn btn-secondary">Modifier</a>
+                <a href="{{ path('type_dons_delete_admin', {'id': type_don.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce type de don ?')">Supprimer</a>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td class="px-4 py-3 text-sm">No records found</td>
+            </tr>
             {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('type_dons_add_admin') }}" class="btn btn-success">Ajouter un type de don</a>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <br>
+    <a href="{{ path('type_dons_add_admin') }}" class="btn btn-sm btn-success">Ajouter un type de don</a> {# Adjusted button size using 'btn-sm' class #}
     <br>
     <br>
-    <br>
-</div>
+  </div>
+</main>
 {% endblock %}
