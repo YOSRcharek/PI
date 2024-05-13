@@ -31,17 +31,16 @@ class Post
     #[Assert\NotBlank (message: 'Please enter post content')]
     private ?string $content = null;
 
-    #[ORM\Column]
-    private ?int $rating = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdat = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
-    #[ORM\JoinColumn(name: 'username_id', referencedColumnName: 'id')]
-    private $username;
+    #[ORM\Column]
+    private ?int $username_id  = null;
 
 
+    #[ORM\Column]
+    private ?int $rating = null;
     
     #[ORM\OneToMany(mappedBy: 'IDPost', targetEntity: Comment::class, orphanRemoval: true, cascade: ['remove'])]
     private Collection $comments;
@@ -80,6 +79,7 @@ class Post
     {
         $this->createdat = new DateTime();
         $this->rating=1;
+        $this->username_id=1;
         $this->comments = new ArrayCollection();
         $this->reports = new ArrayCollection();
     }
@@ -190,14 +190,14 @@ public function setVideoFile(?File $videoFile = null): self
         return $this;
     }
 
-    public function getUsername(): ?User
+    public function getusername_id(): ?int
     {
-        return $this->username;
+        return $this->username_id;
     }
 
-    public function setUsername(?User $username): self
+    public function setusername_id(int $username_id): self
     {
-        $this->username = $username;
+        $this->username_id = $username_id;
 
         return $this;
     }

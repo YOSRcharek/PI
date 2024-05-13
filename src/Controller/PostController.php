@@ -170,7 +170,7 @@ private function getOrderBy(string $sort): array
         if ($form->isSubmitted() && $form->isValid()) {
             $post->setCreatedat(new DateTime());
             $post->setRating(1);
-            $post->setUsername($security->getUser());
+            $post->setUsername_id(1);
 
             $post->setVisible(true);
             $postRepository->save($post, true);

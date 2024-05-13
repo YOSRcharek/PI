@@ -19,9 +19,9 @@ class CommentLike
     #[ORM\ManyToOne(inversedBy: 'commentLikes', targetEntity: User::class )]
     private ?User $user = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $type = null;
-
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $post_id = null;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -51,14 +51,14 @@ class CommentLike
         return $this;
     }
 
-    public function getType(): ?string
+    public function getpost_id(): ?int
     {
-        return $this->type;
+        return $this->post_id;
     }
 
-    public function setType(?string $type): self
+    public function setpost_id(?int $post_id): self
     {
-        $this->type = $type;
+        $this->post_id = $post_id;
 
         return $this;
     }
