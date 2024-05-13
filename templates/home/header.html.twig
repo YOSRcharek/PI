@@ -1,7 +1,7 @@
 <header>
     <nav class="navbar navbar-expand-lg bg-light shadow-lg">
         <div class="container">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="{{ path('news_API') }}">
                 <img src="{{ asset('assets/front/images/tuniCollabLogo.png') }}" class="logo img-fluid">
                 <span>
                     TuniCollab
@@ -46,7 +46,7 @@
                         <a class="nav-link click-scroll" href="{{ path('news_API') }}">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link click-scroll" href="/#section_6">Contact</a>
+                        <a class="nav-link click-scroll" href="{{ path('app_show_all')}}">Blog</a>
                     </li>
 
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
